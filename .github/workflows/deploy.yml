@@ -1,0 +1,68 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-railway:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Deploy to Railway
+        run: |
+          npm i -g @railway/cli
+          railway up --service backend --service frontend --service postgres
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+
+  deploy-render:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy backend to Render
+        run: |
+          curl https://api.render.com/deploy/srv-${{ secrets.RENDER_BACKEND_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+
+      - name: Deploy frontend to Render
+        run: |
+          curl https://api.render.com/deploy/srv-${{ secrets.RENDER_FRONTEND_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend/myfamily
+          file: ./backend/myfamily/Dockerfile.prod
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/myfamily-backend:latest
+            ${{ secrets.DOCKER_REGISTRY }}/myfamily-backend:${{ github.sha }}
+          push: false
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend/myFamily
+          file: ./frontend/myFamily/Dockerfile.prod
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/myfamily-frontend:latest
+            ${{ secrets.DOCKER_REGISTRY }}/myfamily-frontend:${{ github.sha }}
+          push: false

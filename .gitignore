@@ -1,0 +1,69 @@
+# Environment variables - NEVER commit!
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-workspace
+
+# Backend
+backend/myfamily/target/
+backend/myfamily/.classpath
+backend/myfamily/.project
+backend/myfamily/.settings/
+backend/myfamily/bin/
+backend/myfamily/build/
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Frontend
+frontend/myFamily/node_modules/
+frontend/myFamily/dist/
+frontend/myFamily/coverage/
+frontend/myFamily/.angular/
+frontend/myFamily/npm-debug.log*
+frontend/myFamily/yarn-debug.log*
+frontend/myFamily/yarn-error.log*
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Application specific
+uploads/
+backend/myfamily/uploads/*
+backend/myfamily/src/main/resources/uploads/*
+*.db
+*.sqlite
+
+# OS
+Thumbs.db
+.DS_Store
+.env.prod
+
+# Logs
+logs/
+*.log
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Private/sensitive files
+private/
+secrets/
+credentials/
