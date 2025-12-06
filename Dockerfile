@@ -25,16 +25,16 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 # Frontend service
 FROM node:20-alpine AS frontend-builder
 WORKDIR /build
-COPY frontend/myFamily/package*.json ./
+COPY frontend/myfamily/package*.json ./
 RUN npm ci
-COPY frontend/myFamily . .
+COPY frontend/myfamily ./ 
 RUN npm run build
 
 FROM nginx:alpine AS frontend-runtime
 RUN rm -rf /etc/nginx/conf.d/*
-COPY frontend/myFamily/nginx.conf /etc/nginx/nginx.conf
-COPY frontend/myFamily/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=frontend-builder /build/dist/myFamily /usr/share/nginx/html
+COPY frontend/myfamily/nginx.conf /etc/nginx/nginx.conf
+COPY frontend/myfamily/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=frontend-builder /build/dist/myfamily /usr/share/nginx/html
 EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1

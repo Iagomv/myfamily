@@ -16,7 +16,7 @@ if [ -n "$RAILWAY_SERVICE_NAME" ]; then
       ;;
     "frontend")
       echo "🎨 Starting Angular Frontend..."
-      cd frontend/myFamily
+      cd frontend/myfamily
       npx ng serve --host 0.0.0.0 --poll 2000
       ;;
     *)
