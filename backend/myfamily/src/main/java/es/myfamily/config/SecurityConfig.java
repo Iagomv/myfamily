@@ -65,7 +65,13 @@ public class SecurityConfig {
         .map(String::trim)
         .filter(s -> !s.isEmpty())
         .collect(Collectors.toList());
-    config.setAllowedOrigins(origins);
+    // Use setAllowedOriginPatterns to allow wildcards and credentials
+    if (origins.isEmpty() || (origins.size() == 1 && origins.get(0).equals("*"))) {
+      config.setAllowedOriginPatterns(List.of("*"));
+    } else {
+      config.setAllowedOriginPatterns(origins);
+    }
+
     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
     config.setAllowedHeaders(List.of("*"));
     config.setAllowCredentials(true);
