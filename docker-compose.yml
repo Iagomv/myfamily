@@ -2,10 +2,14 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: myfamily_postgres
+    profiles:
+      - local-db
+    env_file:
+      - ./.env
     environment:
-      POSTGRES_DB: myfamily_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: ${POSTGRES_DB:-myfamily_db}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin123}
     ports:
       - "5432:5432"
     volumes:
@@ -17,20 +21,27 @@ services:
     build:
       context: ./backend/myfamily
       dockerfile: Dockerfile
+      target: prod
     container_name: myfamily_backend
+    env_file:
+      - ./.env
     ports:
       - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      DATABASE_URL: jdbc:postgresql://postgres:5432/myfamily_db
-      DATABASE_USER: admin
-      DATABASE_PASSWORD: admin123
-      JWT_SECRET: mySecretKeyForDevelopmentOnlyChangeInProduction
-      UPLOAD_DIR: /app/uploads
     volumes:
       - ./backend/uploads:/app/uploads
-    depends_on:
-      - postgres
+    environment:
+      JDBC_DATABASE_URL: ${JDBC_DATABASE_URL}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      UPLOAD_DIR: ${UPLOAD_DIR}
+      MAX_UPLOAD_SIZE: ${MAX_UPLOAD_SIZE}
+      SERVER_PORT: ${SERVER_PORT}
+      LOGGING_LEVEL_ROOT: ${LOGGING_LEVEL_ROOT}
+      LOGGING_LEVEL_APP: ${LOGGING_LEVEL_APP}
     networks:
       - myfamily_network
 
@@ -38,15 +49,16 @@ services:
     build:
       context: ./frontend/myFamily
       dockerfile: Dockerfile
+      target: prod
+      args:
+        NG_APP_API_URL: ${NG_APP_API_URL}
     container_name: myfamily_frontend
+    env_file:
+      - ./.env
     ports:
       - "4200:4200"
     environment:
-      NG_APP_API_URL: http://localhost:8080/api
-      BACKEND_HOST: backend
-      BACKEND_PORT: 8080
-    depends_on:
-      - backend
+      NG_APP_API_URL: ${NG_APP_API_URL}
     networks:
       - myfamily_network
 

@@ -5,17 +5,18 @@ services:
     image: postgres:15-alpine
     container_name: myfamily_postgres_prod
     environment:
-      POSTGRES_DB: ${DB_NAME:-myfamily_db}
-      POSTGRES_USER: ${DB_USER:-admin}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-admin123}
+      POSTGRES_DB: ${POSTGRES_DB:-myfamily_db}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - postgres_prod_data:/var/lib/postgresql/data
+      - ./backend/db-init:/docker-entrypoint-initdb.d:ro
     networks:
       - myfamily_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-admin}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,13 +30,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_PROFILES_ACTIVE: prod
-      DATABASE_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-myfamily_db}
-      DATABASE_USER: ${DB_USER:-admin}
-      DATABASE_PASSWORD: ${DB_PASSWORD:-admin123}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-myfamily_db}
+      DATABASE_USER: ${POSTGRES_USER:-admin}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       UPLOAD_DIR: /app/uploads
-      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-https://myfamily.yourdomain.com}
       SERVER_PORT: 8080
     volumes:
       - ./backend/uploads:/app/uploads
@@ -44,12 +45,7 @@ services:
         condition: service_healthy
     networks:
       - myfamily_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    # Use the healthcheck defined in the backend image (Dockerfile.prod uses wget)
     restart: unless-stopped
 
   frontend:
@@ -58,9 +54,12 @@ services:
       dockerfile: Dockerfile.prod
     container_name: myfamily_frontend_prod
     ports:
-      - "3000:80"
+      - "4200:4200"
     environment:
-      NG_APP_API_URL: ${API_URL:-http://localhost:8080/api}
+      NG_APP_API_URL: ${NG_APP_API_URL:-https://api.yourdomain.com/api}
+      # When the frontend runs inside Docker, point proxy to the backend service name on the Docker network
+      BACKEND_HOST: ${BACKEND_HOST:-backend}
+      BACKEND_PORT: ${BACKEND_PORT:-8080}
     depends_on:
       - backend
     networks:

@@ -3,6 +3,10 @@ package es.myfamily.config;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,6 +27,9 @@ public class SecurityConfig {
   @Autowired
   private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+  @Value("${app.cors.allowed-origins:http://localhost:4200}")
+  private String allowedOrigins;
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
@@ -32,7 +39,12 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/users", "/users/login").permitAll()
             .requestMatchers("/auth/**").permitAll()
+            // Allow unauthenticated access to actuator health/info for quick testing
+            // through the tunnel
+            .requestMatchers("/api/actuator/**").permitAll()
+            .requestMatchers("/actuator/**").permitAll()
             .requestMatchers(HttpMethod.OPTIONS).permitAll()
+            // Require authentication for all other requests
             .anyRequest().authenticated())
         .httpBasic(basic -> basic.disable())
         .formLogin(login -> login.disable())
@@ -45,7 +57,15 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(List.of("http://localhost:4200"));
+    // Read allowed origins from property `app.cors.allowed-origins`
+    // (comma-separated)
+    // Fallback to localhost for convenience
+    String[] originsArray = allowedOrigins.split(",");
+    List<String> origins = Arrays.stream(originsArray)
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toList());
+    config.setAllowedOrigins(origins);
     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")); // Added PATCH
     config.setAllowedHeaders(List.of("*"));
     config.setAllowCredentials(true);
