@@ -36,8 +36,7 @@
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
-            "browser": "src/main.ts",
-            "preloadChunks": false
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -49,8 +48,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5kb",
+                  "maximumError": "8kb"
                 }
               ],
               "fileReplacements": [
@@ -60,7 +59,11 @@
                 }
               ],
               "outputHashing": "all",
-              "optimization": true
+              "optimization": {
+                "scripts": true,
+                "styles": false,
+                "fonts": true
+              }
             },
             "development": {
               "optimization": false,

@@ -2,3 +2,8 @@
   base = "frontend/myfamily"
   command = "npm ci && npm run build"
   publish = "www"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
