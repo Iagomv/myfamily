@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "projects": [
+    {
+      "name": "myfamily-frontend",
+      "rootDirectory": "frontend/myfamily",
+      "buildCommand": "npm run build",
+      "outputDirectory": "www",
+      "env": ["NG_APP_API_URL"]
+    }
+  ]
+}
