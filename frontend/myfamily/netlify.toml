@@ -1,6 +1,8 @@
+
 [build]
-  publish = "www"
+  base = "frontend/myfamily"
   command = "npm ci && npm run build"
+  publish = "www"
 
 [[redirects]]
   from = "/*"
