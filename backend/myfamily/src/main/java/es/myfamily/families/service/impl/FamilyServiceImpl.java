@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.myfamily.config.security.AuthContext;
 import es.myfamily.exception.MyFamilyException;
@@ -40,6 +41,7 @@ public class FamilyServiceImpl implements FamilyService {
   private Validations validations;
 
   @Override
+  @Transactional
   public FamilyDto createFamily(CreateFamilyInputDto dto) {
     validations.maxFamiliesPerUser();
 
@@ -63,6 +65,7 @@ public class FamilyServiceImpl implements FamilyService {
   }
 
   @Override
+  @Transactional
   public List<FamilyDto> getMyFamilies() {
     List<Family> families = familyRepo.findAllByUserId(AuthContext.getUserId());
     return families.stream().map(familyMapper::toFamilyDto).toList();

@@ -66,7 +66,7 @@ public class SecurityConfig {
         .filter(s -> !s.isEmpty())
         .collect(Collectors.toList());
     config.setAllowedOrigins(origins);
-    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")); // Added PATCH
+    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
     config.setAllowedHeaders(List.of("*"));
     config.setAllowCredentials(true);
     config.setExposedHeaders(List.of("Location"));
