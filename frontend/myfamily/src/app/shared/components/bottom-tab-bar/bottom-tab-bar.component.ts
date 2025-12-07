@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonIcon } from '@ionic/angular/standalone';
 import { Router, NavigationEnd } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { home, cart, calendar, folder, person } from 'ionicons/icons';
@@ -17,7 +17,7 @@ interface TabItem {
   templateUrl: './bottom-tab-bar.component.html',
   styleUrls: ['./bottom-tab-bar.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonIcon],
 })
 export class BottomTabBarComponent implements OnInit {
   tabs: TabItem[] = [
