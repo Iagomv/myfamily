@@ -1,0 +1,18 @@
+@use '../../../../theme/variables' as theme;
+
+/* Back button styling */
+:host ::ng-deep ion-button.back-btn {
+  padding: 0 theme.$spacing-sm;
+  --color: #{theme.$color-text-light};
+}
+
+:host ::ng-deep ion-button.back-btn ion-icon {
+  font-size: 1.8rem;
+  color: theme.$color-text-light !important;
+}
+
+/* Ensure icon inner div is visible */
+:host ::ng-deep ion-icon .icon-inner {
+  display: block;
+}
+

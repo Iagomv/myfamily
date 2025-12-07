@@ -1,0 +1,7 @@
+{
+  "name": "myFamily",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

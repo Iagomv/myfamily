@@ -1,0 +1,35 @@
+@use '../../../../theme/variables' as theme;
+
+.family-card {
+  border-radius: theme.$radius-medium;
+  box-shadow: theme.$shadow-light;
+  margin-bottom: theme.$spacing-md;
+  overflow: hidden;
+}
+
+.family-card ion-card-header {
+  background: theme.$color-primary-gradient;
+  padding: theme.$spacing-md;
+}
+
+.family-card ion-card-title {
+  color: theme.$color-text-light;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.family-card ion-card-content {
+  padding: theme.$spacing-md;
+}
+
+.family-card ion-card-content p {
+  color: theme.$color-text-secondary;
+  margin: 0;
+  font-size: theme.$font-size-sm;
+}
+
+.view-button {
+  --color: #{theme.$color-primary};
+  font-weight: 600;
+  width: 100%;
+}

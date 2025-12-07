@@ -1,0 +1,95 @@
+@use '../theme/variables' as theme;
+
+/* Abstracted common styles */
+
+ion-content {
+  --padding-bottom: 85px;
+}
+
+.header-toolbar {
+  background: theme.$color-primary-gradient;
+  --background: #{theme.$color-primary-gradient};
+}
+
+.header-toolbar span {
+  display: flex;
+  align-items: center;
+  gap: theme.$spacing-sm;
+  width: 100%;
+}
+
+.header-icon {
+  font-size: theme.$font-size-xl;
+  margin-right: theme.$spacing-sm;
+}
+
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: theme.$spacing-md theme.$spacing-md calc(theme.$spacing-xl + 85px) theme.$spacing-md;
+  min-height: auto;
+  background-color: theme.$color-background;
+  overflow-y: auto;
+}
+
+.logo-wrapper {
+  text-align: center;
+  margin-bottom: theme.$spacing-md;
+  margin-top: theme.$spacing-md;
+}
+
+.logo-wrapper h1 {
+  font-size: theme.$font-size-2xl;
+  color: theme.$color-primary;
+  margin: theme.$spacing-sm 0 0 0;
+  font-weight: 700;
+}
+
+.form-container {
+  background: theme.$color-surface;
+  border-radius: theme.$radius-large;
+  padding: theme.$spacing-xl theme.$spacing-lg;
+  box-shadow: theme.$shadow-medium;
+}
+
+.input-item {
+  --background: #{theme.$color-input-bg};
+  border-radius: theme.$radius-medium;
+  margin-bottom: theme.$spacing-md;
+  padding: theme.$spacing-sm theme.$spacing-md;
+  border: 1px solid theme.$color-border;
+}
+
+.submit-button {
+  --background: #{theme.$color-primary};
+  --background-hover: #{theme.$color-primary-dark};
+  border-radius: theme.$radius-medium;
+  height: 50px;
+  font-size: theme.$font-size-md;
+  font-weight: 600;
+  margin-top: theme.$spacing-md;
+}
+
+.cancel-button {
+  --background: #{theme.$color-text-secondary};
+  --background-hover: #{theme.$color-text-primary};
+  border-radius: theme.$radius-medium;
+  height: 50px;
+  font-size: theme.$font-size-md;
+  font-weight: 600;
+  margin-top: theme.$spacing-md;
+}
+
+.error-message {
+  padding: 0 16px;
+  margin-top: 4px;
+  font-size: theme.$font-size-sm;
+}
+
+.title-text {
+  font-weight: 600;
+  font-size: theme.$font-size-lg;
+  color: theme.$color-text-light;
+}

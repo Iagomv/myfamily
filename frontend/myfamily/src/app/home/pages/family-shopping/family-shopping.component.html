@@ -1,0 +1,63 @@
+<app-header [title]="'Lista de Compras'" [icon]="'cart-outline'" [color]="'header-toolbar'">
+</app-header>
+
+<ion-content class="ion-padding">
+  <!-- Family Selection and Category Filter -->
+  <div class="family-header">
+    <div class="family-info">
+      <ion-icon name="people-outline" class="family-icon"></ion-icon>
+      <span class="family-name">{{ family?.familyName }}</span>
+    </div>
+    <ion-select interface="popover" [value]="selectedCategory?.id" (ionChange)="onCategoryChange($event)"
+      class="category-select" placeholder="Cambiar">
+      <ion-select-option [value]="null">Todas las categorías</ion-select-option>
+      <ion-select-option *ngFor="let category of shoppingCategories" [value]="category.id">
+        {{ category.name }}
+      </ion-select-option>
+    </ion-select>
+  </div>
+
+  <!-- Pending Items Section -->
+  <div class="items-section">
+    <h2 class="section-title">Pendientes ({{ getPendingItemsCount() }})</h2>
+    <div class="items-list">
+      <div *ngIf="getPendingItems().length === 0" class="empty-state">
+        <ion-icon name="checkbox-outline"></ion-icon>
+        <p>No hay artículos pendientes</p>
+      </div>
+      <app-shopping-item-card *ngFor="let item of getPendingItems()" [item]="item"
+        (statusChanged)="onItemStatusChange($event)" (itemDeleted)="onDeleteItem($event)">
+      </app-shopping-item-card>
+    </div>
+  </div>
+
+  <!-- Bought Items Section -->
+  <div class="items-section">
+    <h2 class="section-title">Comprados ({{ getBoughtItemsCount() }})</h2>
+    <div class="items-list">
+      <div *ngIf="getBoughtItems().length === 0" class="empty-state">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <p>No hay artículos comprados</p>
+      </div>
+      <app-shopping-item-card *ngFor="let item of getBoughtItems()" [item]="item"
+        (statusChanged)="onItemStatusChange($event)" (itemDeleted)="onDeleteItem($event)">
+      </app-shopping-item-card>
+    </div>
+  </div>
+
+  <!-- Floating Action Button to Add Item -->
+  <app-floating-button icon="add" tooltip="Agregar artículo" color="primary" (clicked)="openAddItemModal()">
+  </app-floating-button>
+
+  <!-- Save/Cancel Buttons (shown when there are pending changes) -->
+  <div *ngIf="hasPendingChanges()" slot="fixed" class="save-actions">
+    <ion-button (click)="cancelChanges()" fill="outline" color="medium">
+      <ion-icon name="close" slot="start"></ion-icon>
+      Cancelar
+    </ion-button>
+    <ion-button (click)="saveChanges()" [disabled]="isSaving" color="success">
+      <ion-icon name="checkmark" slot="start"></ion-icon>
+      {{ isSaving ? 'Guardando...' : 'Guardar' }}
+    </ion-button>
+  </div>
+</ion-content>

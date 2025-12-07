@@ -1,0 +1,62 @@
+@use '../../../../../theme/variables' as theme;
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: theme.$spacing-xl theme.$spacing-lg;
+  min-height: 100%;
+  background-color: theme.$color-background;
+}
+
+.form-content {
+  background: theme.$color-surface;
+  border-radius: theme.$radius-large;
+  padding: theme.$spacing-xl theme.$spacing-lg;
+  box-shadow: theme.$shadow-medium;
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-description {
+  color: theme.$color-text-secondary;
+  font-size: theme.$font-size-sm;
+  margin-bottom: theme.$spacing-lg;
+  text-align: center;
+}
+
+ion-header {
+  background-color: theme.$color-primary;
+  color: theme.$color-text-light;
+}
+
+.input-item {
+  margin-bottom: theme.$spacing-md;
+}
+
+.clipboard-button {
+  --border-color: #{theme.$color-primary};
+  --color: #{theme.$color-primary};
+  border-radius: theme.$radius-medium;
+  height: 50px;
+  font-size: theme.$font-size-sm;
+  font-weight: 600;
+  margin-bottom: theme.$spacing-md;
+  margin-top: theme.$spacing-md;
+}
+
+.submit-button {
+  background-color: theme.$color-success;
+  color: theme.$color-text-light;
+}
+
+.error-message {
+  color: theme.$color-warning;
+  font-size: theme.$font-size-sm;
+}
+
+.title-text {
+  font-size: theme.$font-size-xl;
+  font-weight: 600;
+}

@@ -1,0 +1,15 @@
+<ion-page>
+  <app-header [title]="'Dashboard'" [icon]="'home-outline'" [color]="'header-toolbar'">
+  </app-header>
+
+  <ion-content class="ion-padding" [scrollY]="true" style="--padding-bottom: 85px;">
+    <div class="dashboard-container">
+      <p *ngIf="family">
+        {{ family.familyName }}
+      </p>
+      <p *ngIf="!family">
+        No family data available
+      </p>
+    </div>
+  </ion-content>
+</ion-page>

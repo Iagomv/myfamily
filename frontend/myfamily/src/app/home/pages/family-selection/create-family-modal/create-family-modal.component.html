@@ -1,0 +1,23 @@
+<app-header [title]="'Crear Familia'" [color]="'header-toolbar'" [showBackButton]="true" [onBack]="cancel.bind(this)">
+</app-header>
+
+<ion-content>
+  <div class="modal-container">
+    <form (ngSubmit)="submit()" #createForm="ngForm">
+      <div class="form-content">
+        <ion-item class="input-item">
+          <ion-input type="text" name="familyName" placeholder="Nombre de la familia" required minlength="3"
+            maxlength="20" [(ngModel)]="familyName" #familyNameInput="ngModel"></ion-input>
+        </ion-item>
+        <div *ngIf="familyNameInput.invalid && (familyNameInput.dirty || familyNameInput.touched)"
+          class="error-message">
+          <ion-text color="danger">El nombre debe tener entre 3 y 20 caracteres.</ion-text>
+        </div>
+
+        <ion-button expand="block" type="submit" [disabled]="isSubmitDisabled()" class="submit-button">
+          Crear Familia
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

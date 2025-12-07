@@ -1,0 +1,75 @@
+@use '../../../../../theme/variables' as theme;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 25vh;
+  max-height: 25vh;
+}
+
+ion-header {
+  --background: linear-gradient(135deg, theme.$color-primary 0%, theme.$color-primary-dark 100%);
+  --color: theme.$color-white;
+  flex-shrink: 0;
+
+  ion-toolbar {
+    --background: transparent;
+    --color: theme.$color-white;
+  }
+}
+
+ion-content {
+  --background: theme.$color-background;
+  --padding-start: theme.$spacing-lg;
+  --padding-end: theme.$spacing-lg;
+  --padding-top: theme.$spacing-md;
+  --padding-bottom: theme.$spacing-md;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.form-item {
+  --background: theme.$color-surface;
+  --border-color: theme.$color-border;
+  margin-bottom: theme.$spacing-sm;
+  border-radius: theme.$radius-medium;
+  --highlight-color-focus: theme.$color-primary;
+  --highlight-color-valid: theme.$color-success;
+
+  ion-label {
+    color: theme.$color-text-secondary !important;
+  }
+
+  ion-input,
+  ion-select {
+    color: theme.$color-text-primary;
+
+    &::placeholder {
+      color: theme.$color-text-muted;
+    }
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: theme.$spacing-md;
+  margin-top: auto;
+  padding: theme.$spacing-md theme.$spacing-lg;
+
+  ion-button {
+    flex: 1;
+    --border-radius: theme.$radius-medium;
+    --padding-start: theme.$spacing-md;
+    --padding-end: theme.$spacing-md;
+    margin: 0;
+
+    &[color='success'] {
+      --background: linear-gradient(135deg, theme.$color-success 0%, theme.$color-success-dark 100%);
+    }
+
+    &[color='medium'] {
+      --background: theme.$color-border;
+      --color: theme.$color-text-primary;
+    }
+  }
+}

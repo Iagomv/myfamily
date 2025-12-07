@@ -1,0 +1,19 @@
+<app-header [title]="'Mis Familias'" [icon]="'people-outline'" [color]="'header-toolbar'">
+</app-header>
+
+<ion-content class="ion-padding">
+  <div class="center-wrapper">
+    <h2 class="subtitle">Selecciona tu familia</h2>
+    <div class="family-list">
+      <app-family-resume-card *ngFor="let family of families" [family]="family"
+        (viewClicked)="onFamilyCardViewClicked($event)">
+      </app-family-resume-card>
+    </div>
+    <div class="action-buttons">
+      <ion-button expand="block" (click)="openCreateFamilyModal()" class="create-family-button">+ Crear
+        Familia</ion-button>
+      <ion-button expand="block" (click)="openJoinFamilyModal()" class="join-family-button">Unirse con
+        Código</ion-button>
+    </div>
+  </div>
+</ion-content>

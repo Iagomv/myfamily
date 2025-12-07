@@ -1,0 +1,25 @@
+<div class="shopping-item-card" [class.purchased]="item.isPurchased" [class.swiping]="isSliding" #itemCard
+  (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)" (touchmove)="onTouchMove($event)"
+  [style.--slide-distance.px]="slideDistance">
+  <div class="delete-indicator" [class.swipe-active]="isSliding">
+    <div class="delete-content">
+      <ion-icon name="trash-outline" class="delete-icon"></ion-icon>
+      <span class="delete-text">Delete</span>
+    </div>
+  </div>
+  <div class="card-content">
+    <ion-checkbox [checked]="item.isPurchased" (ionChange)="onStatusChange()" class="item-checkbox">
+    </ion-checkbox>
+    <div class="name-and-badges">
+      <div class="name-line">
+        <div class="name-quantity">
+          <h4 class="item-name" [class.strikethrough]="item.isPurchased">{{ item.itemName }}</h4>
+          <span class="badge quantity-badge">{{ item.quantity }}</span>
+        </div>
+        <span class="badge category-badge">{{ item.categoryName }}</span>
+      </div>
+      <p class="added-by"><strong>{{ item.addedByFamilyMemberName }}</strong> - {{ item.addedDate | date:'mediumDate' }}
+      </p>
+    </div>
+  </div>
+</div>

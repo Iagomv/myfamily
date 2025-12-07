@@ -1,0 +1,84 @@
+@use '../../theme/variables' as theme;
+@import '../app.component.scss';
+
+/* Minimalist login form styling */
+.header-toolbar {
+  @extend .header-toolbar;
+}
+
+.header-toolbar span {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  gap: 0.1rem;
+  width: 100%;
+}
+
+.header-icon {
+  font-size: theme.$font-size-xl;
+  margin-right: theme.$spacing-sm;
+}
+
+.lock_key-img {
+  width: 30px;
+  height: 30px;
+}
+
+.center-wrapper {
+  @extend .center-wrapper;
+}
+
+.logo-wrapper {
+  @extend .logo-wrapper;
+}
+
+.house-img {
+  width: 150px;
+  height: 150px;
+}
+
+.logo-wrapper h1 {
+  font-size: theme.$font-size-2xl;
+  color: theme.$color-primary;
+  margin: theme.$spacing-sm 0 0 0;
+  font-weight: 700;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-container {
+  @extend .form-container;
+}
+
+.input-item {
+  @extend .input-item;
+}
+
+.submit-button {
+  @extend .submit-button;
+}
+
+.login-register-link {
+  text-align: center;
+  margin-top: theme.$spacing-lg;
+  color: theme.$color-text-secondary;
+}
+
+.register-link {
+  color: theme.$color-accent;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: theme.$spacing-sm;
+}
+
+
+.title-text {
+	@extend .title-text;
+}
+
+.error-message {
+  @extend .error-message;
+}

@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="header-toolbar">
+    <span class="">
+      <ion-title class="title-text">Register</ion-title>
+    </span>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="center-wrapper">
+    <div class="logo-wrapper">
+      <h1>myFamily</h1>
+    </div>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit()" novalidate class="register-form">
+      <div class="form-container">
+        <ion-item class="input-item">
+          <ion-input type="email" name="email" placeholder="Email" required [(ngModel)]="email"
+            #emailInput="ngModel"></ion-input>
+        </ion-item>
+        <ion-item class="input-item">
+          <ion-input type="text" name="username" placeholder="Nombre de usuario" required minlength="3"
+            [(ngModel)]="username" #usernameInput="ngModel"></ion-input>
+        </ion-item>
+        <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)" class="error-message">
+          <ion-text color="danger">El nombre de usuario es requerido (mínimo 3 caracteres).</ion-text>
+        </div>
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-message">
+          <ion-text color="danger">Valid email is required.</ion-text>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-input type="password" name="password" placeholder="Contraseña" required minlength="6"
+            [(ngModel)]="password" #passwordInput="ngModel"></ion-input>
+        </ion-item>
+        <div *ngIf="
+          passwordInput.invalid &&
+          (passwordInput.dirty || passwordInput.touched)
+        " class="error-message">
+          <ion-text color="danger">Password is required (min 6 chars).</ion-text>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-input type="password" name="repeatPassword" placeholder="Repetir Contraseña" required
+            [(ngModel)]="repeatPassword" #repeatPasswordInput="ngModel"></ion-input>
+        </ion-item>
+        <div *ngIf="
+          repeatPasswordInput.invalid &&
+          (repeatPasswordInput.dirty || repeatPasswordInput.touched)
+        " class="error-message">
+          <ion-text color="danger">Passwords must match.</ion-text>
+        </div>
+
+        <ion-button expand="block" type="submit" [disabled]="registerForm.invalid"
+          class="submit-button">Registrarse</ion-button>
+      </div>
+    </form>
+    <div class="register-login-link">
+      <span>¿Ya tienes cuenta?</span>
+      <a routerLink="/login" class="login-link">Iniciar Sesión</a>
+    </div>
+  </div>
+</ion-content>

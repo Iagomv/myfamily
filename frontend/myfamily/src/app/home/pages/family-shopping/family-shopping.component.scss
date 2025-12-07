@@ -1,0 +1,123 @@
+@use '../../../../theme/variables' as theme;
+
+.family-header {
+  display: flex;
+  gap: theme.$spacing-md;
+  justify-content: space-between;
+  align-items: center;
+  background: theme.$color-surface;
+  border-radius: theme.$radius-medium;
+  padding: theme.$spacing-md;
+  margin-bottom: theme.$spacing-lg;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  .family-info {
+    display: flex;
+    align-items: center;
+    gap: theme.$spacing-sm;
+
+    .family-icon {
+      font-size: 24px;
+      color: theme.$color-primary;
+    }
+
+    .family-name {
+      font-size: theme.$font-size-md;
+      font-weight: 600;
+      color: theme.$color-text-primary;
+    }
+  }
+
+  .category-select {
+    --padding-start: theme.$spacing-sm;
+    --padding-end: theme.$spacing-sm;
+    font-size: theme.$font-size-sm;
+  }
+}
+
+.items-section {
+  margin-bottom: theme.$spacing-lg;
+
+  .section-title {
+    font-size: theme.$font-size-lg;
+    font-weight: 700;
+    color: theme.$color-text-primary;
+    margin: 0 0 theme.$spacing-md 0;
+    padding: 0;
+  }
+
+  .items-list {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: theme.$spacing-lg;
+  background: theme.$color-surface;
+  border-radius: theme.$radius-medium;
+  color: theme.$color-text-secondary;
+  text-align: center;
+
+  ion-icon {
+    font-size: 48px;
+    color: theme.$color-text-secondary;
+    opacity: 0.5;
+    margin-bottom: theme.$spacing-md;
+  }
+
+  p {
+    margin: 0;
+    font-size: theme.$font-size-md;
+  }
+}
+
+.fab-add {
+  --background: theme.$color-success;
+  --background-hover: theme.$color-success-dark;
+  --background-activated: theme.$color-success-dark;
+  --color: theme.$color-white;
+
+  ion-fab-button {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.save-actions {
+  position: fixed;
+  bottom: 80px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  gap: theme.$spacing-md;
+  padding: theme.$spacing-md;
+  background: theme.$color-surface;
+  border-radius: theme.$radius-medium;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  animation: slideUp 0.3s ease-out;
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(120px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  ion-button {
+    flex: 1;
+    margin: 0;
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+}

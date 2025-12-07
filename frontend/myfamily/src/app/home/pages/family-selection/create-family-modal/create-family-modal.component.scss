@@ -1,0 +1,51 @@
+@use '../../../../../theme/variables' as theme;
+
+.modal-container {
+  display: flex;
+  margin-top: -50px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: theme.$spacing-xl theme.$spacing-lg;
+  min-height: 100%;
+  background-color: theme.$color-background;
+}
+
+.form-content {
+  background: theme.$color-surface;
+  border-radius: theme.$radius-large;
+  padding: theme.$spacing-xl theme.$spacing-lg;
+  box-shadow: theme.$shadow-medium;
+  width: 100%;
+  max-width: 400px;
+}
+
+ion-header {
+  background-color: theme.$color-primary;
+  color: theme.$color-text-light;
+}
+
+.input-item {
+  margin-bottom: theme.$spacing-md;
+}
+
+.submit-button {
+  background-color: theme.$color-success;
+  color: theme.$color-text-light;
+}
+
+.cancel-button {
+  background-color: theme.$color-border;
+  color: theme.$color-text-primary;
+}
+
+.error-message {
+  color: theme.$color-warning;
+  font-size: theme.$font-size-sm;
+}
+
+.title-text {
+  font-size: theme.$font-size-xl;
+  font-weight: 600;
+}
+

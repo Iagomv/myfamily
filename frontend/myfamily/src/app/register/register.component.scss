@@ -1,0 +1,88 @@
+@use '../../theme/variables' as theme;
+@import '../app.component.scss';
+
+// Register form styling
+.header-toolbar {
+  @extend .header-toolbar;
+}
+
+.header-toolbar span {
+  display: flex;
+  align-items: center;
+  gap: theme.$spacing-sm;
+  width: 100%;
+}
+
+.header-icon {
+  font-size: theme.$font-size-xl;
+  margin-right: theme.$spacing-sm;
+}
+
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: theme.$spacing-md theme.$spacing-md theme.$spacing-xl theme.$spacing-md;
+  min-height: 100vh;
+  background-color: theme.$color-background;
+  overflow-y: auto;
+}
+
+.center-wrapper {
+  @extend .center-wrapper;
+}
+
+.logo-wrapper {
+  @extend .logo-wrapper;
+}
+
+.logo-icon {
+  font-size: 4rem;
+  color: theme.$color-primary;
+}
+
+.logo-wrapper h1 {
+  font-size: theme.$font-size-2xl;
+  color: theme.$color-primary;
+  margin: theme.$spacing-sm 0 0 0;
+  font-weight: 700;
+}
+
+.register-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-container {
+  @extend .form-container;
+}
+
+.input-item {
+  @extend .input-item;
+}
+
+.submit-button {
+  @extend .submit-button;
+}
+
+.register-login-link {
+  text-align: center;
+  margin-top: theme.$spacing-lg;
+  color: theme.$color-text-secondary;
+}
+
+.login-link {
+  color: theme.$color-accent;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: theme.$spacing-sm;
+}
+
+.error-message {
+  @extend .error-message;
+}
+
+.title-text {
+  @extend .title-text;
+}

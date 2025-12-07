@@ -1,0 +1,9 @@
+<ion-card class="family-card">
+  <ion-card-header>
+    <ion-card-title>{{ family.familyName }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p>{{ family.familyMembers.length }} miembros</p>
+  </ion-card-content>
+  <ion-button fill="clear" class="view-button" (click)="onViewClick()">Ver</ion-button>
+</ion-card>

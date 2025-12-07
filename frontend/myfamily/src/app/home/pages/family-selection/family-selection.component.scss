@@ -1,0 +1,79 @@
+@use '../../../../theme/variables' as theme;
+
+/* Styles for family-selection */
+
+.subtitle {
+  font-size: theme.$font-size-xl;
+  font-weight: 600;
+  color: theme.$color-text-secondary;
+  margin-bottom: theme.$spacing-md;
+}
+
+.family-list {
+  display: flex;
+  flex-direction: column;
+  gap: theme.$spacing-md;
+  width: 100%;
+  min-height: 150px; /* Prevent collapse when empty */
+}
+
+.family-card {
+  background: theme.$color-surface;
+  border-radius: theme.$radius-medium;
+  box-shadow: theme.$shadow-medium;
+  padding: theme.$spacing-md;
+}
+
+.view-button {
+  --background: #{theme.$color-accent};
+  --background-hover: #{theme.$color-accent-dark};
+  border-radius: theme.$radius-small;
+  font-size: theme.$font-size-sm;
+  font-weight: 600;
+}
+
+.create-family-button {
+  --background: #{theme.$color-success};
+  --background-hover: #{theme.$color-success-dark};
+  border-radius: theme.$radius-medium;
+  font-size: theme.$font-size-md;
+  font-weight: 600;
+  height: 50px;
+  margin-top: theme.$spacing-md;
+}
+
+.join-family-button {
+  --background: #{theme.$color-warning};
+  --background-hover: #{theme.$color-warning-dark};
+  border-radius: theme.$radius-medium;
+  font-size: theme.$font-size-md;
+  font-weight: 600;
+  height: 50px;
+  margin-top: theme.$spacing-md;
+}
+
+/* Ensure layout stability when families array is empty */
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%; /* Ensure the wrapper takes full height */
+}
+
+/* Ensure full height for ion-content to prevent scrolling issues */
+ion-content {
+  height: 75vh; /* Take up full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; /* Ensure buttons are visible */
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: theme.$spacing-md;
+  width: 100%;
+  margin-top: theme.$spacing-lg; /* Add spacing from family list */
+  margin-bottom: theme.$spacing-lg; /* Add spacing from bottom-tab-bar */
+}

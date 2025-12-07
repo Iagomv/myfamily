@@ -1,0 +1,29 @@
+<app-header [title]="'Unirse a una Familia'" [color]="'header-toolbar'" [showBackButton]="true"
+  [onBack]="cancel.bind(this)">
+</app-header>
+
+<ion-content>
+  <div class="modal-container">
+    <form (ngSubmit)="submit()" #joinForm="ngForm">
+      <div class="form-content">
+        <p class="form-description">Ingresa el código de invitación de 8 caracteres:</p>
+
+        <ion-item class="input-item">
+          <ion-input type="text" name="invitationCode" placeholder="Código de invitación" required maxlength="8"
+            [(ngModel)]="invitationCode" #codeInput="ngModel"></ion-input>
+        </ion-item>
+        <div *ngIf="codeInput.invalid && (codeInput.dirty || codeInput.touched)" class="error-message">
+          <ion-text color="danger">El código debe tener exactamente 8 caracteres.</ion-text>
+        </div>
+
+        <ion-button expand="block" fill="outline" class="clipboard-button" (click)="pasteFromClipboard()">
+          Pegar del Portapapeles
+        </ion-button>
+
+        <ion-button expand="block" type="submit" [disabled]="isSubmitDisabled()" class="submit-button">
+          Unirse a la Familia
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>
