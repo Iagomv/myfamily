@@ -3,7 +3,17 @@ import { ApiCallService } from '../shared/services/api-call.service';
 import { validateEmail, validatePassword } from 'src/app/utils/form.utils';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonImg,
+  IonItem,
+  IonInput,
+  IonText,
+  IonButton,
+} from '@ionic/angular/standalone';
 import { RouterModule, Router } from '@angular/router';
 import { ToastService } from '../shared/services/toast.service';
 import { SecurityService } from '../shared/services/security.service';
@@ -13,7 +23,20 @@ import { SecurityService } from '../shared/services/security.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonImg,
+    IonItem,
+    IonInput,
+    IonText,
+    IonButton,
+  ],
 })
 export class LoginComponent implements OnInit {
   email: string = 'test@example.com';
@@ -41,7 +64,10 @@ export class LoginComponent implements OnInit {
         this.securityService.storeToken(response.token);
         await this.toastService.showSuccess('Login successful!', 1000);
         setTimeout(
-          () => this.router.navigate(['/home/family-selection'], { replaceUrl: true }),
+          () =>
+            this.router.navigate(['/home/family-selection'], {
+              replaceUrl: true,
+            }),
           100
         );
       },

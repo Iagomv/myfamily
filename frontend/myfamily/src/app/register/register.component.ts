@@ -1,7 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonText,
+  IonButton,
+} from '@ionic/angular/standalone';
 import { ToastService } from '../shared/services/toast.service';
 import { validateEmail, validatePassword } from 'src/app/utils/form.utils';
 import { RouterModule } from '@angular/router';
@@ -13,7 +22,19 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonInput,
+    IonText,
+    IonButton,
+  ],
 })
 export class RegisterComponent {
   loading: boolean = false;
