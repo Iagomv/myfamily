@@ -1,13 +1,13 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonFab, IonFabButton, IonIcon } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-floating-button',
   templateUrl: './floating-button.component.html',
   styleUrls: ['./floating-button.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonFab, IonFabButton, IonIcon],
 })
 export class FloatingButtonComponent {
   @Input() icon: string = 'add';

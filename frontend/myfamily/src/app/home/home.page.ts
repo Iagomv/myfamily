@@ -1,7 +1,16 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonText,
+  IonButton,
+} from '@ionic/angular/standalone';
 import { BottomTabBarComponent } from '../shared/components/bottom-tab-bar/bottom-tab-bar.component';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +19,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [RouterOutlet, IonicModule, BottomTabBarComponent, CommonModule],
+  imports: [RouterOutlet, BottomTabBarComponent, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomePage implements OnInit {

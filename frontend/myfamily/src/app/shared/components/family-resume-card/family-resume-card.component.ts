@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonButton,
+} from '@ionic/angular/standalone';
 import { Family } from '../../interfaces/family.interface';
 
 @Component({
@@ -8,7 +14,7 @@ import { Family } from '../../interfaces/family.interface';
   templateUrl: './family-resume-card.component.html',
   styleUrls: ['./family-resume-card.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton],
 })
 export class FamilyResumeCardComponent {
   @Input() family!: Family;

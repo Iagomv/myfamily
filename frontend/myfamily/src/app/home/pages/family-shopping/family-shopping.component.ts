@@ -9,7 +9,6 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { ShoppingItemCardComponent } from './shopping-item-card/shopping-item-card.component';
 import { FloatingButtonComponent } from '../../../shared/components/floating-button/floating-button.component';
-import { AddItemModalComponent } from './add-item-modal/add-item-modal.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Family } from 'src/app/shared/interfaces/family.interface';
 import { FamilyService } from 'src/app/shared/services/family.service';
@@ -20,6 +19,7 @@ import {
   ShoppingCategory,
 } from 'src/app/shared/interfaces/shopping.interface';
 import { FamilyShoppingService } from './family-shopping.service';
+import { AddItemModalComponent } from './add-item-modal/add-item-modal.component';
 
 @Component({
   selector: 'app-family-shopping',

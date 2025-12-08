@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { BackButtonComponent } from '../back-button/back-button.component';
 import { addIcons } from 'ionicons';
 import {
@@ -17,13 +16,28 @@ import {
   addOutline,
   searchOutline,
 } from 'ionicons/icons';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonIcon,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, BackButtonComponent],
+  imports: [
+    CommonModule,
+    BackButtonComponent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonIcon,
+  ],
 })
 export class HeaderComponent implements OnInit {
   @Input() title: string = '';
