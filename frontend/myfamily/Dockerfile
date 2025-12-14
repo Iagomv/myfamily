@@ -20,7 +20,7 @@ COPY package*.json ./
 RUN npm ci --silent
 COPY . .
 EXPOSE 4200
-CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--poll", "2000"]
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0", "--poll", "2000", "--disable-host-check", "--disable-host-check"]
 
 
 # Prod target: serve built app with nginx
