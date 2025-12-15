@@ -1,6 +1,6 @@
 @use './theme/variables' as theme;
 
-body, ion-app, ion-content {
+body, ion-app, in-content {
 	background: theme.$color-surface !important;
 	color: theme.$color-text-primary;
 }
@@ -50,10 +50,11 @@ ion-content {
   justify-content: space-between; /* Align content properly */
 }
 
-/* Centered modal at 25vh */
+/* Centered modal at 50vh */
 .add-item-modal-centered {
-  --height: 25vh;
+  --height: 35vh;
   --width: 100%;
   --border-radius: 20px 20px 0 0;
   --box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+   padding: 20px;
 }

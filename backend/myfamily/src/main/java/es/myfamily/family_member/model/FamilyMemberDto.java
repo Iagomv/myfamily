@@ -1,4 +1,4 @@
-package es.myfamily.familyMember.model;
+package es.myfamily.family_member.model;
 
 import java.util.Date;
 

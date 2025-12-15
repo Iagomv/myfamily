@@ -3,7 +3,6 @@
 :host {
   display: flex;
   flex-direction: column;
-
 }
 
 ion-header {
@@ -25,12 +24,23 @@ ion-content {
   --padding-bottom: theme.$spacing-md;
   flex: 1;
   overflow-y: auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: theme.$spacing-sm;
+    height: 100%;
+  }
 }
 
+.form-row {
+  display: flex;
+  flex-direction: row;
+  gap: theme.$spacing-sm;
+}
 .form-item {
   --background: theme.$color-surface;
   --border-color: theme.$color-border;
-  margin-bottom: theme.$spacing-sm;
   border-radius: theme.$radius-medium;
   --highlight-color-focus: theme.$color-primary;
   --highlight-color-valid: theme.$color-success;
@@ -40,6 +50,7 @@ ion-content {
   }
 
   ion-input,
+  ion-textarea,
   ion-select {
     color: theme.$color-text-primary;
 
@@ -53,7 +64,7 @@ ion-content {
   display: flex;
   gap: theme.$spacing-md;
   margin-top: auto;
-  padding: theme.$spacing-md theme.$spacing-lg;
+  padding: 0.75rem theme.$spacing-lg;
 
   ion-button {
     flex: 1;

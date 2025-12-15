@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import es.myfamily.config.security.AuthContext;
 import es.myfamily.exception.MyFamilyException;
-import es.myfamily.familyMember.model.FamilyMember;
-import es.myfamily.familyMember.repository.FamilyMemberRepository;
 import es.myfamily.families.model.Family;
 import es.myfamily.families.repository.FamilyRepository;
+import es.myfamily.family_member.model.FamilyMember;
+import es.myfamily.family_member.repository.FamilyMemberRepository;
 import es.myfamily.shopping.mapper.ShoppingItemsMapper;
 import es.myfamily.shopping.model.AddShoppingItemDto;
 import es.myfamily.shopping.model.AddShoppingItemsDto;

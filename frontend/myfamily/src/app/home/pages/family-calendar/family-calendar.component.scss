@@ -1,0 +1,123 @@
+@use '../../../../theme/variables' as theme;
+
+.calendar-picker {
+  margin: 0 auto theme.$spacing-lg auto;
+  max-width: 600px;
+  background: theme.$color-surface;
+  border-radius: theme.$radius-medium;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin-left: theme.$spacing-lg;
+  margin-right: theme.$spacing-lg;
+
+  ion-datetime {
+    --background: transparent;
+    --color: theme.$color-text-primary;
+    --title-color: theme.$color-text-primary;
+    --wheel-fade: var(--ion-item-background, #{theme.$color-surface});
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    width: 100%;
+  }
+
+  ::ng-deep {
+    .datetime-text,
+    .datetime-button {
+      color: theme.$color-text-primary;
+    }
+
+    .datetime-header,
+    .datetime-content {
+      padding: 0;
+    }
+  }
+}
+
+.filter-section {
+  margin: theme.$spacing-lg 0;
+  display: flex;
+  justify-content: center;
+
+  ion-segment {
+    --background: transparent;
+    max-width: 100%;
+  }
+
+  ion-segment-button {
+    --indicator-color: theme.$color-primary;
+    --color: theme.$color-text-secondary;
+    --color-checked: theme.$color-primary;
+    --border-radius: theme.$radius-small;
+    font-size: theme.$font-size-sm;
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: theme.$spacing-md;
+  margin-bottom: theme.$spacing-md;
+
+  .section-title {
+    margin: 0;
+    flex: 1;
+  }
+
+  .category-filter {
+    --background: theme.$color-surface;
+    --border-radius: theme.$radius-small;
+    --color: theme.$color-text-primary;
+    --highlight-color-focus: theme.$color-primary;
+    font-size: theme.$font-size-sm;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: theme.$spacing-lg;
+  padding: theme.$spacing-xl 0;
+
+  p {
+    color: theme.$color-text-secondary;
+    font-size: theme.$font-size-md;
+  }
+}
+
+.events-section {
+  margin-bottom: theme.$spacing-xl;
+}
+
+.section-title {
+  margin: theme.$spacing-lg 0 theme.$spacing-md 0;
+  font-size: theme.$font-size-xl;
+  font-weight: 600;
+  color: theme.$color-text-primary;
+  letter-spacing: 0.3px;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.no-events {
+  background: theme.$color-surface;
+  border-radius: theme.$radius-medium;
+  padding: theme.$spacing-xl;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  p {
+    margin: 0;
+    color: theme.$color-text-secondary;
+    font-size: theme.$font-size-md;
+  }
+}

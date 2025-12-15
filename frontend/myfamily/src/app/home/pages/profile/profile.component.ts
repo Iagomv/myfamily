@@ -2,6 +2,7 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { Family } from 'src/app/shared/interfaces/family.interface';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,7 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProfileComponent implements OnInit {
+  myFamilies: Family[] = [];
   constructor() {}
   ngOnInit() {}
 }

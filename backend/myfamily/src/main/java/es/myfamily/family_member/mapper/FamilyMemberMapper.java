@@ -1,10 +1,10 @@
-package es.myfamily.familyMember.mapper;
+package es.myfamily.family_member.mapper;
 
 import org.springframework.stereotype.Component;
 
-import es.myfamily.familyMember.model.FamilyMember;
-import es.myfamily.familyMember.model.FamilyMemberId;
-import es.myfamily.familyMember.model.FamilyMemberDto;
+import es.myfamily.family_member.model.FamilyMember;
+import es.myfamily.family_member.model.FamilyMemberDto;
+import es.myfamily.family_member.model.FamilyMemberId;
 
 @Component
 public class FamilyMemberMapper {

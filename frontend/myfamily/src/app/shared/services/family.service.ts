@@ -44,4 +44,9 @@ export class FamilyService {
     this.selectedFamilySubject.next(null);
     localStorage.removeItem('selectedFamily');
   }
+
+  getFamilyId(): number | null {
+    const family = this.getSelectedFamily();
+    return family ? family.id : null;
+  }
 }

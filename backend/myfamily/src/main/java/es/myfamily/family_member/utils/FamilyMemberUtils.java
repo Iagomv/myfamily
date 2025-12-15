@@ -1,8 +1,8 @@
-package es.myfamily.familyMember.utils;
+package es.myfamily.family_member.utils;
 
-import es.myfamily.familyMember.model.FamilyMember;
-import es.myfamily.familyMember.model.FamilyMemberId;
 import es.myfamily.families.model.Family;
+import es.myfamily.family_member.model.FamilyMember;
+import es.myfamily.family_member.model.FamilyMemberId;
 import es.myfamily.users.model.Users;
 
 public class FamilyMemberUtils {

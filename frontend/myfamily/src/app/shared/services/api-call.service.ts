@@ -4,6 +4,10 @@ import {
   AddShoppingItemDto,
   AddShoppingItemsDto,
 } from '../interfaces/shopping.interface';
+import {
+  CalendarEvent,
+  PostCalendarEventDto,
+} from '../interfaces/calendar-event.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ApiCallService {
@@ -61,5 +65,23 @@ export class ApiCallService {
       null,
       { params: { isPurchased } }
     );
+  }
+
+  // Calendar Events API calls
+  getFamilyCalendarEvents(familyId: number) {
+    return this.httpService.get<CalendarEvent[]>(`calendar-events/${familyId}`);
+  }
+  addCalendarEvent(
+    familyId: number,
+    addCalendarEventDto: PostCalendarEventDto
+  ) {
+    return this.httpService.post<CalendarEvent>(
+      `calendar-events/${familyId}`,
+      addCalendarEventDto
+    );
+  }
+
+  deleteCalendarEvent(eventId: number) {
+    return this.httpService.delete<void>(`calendar-events/${eventId}`);
   }
 }

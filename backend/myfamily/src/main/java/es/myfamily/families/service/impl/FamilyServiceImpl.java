@@ -15,9 +15,9 @@ import es.myfamily.families.model.Family;
 import es.myfamily.families.model.FamilyDto;
 import es.myfamily.families.repository.FamilyRepository;
 import es.myfamily.families.service.FamilyService;
-import es.myfamily.familyMember.model.FamilyMember;
-import es.myfamily.familyMember.repository.FamilyMemberRepository;
-import es.myfamily.familyMember.utils.FamilyMemberUtils;
+import es.myfamily.family_member.model.FamilyMember;
+import es.myfamily.family_member.repository.FamilyMemberRepository;
+import es.myfamily.family_member.utils.FamilyMemberUtils;
 import es.myfamily.users.model.Users;
 import es.myfamily.users.repository.UsersRepository;
 import es.myfamily.utils.InvitationCodeUtils;
@@ -53,7 +53,7 @@ public class FamilyServiceImpl implements FamilyService {
         dto.getFamilyName(),
         InvitationCodeUtils.generateInvitationCode(),
         null,
-        null);
+        null, null);
 
     Family savedFamily = familyRepo.save(newFamily);
 

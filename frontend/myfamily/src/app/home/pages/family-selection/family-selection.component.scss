@@ -6,15 +6,18 @@
   font-size: theme.$font-size-xl;
   font-weight: 600;
   color: theme.$color-text-secondary;
-  margin-bottom: theme.$spacing-md;
+  margin-bottom: theme.$spacing-lg;
+  text-align: center;
+  letter-spacing: 0.3px;
 }
 
 .family-list {
   display: flex;
   flex-direction: column;
-  gap: theme.$spacing-md;
+  gap: theme.$spacing-lg;
   width: 100%;
-  min-height: 150px; /* Prevent collapse when empty */
+  min-height: 150px;
+  margin-bottom: theme.$spacing-xl;
 }
 
 .family-card {
@@ -22,6 +25,12 @@
   border-radius: theme.$radius-medium;
   box-shadow: theme.$shadow-medium;
   padding: theme.$spacing-md;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .view-button {
@@ -38,8 +47,15 @@
   border-radius: theme.$radius-medium;
   font-size: theme.$font-size-md;
   font-weight: 600;
-  height: 50px;
+  height: 52px;
   margin-top: theme.$spacing-md;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 .join-family-button {
@@ -48,8 +64,15 @@
   border-radius: theme.$radius-medium;
   font-size: theme.$font-size-md;
   font-weight: 600;
-  height: 50px;
+  height: 52px;
   margin-top: theme.$spacing-md;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 /* Ensure layout stability when families array is empty */
@@ -58,22 +81,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100%; /* Ensure the wrapper takes full height */
+  gap: theme.$spacing-xl;
+  padding-top: theme.$spacing-xl;
 }
 
 /* Ensure full height for ion-content to prevent scrolling issues */
 ion-content {
-  height: 75vh; /* Take up full viewport height */
   display: flex;
   flex-direction: column;
-  justify-content: space-around; /* Ensure buttons are visible */
+  --padding-top: 0;
+  --padding-bottom: #{theme.$spacing-lg};
 }
 
 .action-buttons {
   display: flex;
   flex-direction: column;
-  gap: theme.$spacing-md;
+  gap: theme.$spacing-lg;
   width: 100%;
-  margin-top: theme.$spacing-lg; /* Add spacing from family list */
-  margin-bottom: theme.$spacing-lg; /* Add spacing from bottom-tab-bar */
+  margin-top: auto;
+  padding-bottom: theme.$spacing-lg;
 }

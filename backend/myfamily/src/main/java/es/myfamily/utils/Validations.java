@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import es.myfamily.config.security.AuthContext;
 import es.myfamily.exception.MyFamilyException;
-import es.myfamily.familyMember.repository.FamilyMemberRepository;
+import es.myfamily.family_member.repository.FamilyMemberRepository;
 
 @Component
 public class Validations {

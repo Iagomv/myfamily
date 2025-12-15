@@ -3,7 +3,8 @@ package es.myfamily.families.model;
 import java.util.Date;
 import java.util.List;
 
-import es.myfamily.familyMember.model.FamilyMember;
+import es.myfamily.calendar_events.model.CalendarEvent;
+import es.myfamily.family_member.model.FamilyMember;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,6 +41,9 @@ public class Family {
 
   @OneToMany(mappedBy = "family", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<FamilyMember> familyMembers;
+
+  @OneToMany(mappedBy = "family", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<CalendarEvent> calendarEvents;
 
   @PrePersist
   protected void onCreate() {

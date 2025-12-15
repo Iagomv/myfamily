@@ -1,4 +1,4 @@
-package es.myfamily.familyMember.repository;
+package es.myfamily.family_member.repository;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import es.myfamily.familyMember.model.FamilyMember;
-import es.myfamily.familyMember.model.FamilyMemberId;
+import es.myfamily.family_member.model.FamilyMember;
+import es.myfamily.family_member.model.FamilyMemberId;
 
 @Repository
 public interface FamilyMemberRepository extends JpaRepository<FamilyMember, FamilyMemberId> {

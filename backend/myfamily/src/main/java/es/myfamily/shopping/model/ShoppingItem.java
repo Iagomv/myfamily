@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.security.access.method.P;
 
 import es.myfamily.families.model.Family;
-import es.myfamily.familyMember.model.FamilyMember;
+import es.myfamily.family_member.model.FamilyMember;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

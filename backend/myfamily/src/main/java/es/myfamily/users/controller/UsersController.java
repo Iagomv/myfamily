@@ -29,7 +29,7 @@ public class UsersController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<UserToken> postMethodName(@Valid @RequestBody LoginInputDto inputDto) {
+  public ResponseEntity<UserToken> loginUser(@Valid @RequestBody LoginInputDto inputDto) {
     return new ResponseEntity<>(usersService.loginUser(inputDto), HttpStatus.OK);
   }
 

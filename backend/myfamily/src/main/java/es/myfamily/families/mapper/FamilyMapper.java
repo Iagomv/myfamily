@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import es.myfamily.families.model.Family;
 import es.myfamily.families.model.FamilyDto;
-import es.myfamily.familyMember.mapper.FamilyMemberMapper;
+import es.myfamily.family_member.mapper.FamilyMemberMapper;
 
 @Component
 public class FamilyMapper {
@@ -20,6 +20,7 @@ public class FamilyMapper {
         family.getId(),
         family.getFamilyName(),
         family.getInvitationCode(),
+        family.getCalendarEvents(),
         family.getCreatedAt(),
         family.getFamilyMembers() == null ? List.of()
             : family.getFamilyMembers().stream()

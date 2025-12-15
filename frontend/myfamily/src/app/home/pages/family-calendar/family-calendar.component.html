@@ -3,8 +3,49 @@
   </app-header>
 
   <ion-content class="ion-padding" [scrollY]="true" style="--padding-bottom: 85px;">
-    <div class="calendar-container">
-      <p>Calendario de eventos familiares</p>
+    <!-- Calendar Picker -->
+    <div class="calendar-picker">
+      <ion-datetime presentation="date" (ionChange)="onDateChange($event.detail.value)" [min]="'2020-01-01'"
+        [max]="'2099-12-31'" locale="es-ES" [highlightedDates]="highlightedDates$ | async">
+      </ion-datetime>
+    </div>
+
+    <!-- Spinner while loading -->
+    <div *ngIf="loading$ | async" class="spinner-container">
+      <ion-spinner></ion-spinner>
+      <p>Cargando eventos...</p>
+    </div>
+
+    <!-- Upcoming Events Section -->
+    <div *ngIf="!(loading$ | async)" class="events-section">
+      <div class="section-header">
+        <h2 class="section-title">Próximos Eventos</h2>
+        <ion-select class="category-filter" (ionChange)="onCategoryChange($event.detail.value)" value=""
+          placeholder="Categoría">
+          <ion-select-option value="">Todas</ion-select-option>
+          <ion-select-option *ngFor="let category of CALENDAR_CATEGORIES" [value]="category.id">
+            {{ category.name }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+      <div *ngIf="(upcomingEvents$ | async)?.length === 0" class="no-events">
+        <p>No hay eventos próximos</p>
+      </div>
+      <div *ngFor="let event of (upcomingEvents$ | async)" class="event-list">
+        <app-event-card [event]="event" (eventDeleted)="onEventDeleted($event)"></app-event-card>
+      </div>
+    </div>
+
+    <!-- Past Events Section -->
+    <div *ngIf="!(loading$ | async) && (pastEvents$ | async)?.length! > 0" class="events-section">
+      <h2 class="section-title">Eventos Pasados</h2>
+      <div *ngFor="let event of (pastEvents$ | async)" class="event-list">
+        <app-event-card [event]="event" (eventDeleted)="onEventDeleted($event)"></app-event-card>
+      </div>
     </div>
   </ion-content>
+
+  <!-- Floating Button to Add Event -->
+  <app-floating-button icon="add" tooltip="Agregar evento" color="primary" (clicked)="openAddEventModal()">
+  </app-floating-button>
 </ion-page>

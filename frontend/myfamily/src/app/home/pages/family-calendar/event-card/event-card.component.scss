@@ -1,0 +1,133 @@
+@use '../../../../../theme/variables' as theme;
+
+.event-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: theme.$spacing-md;
+  background: theme.$color-surface;
+  border-radius: theme.$radius-medium;
+  padding: theme.$spacing-lg;
+  margin-bottom: theme.$spacing-md;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(var(--slide-distance, 0px));
+  border-left: 5px solid theme.$color-primary;
+  overflow: hidden;
+
+  &:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .delete-indicator {
+    position: absolute;
+    left: -85px;
+    top: 0;
+    bottom: 0;
+    width: 85px;
+    background: linear-gradient(
+      90deg,
+      theme.$color-danger,
+      darken(theme.$color-danger, 10%)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left 0.3s ease;
+    z-index: -1;
+    box-shadow: inset -2px 0 8px rgba(0, 0, 0, 0.1);
+
+    .delete-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: theme.$color-white;
+    }
+
+    .delete-icon {
+      font-size: 24px;
+      color: theme.$color-white;
+      transition: transform 0.3s ease;
+    }
+
+    .delete-text {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: theme.$color-white;
+    }
+
+    &.swipe-active {
+      .delete-icon {
+        transform: scale(1.2) rotate(10deg);
+      }
+    }
+  }
+
+  &.swiping {
+    border-left-color: theme.$color-danger;
+    box-shadow: 0 2px 12px rgba(220, 38, 38, 0.3);
+  }
+
+  .card-content {
+    display: flex;
+    align-items: flex-start;
+    gap: theme.$spacing-md;
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .event-info {
+    display: flex;
+    flex-direction: column;
+    gap: theme.$spacing-sm;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .event-name {
+    margin: 0;
+    font-size: theme.$font-size-lg;
+    font-weight: 600;
+    color: theme.$color-text-primary;
+  }
+
+  .event-description {
+    margin: 0;
+    font-size: theme.$font-size-sm;
+    color: theme.$color-text-secondary;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+
+  .event-date {
+    margin: 0;
+    font-size: theme.$font-size-xs;
+    color: theme.$color-text-muted;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    ion-icon {
+      font-size: 14px;
+    }
+  }
+
+  .category-badge {
+    flex-shrink: 0;
+    color: black;
+    padding: 4px theme.$spacing-sm;
+    border-radius: theme.$radius-small;
+    font-size: theme.$font-size-xs;
+    font-weight: 600;
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+}
+
+@function darken($color, $amount) {
+  @return lighten($color, -$amount);
+}

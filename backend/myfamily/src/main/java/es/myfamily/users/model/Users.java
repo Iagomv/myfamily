@@ -3,7 +3,7 @@ package es.myfamily.users.model;
 import java.util.Date;
 import java.util.List;
 
-import es.myfamily.familyMember.model.FamilyMember;
+import es.myfamily.family_member.model.FamilyMember;
 import jakarta.persistence.Column;
 import lombok.Data;
 import jakarta.persistence.Entity;
