@@ -18,4 +18,6 @@ public interface ShoppingItemsRepository extends JpaRepository<ShoppingItem, Lon
 
   @Query("SELECT si FROM ShoppingItem si LEFT JOIN FETCH si.addedBy WHERE si.id = :id")
   Optional<ShoppingItem> findById(@Param("id") Long id);
+
+  List<ShoppingItem> findByFamilyIdAndAddedByUserId(@Param("familyId") Long familyId, @Param("addedByUserId") Long addedByUserId);
 }

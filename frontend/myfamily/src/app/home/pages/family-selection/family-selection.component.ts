@@ -5,7 +5,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { Family } from 'src/app/shared/interfaces/family.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, AlertController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { CreateFamilyModalComponent } from './create-family-modal/create-family-modal.component';
 import { JoinFamilyModalComponent } from './join-family-modal/join-family-modal.component';
@@ -36,7 +36,8 @@ export class FamilySelectionComponent implements OnInit {
     private toastService: ToastService,
     private modalController: ModalController,
     private router: Router,
-    private familyService: FamilyService // Inject FamilyService
+    private familyService: FamilyService,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -132,5 +133,55 @@ export class FamilySelectionComponent implements OnInit {
   onFamilyCardViewClicked(family: Family) {
     this.familyService.setSelectedFamily(family); // Save the selected family globally
     this.goToFamilyDashboard(family);
+  }
+
+  async onFamilyLeaveClicked(family: Family) {
+    const alert = await this.alertController.create({
+      header: 'Salir de Familia',
+      message: `¿Estás seguro de que deseas salir de "${family.familyName}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Salir',
+          role: 'destructive',
+          handler: () => {
+            this.leaveFamily(family.id);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  private leaveFamily(familyId: number) {
+    this.apiCallService.leaveFamily(familyId).subscribe({
+      next: () => {
+        this.toastService.showSuccess(
+          'Has salido de la familia correctamente',
+          1000
+        );
+        this.loadFamilies();
+      },
+      error: (error) => {
+        this.toastService.showError(
+          'Error al salir de la familia: ' + error.error.message
+        );
+      },
+    });
+  }
+
+  getFamilyIcon(family: Family): string {
+    const icons = [
+      'assets/icon/family-card-icon.png',
+      'assets/icon/family-card-icon.png',
+      'assets/icon/family-card-icon.png',
+      'assets/icon/family-card-icon.png',
+    ];
+    const index = family.id % icons.length;
+    return icons[index];
   }
 }

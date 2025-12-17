@@ -18,4 +18,6 @@ public interface FamilyRepository extends JpaRepository<Family, Long> {
 
   @Query("SELECT f FROM Family f JOIN f.familyMembers fm WHERE f.id = :familyId AND fm.user.id = :userId")
   Optional<Family> findByIdAndUserId(@Param("familyId") Long familyId, @Param("userId") Long userId);
+
+  Optional<Family> findByInvitationCode(String invitationCode);
 }

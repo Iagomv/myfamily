@@ -1,19 +1,39 @@
 <app-header [title]="'Mis Familias'" [icon]="'people-outline'" [color]="'header-toolbar'">
 </app-header>
 
-<ion-content class="ion-padding">
-  <div class="center-wrapper">
-    <h2 class="subtitle">Selecciona tu familia</h2>
-    <div class="family-list">
-      <app-family-resume-card *ngFor="let family of families" [family]="family"
-        (viewClicked)="onFamilyCardViewClicked($event)">
-      </app-family-resume-card>
+<ion-content class="ion-padding" [scrollY]="true">
+  <div class="page-container">
+    <div class="header-section">
+      <h2 class="page-title">Selecciona tu familia</h2>
+      <p class="page-subtitle">Elige una familia para continuar</p>
     </div>
+
+    <ng-container *ngIf="families.length > 0; else emptyState">
+      <div class="families-grid">
+        <app-family-resume-card *ngFor="let family of families" [family]="family" [familyIcon]="getFamilyIcon(family)"
+          (viewClicked)="onFamilyCardViewClicked($event)" (leaveClicked)="onFamilyLeaveClicked($event)"
+          class="grid-card">
+        </app-family-resume-card>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <ion-icon name="people"></ion-icon>
+        <p>No tienes familias aún</p>
+        <p class="empty-subtitle">Crea una nueva o únete a una existente</p>
+      </div>
+    </ng-template>
+
     <div class="action-buttons">
-      <ion-button expand="block" (click)="openCreateFamilyModal()" class="create-family-button">+ Crear
-        Familia</ion-button>
-      <ion-button expand="block" (click)="openJoinFamilyModal()" class="join-family-button">Unirse con
-        Código</ion-button>
+      <ion-button expand="block" (click)="openCreateFamilyModal()" class="create-button">
+        <ion-icon name="add" slot="start"></ion-icon>
+        Crear Familia
+      </ion-button>
+      <ion-button expand="block" (click)="openJoinFamilyModal()" class="join-button">
+        <ion-icon name="key" slot="start"></ion-icon>
+        Unirse con Código
+      </ion-button>
     </div>
   </div>
 </ion-content>

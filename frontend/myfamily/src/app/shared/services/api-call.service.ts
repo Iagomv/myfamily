@@ -30,8 +30,12 @@ export class ApiCallService {
     return this.httpService.post('families', { familyName });
   }
 
-  joinFamily(code: string) {
-    return this.httpService.post('families/join', { code });
+  joinFamily(invitationCode: string) {
+    return this.httpService.post('families/join', { invitationCode });
+  }
+
+  leaveFamily(familyId: number) {
+    return this.httpService.delete(`families/leave/${familyId}`, {});
   }
 
   // Shopping List API calls
