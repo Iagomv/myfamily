@@ -27,16 +27,22 @@ interface CalendarCategoryOption {
 })
 export class AddEventModalComponent implements OnInit {
   @Input() categories: CalendarCategoryOption[] = [];
+  @Input() defaultDate?: string;
 
   eventName: string = '';
   eventDescription: string = '';
   selectedCategory: string | null = null;
-  eventDate: string = new Date().toISOString();
+  eventDate: string = '';
   isSubmitting = false;
 
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {
+    this.eventDate = (this.defaultDate ?? new Date().toISOString()).slice(
+      0,
+      10
+    );
+
     // Set default category if provided
     if (this.categories.length > 0) {
       this.selectedCategory = this.categories[0].id;
@@ -105,7 +111,6 @@ export class AddEventModalComponent implements OnInit {
   isFormValid(): boolean {
     return (
       this.eventName.trim().length > 0 &&
-      this.eventDescription.trim().length > 0 &&
       this.selectedCategory !== null &&
       this.eventDate !== null
     );

@@ -12,13 +12,12 @@ import { FloatingButtonComponent } from '../../../shared/components/floating-but
 import { EventCardComponent } from './event-card/event-card.component';
 import {
   CalendarEvent,
-  PostCalendarEventDto,
   CALENDAR_CATEGORIES,
 } from 'src/app/shared/interfaces/calendar-event.interface';
 import { FamilyCalendarService } from './family-calendar.service';
 import { AddEventModalComponent } from './add-event-modal/add-event-modal.component';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, shareReplay, startWith } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 interface HighlightedDate {
   date: string;
@@ -46,15 +45,15 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
   readonly CALENDAR_CATEGORIES = CALENDAR_CATEGORIES;
 
   private readonly selectedDate$ = new BehaviorSubject<string>(
-    this.formatDateToISO(new Date())
+    this.toISODateOnly(new Date())
   );
   private readonly selectedCategory$ = new BehaviorSubject<string>('');
   private readonly today = new Date();
 
   loading$: Observable<boolean>;
-  upcomingEvents$: Observable<CalendarEvent[]>;
-  pastEvents$: Observable<CalendarEvent[]>;
-  highlightedDates$: Observable<HighlightedDate[]>;
+  upcomingEvents$!: Observable<CalendarEvent[]>;
+  pastEvents$!: Observable<CalendarEvent[]>;
+  highlightedDates$!: Observable<HighlightedDate[]>;
 
   constructor(
     private calendarService: FamilyCalendarService,
@@ -73,26 +72,44 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
       shareReplay(1)
     );
 
-    this.upcomingEvents$ = filteredEvents$.pipe(
-      map((events) =>
-        events.filter((event) => new Date(event.eventDate) >= this.today)
-      )
-    );
+    this.setUpcomingEvents(filteredEvents$);
 
-    this.pastEvents$ = filteredEvents$.pipe(
-      map((events) =>
-        events
-          .filter((event) => new Date(event.eventDate) < this.today)
-          .sort(
-            (a, b) =>
-              new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime()
-          )
-      )
-    );
+    this.setPastEvents(filteredEvents$);
 
+    this.setHighlightedDates();
+  }
+
+  private setHighlightedDates() {
     this.highlightedDates$ = this.calendarService.events$.pipe(
       map((events) => this.generateHighlightedDates(events)),
       shareReplay(1)
+    );
+  }
+
+  private setPastEvents(filteredEvents$: Observable<CalendarEvent[]>) {
+    this.pastEvents$ = filteredEvents$.pipe(
+      map((events) => {
+        const todayDateOnly = this.toISODateOnly(this.today);
+        return events
+          .filter(
+            (event) => this.toISODateOnly(event.eventDate) < todayDateOnly
+          )
+          .sort(
+            (a, b) =>
+              new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime()
+          );
+      })
+    );
+  }
+
+  private setUpcomingEvents(filteredEvents$: Observable<CalendarEvent[]>) {
+    this.upcomingEvents$ = filteredEvents$.pipe(
+      map((events) => {
+        const todayDateOnly = this.toISODateOnly(this.today);
+        return events.filter(
+          (event) => this.toISODateOnly(event.eventDate) >= todayDateOnly
+        );
+      })
     );
   }
 
@@ -120,9 +137,9 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
     let filtered = events;
 
     if (selectedDate) {
-      const selectedDateObj = new Date(selectedDate);
+      const selectedDateOnly = this.toISODateOnly(selectedDate);
       filtered = filtered.filter(
-        (event) => new Date(event.eventDate) >= selectedDateObj
+        (event) => this.toISODateOnly(event.eventDate) >= selectedDateOnly
       );
     }
 
@@ -139,7 +156,7 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
     const groupedByDate: Map<string, CalendarEvent[]> = new Map();
 
     events.forEach((event) => {
-      const dateStr = this.formatDateToISO(new Date(event.eventDate));
+      const dateStr = this.toISODateOnly(event.eventDate);
       if (!groupedByDate.has(dateStr)) {
         groupedByDate.set(dateStr, []);
       }
@@ -162,11 +179,21 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  private formatDateToISO(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  private toISODateOnly(value: unknown): string {
+    if (!value) return '';
+
+    if (typeof value === 'string') {
+      // Handles both 'YYYY-MM-DD' and full ISO strings like 'YYYY-MM-DDTHH:mm:ss.sssZ'
+      return value.slice(0, 10);
+    }
+
+    if (value instanceof Date) {
+      // Use UTC date portion to avoid local timezone shifting the day.
+      return value.toISOString().slice(0, 10);
+    }
+
+    const asDate = new Date(value as any);
+    return isNaN(asDate.getTime()) ? '' : asDate.toISOString().slice(0, 10);
   }
 
   async openAddEventModal(): Promise<void> {
@@ -175,6 +202,7 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
       cssClass: 'add-item-modal-centered',
       componentProps: {
         categories: CALENDAR_CATEGORIES,
+        defaultDate: this.selectedDate$.value,
       },
     });
 

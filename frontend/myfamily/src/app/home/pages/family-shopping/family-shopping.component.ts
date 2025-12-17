@@ -32,7 +32,6 @@ import { AddItemModalComponent } from './add-item-modal/add-item-modal.component
     HeaderComponent,
     ShoppingItemCardComponent,
     FloatingButtonComponent,
-    AddItemModalComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
