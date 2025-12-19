@@ -1,0 +1,11 @@
+<ion-card class="event-card">
+  <ion-card-content class="event-card-content">
+    <div class="event-main">
+      <div class="event-name">{{ event.eventName }}</div>
+      <div class="event-date">{{ formatEventDate(event.eventDate) }}</div>
+    </div>
+    <div class="event-chip" [style.backgroundColor]="getCategoryColor(event.eventCategory)">
+      {{ getCategoryLabel(event.eventCategory) }}
+    </div>
+  </ion-card-content>
+</ion-card>

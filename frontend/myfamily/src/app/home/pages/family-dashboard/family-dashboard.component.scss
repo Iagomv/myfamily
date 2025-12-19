@@ -1,6 +1,8 @@
 @use '../../../../theme/variables' as theme;
 
 ion-content {
+	// Ensure consistent padding and alignment
+	padding: theme.$spacing-md;
 	--background: theme.$color-background;
 	display: flex;
 	flex-direction: column;
@@ -8,20 +10,26 @@ ion-content {
 }
 
 .dashboard-container {
-	display: flex;
-	flex-direction: column;
+	// Adjust spacing for better alignment
 	gap: theme.$spacing-lg;
+	padding: theme.$spacing-sm;
 }
 
 .family-card {
-	margin: 0;
+	margin: theme.$spacing-sm 0;
+	border: 1px solid theme.$color-border;
+	border-radius: theme.$radius-medium;
+	box-shadow: theme.$shadow-light;
 }
 
 .family-card-content {
+	// Ensure consistent alignment
 	display: flex;
+	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
 	gap: theme.$spacing-md;
+	flex-wrap: nowrap;
 }
 
 .family-left {
@@ -29,6 +37,7 @@ ion-content {
 	align-items: center;
 	gap: theme.$spacing-sm;
 	min-width: 0;
+	flex-grow: 1;
 }
 
 .family-icon {
@@ -37,12 +46,13 @@ ion-content {
 }
 
 .family-name {
-	font-size: theme.$font-size-lg;
-	font-weight: 700;
+	// Improve text visibility
+	font-size: theme.$font-size-md;
+	font-weight: 600;
 	color: theme.$color-text-primary;
 	white-space: nowrap;
-	overflow: hidden;
 	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .family-right {
@@ -71,87 +81,17 @@ ion-content {
 }
 
 .summary-grid {
+	// Enhance responsiveness
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	gap: theme.$spacing-md;
-}
-
-.summary-card {
-	margin: 0;
-}
-
-.summary-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: theme.$spacing-sm;
-}
-
-.summary-title {
-	display: inline-flex;
-	align-items: center;
-	gap: theme.$spacing-sm;
-	font-weight: 800;
-	color: theme.$color-text-primary;
-}
-
-.summary-icon {
-	font-size: theme.$font-size-lg;
-	color: theme.$color-primary;
-}
-
-.summary-kpi {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	padding: theme.$spacing-sm 0;
-}
-
-.summary-number {
-	font-size: 34px;
-	font-weight: 800;
-	color: theme.$color-danger;
-}
-
-.summary-caption {
-	margin-top: theme.$spacing-xs;
-	font-size: theme.$font-size-sm;
-	color: theme.$color-text-secondary;
-}
-
-.summary-rows {
-	display: flex;
-	flex-direction: column;
-	gap: theme.$spacing-xs;
-	margin-top: theme.$spacing-sm;
-}
-
-.summary-row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: theme.$spacing-md;
-}
-
-.row-label {
-	font-size: theme.$font-size-sm;
-	color: theme.$color-text-secondary;
-}
-
-.row-value {
-	font-size: theme.$font-size-sm;
-	font-weight: 700;
-	color: theme.$color-text-primary;
-	text-align: right;
 }
 
 .section-title {
 	display: flex;
 	align-items: center;
 	gap: theme.$spacing-sm;
-	margin-top: theme.$spacing-sm;
+	margin-top: theme.$spacing-lg;
 
 	h3 {
 		margin: 0;
@@ -166,46 +106,18 @@ ion-content {
 	color: theme.$color-primary;
 }
 
-.event-card {
-	margin: 0;
-}
-
-.event-card-content {
+.members-list {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: theme.$spacing-md;
+	flex-direction: column;
+	gap: theme.$spacing-sm;
 }
 
-.event-main {
-	min-width: 0;
-}
-
-.event-name {
-	font-size: theme.$font-size-md;
-	font-weight: 700;
-	color: theme.$color-text-primary;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.event-date {
-	margin-top: theme.$spacing-xs;
-	font-size: theme.$font-size-sm;
-	color: theme.$color-text-secondary;
-}
-
-.event-chip {
-	padding: 6px 12px;
-	border-radius: 9999px;
-	color: theme.$color-white;
-	font-weight: 700;
-	font-size: theme.$font-size-sm;
-	white-space: nowrap;
+.invitation-code-section {
+	margin-top: theme.$spacing-lg;
 }
 
 @media (max-width: 360px) {
+	// Improve layout for smaller screens
 	.summary-grid {
 		grid-template-columns: 1fr;
 	}

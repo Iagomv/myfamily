@@ -15,6 +15,9 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/users")
@@ -31,6 +34,11 @@ public class UsersController {
   @PostMapping("/login")
   public ResponseEntity<UserToken> loginUser(@Valid @RequestBody LoginInputDto inputDto) {
     return new ResponseEntity<>(usersService.loginUser(inputDto), HttpStatus.OK);
+  }
+
+  @GetMapping("/profile/{userId}")
+  public ResponseEntity<ProfileInfoDto> getProfileInfo(@PathVariable Long userId) {
+    return new ResponseEntity<>(profileInfo, HttpStatus.OK);
   }
 
 }

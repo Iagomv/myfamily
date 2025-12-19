@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { InvitationCodeCardComponent } from '../../../shared/components/invitation-code-card/invitation-code-card.component';
+import { MemberCardComponent } from '../../../shared/components/member-card/member-card.component';
+import { DashboardEventCardComponent } from './dashboard-event-card/dashboard-event-card.component';
+import { DashboardSummaryCardComponent } from './dashboard-summary-card/dashboard-summary-card.component';
 import { FamilyDashboard } from 'src/app/shared/interfaces/family-dashboard.interface';
 import { ApiCallService } from 'src/app/shared/services/api-call.service';
 import { FamilyService } from 'src/app/shared/services/family.service';
@@ -16,7 +20,15 @@ import {
   templateUrl: './family-dashboard.component.html',
   styleUrls: ['./family-dashboard.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, HeaderComponent],
+  imports: [
+    CommonModule,
+    IonicModule,
+    HeaderComponent,
+    InvitationCodeCardComponent,
+    MemberCardComponent,
+    DashboardEventCardComponent,
+    DashboardSummaryCardComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class FamilyDashboardComponent implements OnInit {
@@ -37,11 +49,16 @@ export class FamilyDashboardComponent implements OnInit {
   calendarUpcomingCount = 0;
   calendarMostFrequentCategoryLabel = '—';
 
+  currentMonth: string;
+
   constructor(
     private apiCallService: ApiCallService,
     private familyService: FamilyService,
     private router: Router
-  ) {}
+  ) {
+    const now = new Date();
+    this.currentMonth = now.toLocaleString('es-ES', { month: 'long' });
+  }
 
   ngOnInit() {
     this.getFamilyDashboard();
@@ -140,49 +157,5 @@ export class FamilyDashboardComponent implements OnInit {
   getCategoryLabel(eventCategory: string): string {
     const match = CALENDAR_CATEGORIES.find((c) => c.id === eventCategory);
     return match?.name ?? eventCategory;
-  }
-
-  getCategoryColor(eventCategory: string): string {
-    const match = CALENDAR_CATEGORIES.find((c) => c.id === eventCategory);
-    return match?.color ?? 'transparent';
-  }
-
-  formatEventDate(isoDate: string): string {
-    const date = new Date(isoDate);
-    if (Number.isNaN(date.getTime())) {
-      return '';
-    }
-
-    const now = new Date();
-    const today = new Date(now);
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const day = new Date(date);
-    day.setHours(0, 0, 0, 0);
-
-    const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0;
-    const timePart = hasTime
-      ? `, ${date.toLocaleTimeString('es-ES', {
-          hour: 'numeric',
-          minute: '2-digit',
-        })}`
-      : '';
-
-    if (day.getTime() === today.getTime()) {
-      return `Hoy${timePart}`;
-    }
-
-    if (day.getTime() === tomorrow.getTime()) {
-      return `Mañana${timePart}`;
-    }
-
-    const datePart = date.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: 'short',
-    });
-
-    return `${datePart}${timePart}`;
   }
 }

@@ -27,94 +27,46 @@
             <div class="family-left">
               <ion-icon name="people-outline" class="family-icon"></ion-icon>
               <div class="family-name">{{ dashboard.familyName }}</div>
-            </div>
-
-            <div class="family-right">
               <div class="members-badge">{{ dashboard.familyMembers.length }}</div>
+            </div>
+            <div class="family-selection-span">
               <ion-button fill="clear" size="small" class="change-button" (click)="onChangeFamily()">
-                Cambiar ▼
+                Seleccionar familia ▼
               </ion-button>
             </div>
           </ion-card-content>
         </ion-card>
 
-        <div class="summary-grid">
-          <ion-card class="summary-card">
-            <ion-card-content>
-              <div class="summary-header">
-                <div class="summary-title">
-                  <ion-icon name="cart-outline" class="summary-icon"></ion-icon>
-                  Compras
-                </div>
-              </div>
-
-              <div class="summary-kpi">
-                <div class="summary-number">{{ shoppingPendingCount }}</div>
-                <div class="summary-caption">Pendientes</div>
-              </div>
-
-              <div class="summary-rows">
-                <div class="summary-row">
-                  <div class="row-label">Comprados</div>
-                  <div class="row-value">{{ shoppingPurchasedCount }}</div>
-                </div>
-                <div class="summary-row">
-                  <div class="row-label">Categoría top</div>
-                  <div class="row-value">{{ mostPurchasedCategoryName }}</div>
-                </div>
-              </div>
-            </ion-card-content>
-          </ion-card>
-
-          <ion-card class="summary-card">
-            <ion-card-content>
-              <div class="summary-header">
-                <div class="summary-title">
-                  <ion-icon name="calendar-outline" class="summary-icon"></ion-icon>
-                  Calendario
-                </div>
-              </div>
-
-              <div class="summary-kpi">
-                <div class="summary-number">{{ calendarUpcomingCount }}</div>
-                <div class="summary-caption">Próximos</div>
-              </div>
-
-              <div class="summary-rows">
-                <div class="summary-row">
-                  <div class="row-label">Total</div>
-                  <div class="row-value">{{ calendarTotalCount }}</div>
-                </div>
-                <div class="summary-row">
-                  <div class="row-label">Pasados</div>
-                  <div class="row-value">{{ calendarPastCount }}</div>
-                </div>
-                <div class="summary-row">
-                  <div class="row-label">Categoría top</div>
-                  <div class="row-value">{{ calendarMostFrequentCategoryLabel }}</div>
-                </div>
-              </div>
-            </ion-card-content>
-          </ion-card>
+        <div class="section-title">
+          <ion-icon name="stats-chart-outline" class="section-icon"></ion-icon>
+          <h3>Este {{ currentMonth }}</h3>
         </div>
 
+        <div class="summary-grid ion-margin-top">
+          <app-dashboard-summary-card [iconName]="'cart-outline'" [title]="'Compras'"
+            [mainNumber]="shoppingPendingCount" [mainCaption]="'Pendientes'" [rows]="[
+              { label: 'Comprados', value: shoppingPurchasedCount },
+              { label: 'Categoría top', value: mostPurchasedCategoryName },
+              {label: ' ', value: null}
+            ]"></app-dashboard-summary-card>
+
+          <app-dashboard-summary-card [iconName]="'calendar-outline'" [title]="'Calendario'"
+            [mainNumber]="calendarUpcomingCount" [mainCaption]="'Próximos'" [rows]="[
+              { label: 'Total', value: calendarTotalCount },
+              { label: 'Pasados', value: calendarPastCount },
+              { label: 'Categoría top', value: calendarMostFrequentCategoryLabel }
+            ]"></app-dashboard-summary-card>
+        </div>
+
+
+        <!-- Upcoming Events -->
         <div class="section-title">
           <ion-icon name="calendar-outline" class="section-icon"></ion-icon>
           <h3>Próximos Eventos</h3>
         </div>
 
         <ng-container *ngIf="upcomingEvents.length > 0; else noEvents">
-          <ion-card class="event-card" *ngFor="let event of upcomingEvents">
-            <ion-card-content class="event-card-content">
-              <div class="event-main">
-                <div class="event-name">{{ event.eventName }}</div>
-                <div class="event-date">{{ formatEventDate(event.eventDate) }}</div>
-              </div>
-              <div class="event-chip" [style.backgroundColor]="getCategoryColor(event.eventCategory)">
-                {{ getCategoryLabel(event.eventCategory) }}
-              </div>
-            </ion-card-content>
-          </ion-card>
+          <app-dashboard-event-card [event]="event" *ngFor="let event of upcomingEvents"></app-dashboard-event-card>
         </ng-container>
 
         <ng-template #noEvents>
@@ -122,6 +74,21 @@
             <ion-card-content>No hay eventos próximos.</ion-card-content>
           </ion-card>
         </ng-template>
+
+        <!-- Family members -->
+        <div class="section-title">
+          <ion-icon name="people-outline" class="section-icon"></ion-icon>
+          <h3>Miembros de la Familia</h3>
+        </div>
+        <div class="members-list">
+          <app-member-card [member]="member" *ngFor="let member of familyDashboard.familyMembers"></app-member-card>
+        </div>
+
+        <!-- Invitation Code -->
+        <div class="invitation-code-section">
+          <app-invitation-code-card [invitationCode]="dashboard.invitationCode"></app-invitation-code-card>
+        </div>
+
       </ng-container>
     </div>
   </ion-content>

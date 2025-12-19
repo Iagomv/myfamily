@@ -18,7 +18,7 @@ public class FamilyMemberDto {
   private String username;
   private String email;
   private String familyMemberName;
-
+  private String selectedIcon;
   @JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private Date createdAt;
 }

@@ -1,0 +1,44 @@
+@use '../../../../../theme/variables' as theme;
+
+.event-card {
+	margin: theme.$spacing-sm 0;
+	padding: theme.$spacing-sm;
+	border: 1px solid theme.$color-border;
+	border-radius: theme.$radius-medium;
+	box-shadow: theme.$shadow-light;
+}
+
+.event-card-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: theme.$spacing-md;
+}
+
+.event-main {
+	min-width: 0;
+}
+
+.event-name {
+	font-size: theme.$font-size-md;
+	font-weight: 700;
+	color: theme.$color-text-primary;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.event-date {
+	margin-top: theme.$spacing-xs;
+	font-size: theme.$font-size-sm;
+	color: theme.$color-text-secondary;
+}
+
+.event-chip {
+	padding: 6px 12px;
+	border-radius: 9999px;
+	color: theme.$color-white;
+	font-weight: 700;
+	font-size: theme.$font-size-sm;
+	white-space: nowrap;
+}

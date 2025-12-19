@@ -13,11 +13,13 @@
       <div class="name-line">
         <div class="name-quantity">
           <h4 class="item-name" [class.strikethrough]="item.isPurchased">{{ item.itemName }}</h4>
-          <span class="badge quantity-badge">{{ item.quantity }}</span>
         </div>
-        <span class="badge category-badge">{{ item.categoryName }}</span>
+        <span class="badges-span">
+          <span class="badge quantity-badge">{{ item.quantity }}</span>
+          <span class="badge category-badge">{{ item.categoryName.slice(0,5) }}</span>
+        </span>
       </div>
-      <p class="added-by"><strong>{{ item.addedByFamilyMemberName }}</strong> - {{ item.addedDate | date:'mediumDate' }}
+      <p class="added-by">{{ item.addedByFamilyMemberName }} - {{ item.addedDate | date:'mediumDate' }}
       </p>
     </div>
   </div>

@@ -1,0 +1,54 @@
+@use '../../../../theme/variables' as theme;
+
+.invitation-code-card {
+	margin: theme.$spacing-sm 0;
+	border: 1px solid theme.$color-border;
+	border-radius: theme.$radius-medium;
+	box-shadow: theme.$shadow-light;
+}
+
+.invitation-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: theme.$spacing-md;
+}
+
+.invitation-title {
+	display: flex;
+	align-items: center;
+	gap: theme.$spacing-sm;
+
+	h3 {
+		margin: 0;
+		font-size: theme.$font-size-lg;
+		font-weight: 700;
+		color: theme.$color-text-primary;
+	}
+}
+
+.invitation-icon {
+	font-size: theme.$font-size-lg;
+	color: theme.$color-primary;
+}
+
+.invitation-code {
+	background: theme.$color-input-bg;
+	border: 1px solid theme.$color-border;
+	border-radius: theme.$radius-small;
+	padding: theme.$spacing-md;
+	font-size: theme.$font-size-md;
+	font-weight: 700;
+	color: theme.$color-primary;
+	text-align: center;
+	letter-spacing: 2px;
+	margin-bottom: theme.$spacing-sm;
+	user-select: all;
+}
+
+.invitation-description {
+	margin: 0;
+	font-size: theme.$font-size-sm;
+	color: theme.$color-text-secondary;
+	text-align: center;
+}

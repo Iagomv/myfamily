@@ -4,5 +4,6 @@ export interface familyMember {
   username: string;
   email: string;
   familyMemberName: string;
+  selectedIcon: string;
   createdAt: string;
 }

@@ -7,6 +7,11 @@
   transform: translateY(-50%);
 }
 
+/* Constrain ion-content height to prevent scrolling behind tab bar */
+::ng-deep ion-content {
+  max-height: calc(100vh - 85px) !important;
+}
+
 #container strong {
   font-size: 20px;
   line-height: 26px;

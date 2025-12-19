@@ -10,12 +10,11 @@
     <div class="event-info">
       <h4 class="event-name">{{ event.eventName }}</h4>
       <p class="event-description">{{ event.eventDescription }}</p>
-      <p class="event-date">
-        <ion-icon name="calendar-outline"></ion-icon>
-        {{ event.eventDate | date: 'mediumDate' }}
-      </p>
     </div>
-    <span class="badge category-badge" [style.background]="getCategoryColor()">{{ getCategoryName()
-      }}</span>
+    <!-- <span class="badge category-badge" [style.background]="getCategoryColor()">{{ getCategoryName()
+      }}</span> -->
+    <p class="event-date">
+      {{ event.eventDate | date: 'd MMM' }}
+    </p>
   </div>
 </div>

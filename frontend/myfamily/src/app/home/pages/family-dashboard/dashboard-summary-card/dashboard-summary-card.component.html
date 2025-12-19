@@ -1,0 +1,22 @@
+<ion-card class="summary-card">
+  <ion-card-content>
+    <div class="summary-header">
+      <div class="summary-title">
+        <ion-icon [name]="iconName" class="summary-icon"></ion-icon>
+        {{ title }}
+      </div>
+    </div>
+
+    <div class="summary-kpi">
+      <div class="summary-number">{{ mainNumber }}</div>
+      <div class="summary-caption">{{ mainCaption }}</div>
+    </div>
+
+    <div class="summary-rows">
+      <div class="summary-row" *ngFor="let row of rows" [class.empty-row]="row.value === null">
+        <div class="row-label">{{ row.label }}</div>
+        <div class="row-value">{{ row.value }}</div>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>

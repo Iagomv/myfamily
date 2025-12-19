@@ -91,14 +91,14 @@
 
   .event-name {
     margin: 0;
-    font-size: theme.$font-size-lg;
+    font-size: theme.$font-size-md;
     font-weight: 600;
     color: theme.$color-text-primary;
   }
 
   .event-description {
     margin: 0;
-    font-size: theme.$font-size-sm;
+    font-size: theme.$font-size-xs;
     color: theme.$color-text-secondary;
     line-height: 1.4;
     word-wrap: break-word;

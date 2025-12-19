@@ -1,0 +1,12 @@
+<ion-card class="member-card">
+  <ion-card-content class="member-card-content">
+    <div class="member-avatar-wrap">
+      <img class="member-avatar" [src]="'assets/icon/' + (member.selectedIcon || 'default') + '.png'"
+        [alt]="member.familyMemberName" loading="lazy" />
+    </div>
+    <div class="member-info">
+      <div class="member-name">{{ member.familyMemberName }}</div>
+      <div class="member-joined">Se unió {{ member.createdAt | date: "d 'de' MMM yyyy" : undefined : 'es-ES' }}</div>
+    </div>
+  </ion-card-content>
+</ion-card>

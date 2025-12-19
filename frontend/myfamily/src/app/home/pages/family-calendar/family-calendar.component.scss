@@ -59,13 +59,15 @@
 .section-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: theme.$spacing-md;
   margin-bottom: theme.$spacing-md;
+  flex-wrap: nowrap;
 
   .section-title {
     margin: 0;
-    flex: 1;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   .category-filter {

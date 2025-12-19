@@ -1,4 +1,5 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { LOCALE_ID } from '@angular/core';
 import {
   RouteReuseStrategy,
   provideRouter,
@@ -34,11 +35,17 @@ import {
   calendarOutline,
   key,
   people,
+  statsChartOutline,
+  shareSocialOutline,
+  copyOutline,
+  personCircleOutline,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { TokenInterceptor } from './app/shared/interceptors/token.interceptor';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 // Register Ionicons for standalone mode
 addIcons({
@@ -60,7 +67,14 @@ addIcons({
   'calendar-outline': calendarOutline,
   key: key,
   people: people,
+  'stats-chart-outline': statsChartOutline,
+  'share-social-outline': shareSocialOutline,
+  'copy-outline': copyOutline,
+  'person-circle-outline': personCircleOutline,
 });
+
+// Register Spanish locale data used by Angular pipes (DatePipe, etc.)
+registerLocaleData(localeEs, 'es-ES');
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -69,5 +83,6 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
+    { provide: LOCALE_ID, useValue: 'es-ES' },
   ],
 });

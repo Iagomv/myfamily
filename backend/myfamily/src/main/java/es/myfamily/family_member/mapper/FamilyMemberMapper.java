@@ -20,6 +20,7 @@ public class FamilyMemberMapper {
         familyMember.getUser().getUsername(),
         familyMember.getUser().getEmail(),
         familyMember.getFamilyMemberName(),
+        familyMember.getSelectedIcon(),
         familyMember.getCreatedAt());
   }
 
@@ -33,6 +34,7 @@ public class FamilyMemberMapper {
     familyMember.setId(compositeId);
     familyMember.setFamilyMemberName(dto.getFamilyMemberName());
     familyMember.setCreatedAt(dto.getCreatedAt());
+    familyMember.setSelectedIcon(dto.getSelectedIcon());
     return familyMember;
   }
 }

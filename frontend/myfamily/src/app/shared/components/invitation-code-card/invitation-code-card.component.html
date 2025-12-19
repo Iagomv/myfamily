@@ -1,0 +1,15 @@
+<ion-card class="invitation-code-card">
+  <ion-card-content>
+    <div class="invitation-header">
+      <div class="invitation-title">
+        <ion-icon name="share-social-outline" class="invitation-icon"></ion-icon>
+        <h3>Código de Invitación</h3>
+      </div>
+      <ion-button fill="clear" size="small" (click)="copyInvitationCode()">
+        <ion-icon name="copy-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="invitation-code">{{ invitationCode }}</div>
+    <p class="invitation-description">Comparte este código con otros miembros para que se unan a la familia</p>
+  </ion-card-content>
+</ion-card>

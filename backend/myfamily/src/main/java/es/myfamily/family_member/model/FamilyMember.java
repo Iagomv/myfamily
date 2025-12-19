@@ -36,14 +36,20 @@ public class FamilyMember {
   @JoinColumn(name = "user_id", nullable = false)
   private Users user;
 
-  @Column(name = "created_at", nullable = false)
-  private Date createdAt;
-
   @Column(name = "family_member_name", nullable = false)
   private String familyMemberName;
+
+  @Column(name = "selected_icon", nullable = false)
+  private String selectedIcon;
+
+  @Column(name = "created_at", nullable = false)
+  private Date createdAt;
 
   @PrePersist
   protected void onCreate() {
     this.createdAt = new Date();
+    if (this.selectedIcon == null) {
+      this.selectedIcon = "chibi1"; // Default icon
+    }
   }
 }

@@ -1,0 +1,60 @@
+@use '../../../../theme/variables' as theme;
+
+.member-card {
+	margin: 0;
+	border: 1px solid theme.$color-border;
+	border-radius: theme.$radius-medium;
+	box-shadow: theme.$shadow-light;
+}
+
+.member-card-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: theme.$spacing-md;
+}
+
+.member-info {
+	display: flex;
+	flex-direction: column;
+	gap: theme.$spacing-xs;
+	flex: 1;
+}
+
+.member-name {
+	font-size: theme.$font-size-md;
+	font-weight: 600;
+	color: theme.$color-text-primary;
+}
+
+.member-username {
+	font-size: theme.$font-size-sm;
+	color: theme.$color-text-secondary;
+}
+
+.member-joined {
+	font-size: theme.$font-size-sm;
+	color: theme.$color-text-secondary;
+}
+
+.member-icon {
+	font-size: theme.$font-size-xl;
+	color: theme.$color-primary;
+	flex-shrink: 0;
+}
+
+.member-avatar-wrap {
+	width: 44px;
+	height: 44px;
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+}
+
+.member-avatar {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid rgba(0,0,0,0.03);
+}

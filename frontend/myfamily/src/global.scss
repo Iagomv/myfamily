@@ -39,12 +39,11 @@ body, ion-app, in-content {
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /* @import '@ionic/angular/css/palettes/dark.system.css'; */
 
 /* Force full height globally for ion-content */
 ion-content {
-  height: 100vh !important; /* Ensure consistent layout across all pages */
+  height: 100vh; /* Ensure consistent layout across all pages */
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Align content properly */

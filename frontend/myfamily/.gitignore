@@ -7,6 +7,8 @@
 *.tmp
 *.tmp.*
 UserInterfaceState.xcuserstate
+.gitignore
+/doc
 $RECYCLE.BIN/
 
 *.log
