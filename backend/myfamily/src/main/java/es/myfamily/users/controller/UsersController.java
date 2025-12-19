@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.myfamily.users.model.CreateUserInputDto;
 import es.myfamily.users.model.LoginInputDto;
+import es.myfamily.users.model.ProfileInfoDto;
 import es.myfamily.users.model.UserToken;
 import es.myfamily.users.model.UsersDto;
 import es.myfamily.users.service.UsersService;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/users")
@@ -36,9 +36,9 @@ public class UsersController {
     return new ResponseEntity<>(usersService.loginUser(inputDto), HttpStatus.OK);
   }
 
-  @GetMapping("/profile/{userId}")
-  public ResponseEntity<ProfileInfoDto> getProfileInfo(@PathVariable Long userId) {
-    return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+  @GetMapping("/profile/{familyId}")
+  public ResponseEntity<ProfileInfoDto> getProfileInfo(@PathVariable Long familyId) {
+    return new ResponseEntity<>(usersService.getProfileInfo(familyId), HttpStatus.OK);
   }
 
 }

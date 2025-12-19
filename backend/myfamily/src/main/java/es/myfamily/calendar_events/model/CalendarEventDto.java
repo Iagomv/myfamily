@@ -18,4 +18,5 @@ public class CalendarEventDto {
   private CalendarEventCategoryEnum eventCategory;
   private Instant eventDate;
   private Instant createdAt;
+  private Long createdByUserId;
 }

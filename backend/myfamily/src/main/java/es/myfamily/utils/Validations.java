@@ -36,4 +36,16 @@ public class Validations {
     }
   }
 
+  public void UserInFamily(Long familyId, Long userId) {
+    boolean isMember = familyMemberRepo.existsByFamilyIdAndUserId(familyId, userId);
+    if (!isMember) {
+      throw new MyFamilyException(HttpStatus.FORBIDDEN, "El usuario no es miembro de la familia");
+    }
+  }
+
+  public void familyExistsAndUserInFamily(Long familyId, Long userId) {
+    familyExists(familyId);
+    UserInFamily(familyId, userId);
+  }
+
 }

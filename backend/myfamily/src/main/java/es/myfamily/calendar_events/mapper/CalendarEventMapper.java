@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import es.myfamily.calendar_events.model.CalendarEvent;
 import es.myfamily.calendar_events.model.CalendarEventDto;
+import es.myfamily.calendar_events.model.CalendarEventInputDto;
 
 @Component
 public class CalendarEventMapper {
@@ -19,11 +20,12 @@ public class CalendarEventMapper {
         .eventDescription(entity.getEventDescription())
         .eventCategory(entity.getEventCategory())
         .createdAt(entity.getCreatedAt())
+        .createdByUserId(entity.getCreatedByUserId())
         .build();
 
   }
 
-  public CalendarEvent toEntity(es.myfamily.calendar_events.model.CalendarEventInputDto dto) {
+  public CalendarEvent toEntity(CalendarEventInputDto dto) {
     if (dto == null) {
       return null;
     }

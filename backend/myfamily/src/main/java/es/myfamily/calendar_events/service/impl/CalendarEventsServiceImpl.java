@@ -18,6 +18,9 @@ import es.myfamily.calendar_events.service.CalendarEventsService;
 import es.myfamily.exception.MyFamilyException;
 import es.myfamily.families.model.Family;
 import es.myfamily.families.repository.FamilyRepository;
+import es.myfamily.users.model.Users;
+import es.myfamily.utils.SecurityUtils;
+import es.myfamily.utils.TimeUtils;
 import es.myfamily.calendar_events.model.CalendarEvent;
 import es.myfamily.calendar_events.model.CalendarEventCategoryEnum;
 
@@ -33,6 +36,12 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
   @Autowired
   private FamilyRepository familyRepository;
 
+  @Autowired
+  private SecurityUtils securityUtils;
+
+  @Autowired
+  private TimeUtils timeUtils;
+
   @Override
   public List<CalendarEventDto> getCalendarEventsByFamilyId(Long familyId) {
     return calendarEventRepo.findAllByFamilyIdAndIsDeletedFalseOrderByEventDateAsc(familyId).stream()
@@ -44,9 +53,11 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
   public CalendarEventDto createCalendarEvent(Long familyId, CalendarEventInputDto dto) {
     Family family = familyRepository.findById(familyId)
         .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "Family not found"));
+    Users user = securityUtils.getUserFromContext();
 
     CalendarEvent entity = calendarEventMapper.toEntity(dto);
     entity.setFamily(family);
+    entity.setCreatedByUserId(user.getId());
 
     CalendarEvent saved = calendarEventRepo.save(entity);
     return calendarEventMapper.toDto(saved);
@@ -71,13 +82,18 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
 
   @Override
   public CalendarEventMonthlyStats getMonthlyCalendarEventStats(Long familyId) {
-    Integer month = LocalDateTime.now().getMonthValue();
-    Integer year = LocalDateTime.now().getYear();
+    Integer month = timeUtils.getCurrentMonth();
+    Integer year = timeUtils.getCurrentYear();
     Integer totalMonthEvents = calendarEventRepo.countEventsByFamilyIdAndCurrentMonth(familyId, month, year);
     Integer pendingEvents = calendarEventRepo.countEventsByFamilyIdAndCurrentMonthAndFutureDates(familyId, month, year);
     Integer pastEvents = totalMonthEvents - pendingEvents;
     List<CalendarEventCategoryEnum> mostFrequentCategories = calendarEventRepo.findMostFrequentEventCategoriesCurrentMonth(familyId, month, year);
     CalendarEventCategoryEnum mostFrequentCategory = mostFrequentCategories.isEmpty() ? null : mostFrequentCategories.get(0);
     return new CalendarEventMonthlyStats(totalMonthEvents, pastEvents, pendingEvents, mostFrequentCategory);
+  }
+
+  @Override
+  public Integer countEventsCreatedByUserId(Long userId) {
+    return calendarEventRepo.countByCreatedByUserId(userId);
   }
 }

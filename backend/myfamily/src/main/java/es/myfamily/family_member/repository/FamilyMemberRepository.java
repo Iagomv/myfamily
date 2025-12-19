@@ -26,4 +26,11 @@ public interface FamilyMemberRepository extends JpaRepository<FamilyMember, Fami
   long countByFamilyId(@Param("familyId") Long familyId);
 
   List<FamilyMember> findAllByFamilyId(Long familyId);
+
+  @Query("SELECT fm.selectedIcon FROM FamilyMember fm WHERE fm.family.id = :familyId AND fm.user.id = :userId")
+  String findSelectedIconByFamilyIdAndUserId(@Param("familyId") Long familyId, @Param("userId") Long userId);
+
+  boolean existsByFamilyIdAndUserId(Long familyId, Long userId);
+
+  Integer countByUserId(Long userId);
 }

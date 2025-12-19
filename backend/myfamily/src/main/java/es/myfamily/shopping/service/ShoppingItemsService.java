@@ -22,5 +22,9 @@ public interface ShoppingItemsService {
 
   ShoppingItemMontlyStatsDto getMonthlyShoppingStats(Long familyId);
 
+  Integer countItemsCreatedByUserId(Long userId);
+
+  Integer countItemsBoughtByUserId(Long userId);
+
   void deleteShoppingItem(Long itemId);
 }

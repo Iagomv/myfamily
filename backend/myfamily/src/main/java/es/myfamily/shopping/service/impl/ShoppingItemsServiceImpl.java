@@ -145,4 +145,14 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
             "The family does not exist or does not belong to the user"));
   }
 
+  @Override
+  public Integer countItemsCreatedByUserId(Long userId) {
+    return shoppingItemsRepository.countByAddedByUserId(userId);
+  }
+
+  @Override
+  public Integer countItemsBoughtByUserId(Long userId) {
+    return shoppingItemsRepository.countByBoughtByUserId(userId);
+  }
+
 }

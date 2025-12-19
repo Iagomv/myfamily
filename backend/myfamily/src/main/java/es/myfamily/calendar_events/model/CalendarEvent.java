@@ -55,6 +55,9 @@ public class CalendarEvent {
   @Column(name = "created_at", nullable = false)
   private Instant createdAt;
 
+  @Column(name = "created_by_user_id")
+  private Long createdByUserId;
+
   @Column(name = "is_deleted", nullable = false)
   private Boolean isDeleted = false;
 

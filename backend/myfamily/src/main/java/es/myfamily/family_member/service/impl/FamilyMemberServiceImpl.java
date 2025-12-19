@@ -24,4 +24,14 @@ public class FamilyMemberServiceImpl implements FamilyMemberService {
     return fmRepo.findAllByFamilyId(familyId).stream().map(fmMapper::toFamilyMemberDto).toList();
   }
 
+  @Override
+  public String getFamilyMemberIcon(Long familyId, Long userId) {
+    return fmRepo.findSelectedIconByFamilyIdAndUserId(familyId, userId);
+  }
+
+  @Override
+  public Integer countFamiliesByUserId(Long userId) {
+    return fmRepo.countByUserId(userId);
+  }
+
 }

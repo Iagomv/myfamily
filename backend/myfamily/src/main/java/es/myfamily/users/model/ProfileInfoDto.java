@@ -11,6 +11,6 @@ public class ProfileInfoDto {
   private Long userId;
   private String username;
   private String email;
-  private String fullName;
-  private String bio;
+  private String familyMemberIcon;
+  private UserStatsDto userStats;
 }

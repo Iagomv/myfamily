@@ -18,4 +18,6 @@ public interface CalendarEventsService {
 
   CalendarEventMonthlyStats getMonthlyCalendarEventStats(Long familyId);
 
+  Integer countEventsCreatedByUserId(Long userId);
+
 }
