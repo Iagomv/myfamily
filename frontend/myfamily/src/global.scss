@@ -52,9 +52,30 @@ ion-content {
 
 /* Centered modal at 50vh */
 .add-item-modal-centered {
-  --height: 35vh;
   --width: 100%;
   --border-radius: 20px 20px 0 0;
   --box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
-   padding: 20px;
+}
+
+/* Modals should not inherit the global 100vh ion-content height */
+ion-modal.add-item-modal-centered ion-content {
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+/*
+ * Safe-area utilities (opt-in)
+ * Use these on containers that sit at the bottom of the screen
+ * (e.g. action button stacks) so they don't get hidden behind
+ * the iOS home indicator.
+ */
+.safe-area-bottom-padding {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + theme.$spacing-lg) !important;
+}
+
+.safe-area-bottom-margin {
+  margin-bottom: env(safe-area-inset-bottom, 0px) !important;
 }

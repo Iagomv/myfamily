@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.myfamily.calendar_events.service.CalendarEventsService;
 import es.myfamily.config.security.AuthContext;
 import es.myfamily.exception.MyFamilyException;
 import es.myfamily.families.mapper.FamilyMapper;
 import es.myfamily.families.model.CreateFamilyInputDto;
 import es.myfamily.families.model.Family;
+import es.myfamily.families.model.FamilyDashboardDto;
 import es.myfamily.families.model.FamilyDto;
 import es.myfamily.families.model.JoinFamilyInputDto;
 import es.myfamily.families.repository.FamilyRepository;
@@ -19,9 +21,11 @@ import es.myfamily.families.service.FamilyService;
 import es.myfamily.family_member.model.FamilyMember;
 import es.myfamily.family_member.model.FamilyMemberId;
 import es.myfamily.family_member.repository.FamilyMemberRepository;
+import es.myfamily.family_member.service.FamilyMemberService;
 import es.myfamily.family_member.utils.FamilyMemberUtils;
 import es.myfamily.shopping.model.ShoppingItem;
 import es.myfamily.shopping.repository.ShoppingItemsRepository;
+import es.myfamily.shopping.service.ShoppingItemsService;
 import es.myfamily.users.model.Users;
 import es.myfamily.users.repository.UsersRepository;
 import es.myfamily.utils.InvitationCodeUtils;
@@ -46,6 +50,15 @@ public class FamilyServiceImpl implements FamilyService {
 
   @Autowired
   private Validations validations;
+
+  @Autowired
+  private CalendarEventsService calendarEventsService;
+
+  @Autowired
+  private ShoppingItemsService shoppingItemsService;
+
+  @Autowired
+  private FamilyMemberService familyMemberService;
 
   @Override
   @Transactional
@@ -134,5 +147,27 @@ public class FamilyServiceImpl implements FamilyService {
     familyMemberRepo.save(familyMember);
 
     return familyMapper.toFamilyDto(family);
+  }
+
+  @Override
+  public FamilyDashboardDto getFamilyDashboard(Long familyId) {
+
+    Users user = usersRepo.findById(AuthContext.getUserId()).orElseThrow(
+        () -> new MyFamilyException(HttpStatus.NOT_FOUND, "User not found"));
+    Family family = familyRepo.findById(familyId).orElseThrow(
+        () -> new MyFamilyException(HttpStatus.NOT_FOUND, "Family not found"));
+
+    FamilyDashboardDto dashboard = new FamilyDashboardDto();
+    dashboard.setId(family.getId());
+    dashboard.setFamilyName(family.getFamilyName());
+    dashboard.setInvitationCode(family.getInvitationCode());
+
+    dashboard.setCalendarEvents(calendarEventsService.getUpcoming3Events(familyId));
+    dashboard.setShoppingItems(shoppingItemsService.getFamilyShoppingItems(familyId));
+    dashboard.setFamilyMembers(familyMemberService.getFamilyMembers(familyId));
+
+    dashboard.setShoppingItemsMonthlyStats(shoppingItemsService.getMonthlyShoppingStats(familyId));
+    dashboard.setCalendarEventsMonthlyStats(calendarEventsService.getMonthlyCalendarEventStats(familyId));
+    return dashboard;
   }
 }

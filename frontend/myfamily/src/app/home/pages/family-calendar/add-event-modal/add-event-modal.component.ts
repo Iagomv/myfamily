@@ -111,8 +111,9 @@ export class AddEventModalComponent implements OnInit {
   isFormValid(): boolean {
     return (
       this.eventName.trim().length > 0 &&
+      this.eventDescription.trim().length > 0 &&
       this.selectedCategory !== null &&
-      this.eventDate !== null
+      this.eventDate.trim().length > 0
     );
   }
 }

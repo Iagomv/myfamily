@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../../../../theme/variables' as theme;
 
 .event-card {
@@ -29,7 +30,7 @@
     background: linear-gradient(
       90deg,
       theme.$color-danger,
-      darken(theme.$color-danger, 10%)
+      color.adjust(theme.$color-danger, $lightness: -10%)
     );
     display: flex;
     align-items: center;
@@ -128,6 +129,3 @@
   }
 }
 
-@function darken($color, $amount) {
-  @return lighten($color, -$amount);
-}

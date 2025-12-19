@@ -18,11 +18,17 @@ export interface ShoppingItem {
   isPurchased: boolean;
   addedByFamilyMemberId: number;
   addedByFamilyMemberName: string;
-  addedDate: Date;
+  addedDate: string;
 }
 
 export interface ShoppingCategory {
   id: number;
   name: string;
   description?: string;
+}
+
+export interface ShoppingItemsMonthlyStats {
+  purchasedItems: number;
+  pendingItems: number;
+  mostPurchasedCategory: ShoppingCategory | null;
 }

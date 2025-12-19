@@ -24,4 +24,6 @@ public interface FamilyMemberRepository extends JpaRepository<FamilyMember, Fami
 
   @Query("SELECT COUNT(fm) FROM FamilyMember fm WHERE fm.family.id = :familyId")
   long countByFamilyId(@Param("familyId") Long familyId);
+
+  List<FamilyMember> findAllByFamilyId(Long familyId);
 }

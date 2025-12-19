@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import es.myfamily.config.security.AuthContext;
 import es.myfamily.exception.MyFamilyException;
+import es.myfamily.families.repository.FamilyRepository;
 import es.myfamily.family_member.repository.FamilyMemberRepository;
 
 @Component
@@ -14,6 +15,9 @@ public class Validations {
 
   @Autowired
   private FamilyMemberRepository familyMemberRepo;
+
+  @Autowired
+  private FamilyRepository familyRepo;
 
   @Value("${max.families.per.user}")
   private int maxFamiliesPerUser;
@@ -24,4 +28,12 @@ public class Validations {
       throw new MyFamilyException(HttpStatus.BAD_REQUEST, "El usuario ha alcanzado el número máximo de familias");
     }
   }
+
+  public void familyExists(Long familyId) {
+    boolean exists = familyRepo.existsById(familyId);
+    if (!exists) {
+      throw new MyFamilyException(HttpStatus.NOT_FOUND, "La familia no existe");
+    }
+  }
+
 }

@@ -4,11 +4,9 @@
       <app-back-button *ngIf="showBackButton" [onBack]="handleBack.bind(this)"></app-back-button>
     </ion-buttons>
 
-    <div class="toolbar-content">
-      <span class="header-content">
-        <ion-icon *ngIf="icon" [name]="icon" class="header-icon"></ion-icon>
-        <ion-title class="title-text">{{ title }}</ion-title>
-      </span>
-    </div>
+    <ion-title class="title-text">
+      <ion-icon *ngIf="icon" [name]="icon" class="header-icon"></ion-icon>
+      {{ title }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>

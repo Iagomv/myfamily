@@ -200,6 +200,10 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: AddEventModalComponent,
       cssClass: 'add-item-modal-centered',
+      breakpoints: [0.5, 0.75, 0.95],
+      initialBreakpoint: 0.75,
+      handle: true,
+      backdropBreakpoint: 0.5,
       componentProps: {
         categories: CALENDAR_CATEGORIES,
         defaultDate: this.selectedDate$.value,

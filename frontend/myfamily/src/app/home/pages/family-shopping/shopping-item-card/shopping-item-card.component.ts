@@ -5,6 +5,8 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -17,16 +19,47 @@ import { ShoppingItem } from 'src/app/shared/interfaces/shopping.interface';
   standalone: true,
   imports: [CommonModule, IonicModule],
 })
-export class ShoppingItemCardComponent {
+export class ShoppingItemCardComponent implements OnInit, OnDestroy {
   @Input() item!: ShoppingItem;
   @Output() statusChanged = new EventEmitter<ShoppingItem>();
   @Output() itemDeleted = new EventEmitter<ShoppingItem>();
-  @ViewChild('itemCard') itemCard!: ElementRef;
+  @ViewChild('itemCard', { static: true }) itemCard!: ElementRef<HTMLElement>;
 
   private touchStartX = 0;
   private touchEndX = 0;
   isSliding = false;
   slideDistance = 0;
+
+  private readonly onTouchStartHandler = (event: TouchEvent) =>
+    this.onTouchStart(event);
+  private readonly onTouchMoveHandler = (event: TouchEvent) =>
+    this.onTouchMove(event);
+  private readonly onTouchEndHandler = (event: TouchEvent) =>
+    this.onTouchEnd(event);
+
+  ngOnInit(): void {
+    const element = this.itemCard?.nativeElement;
+    if (!element) return;
+
+    element.addEventListener('touchstart', this.onTouchStartHandler, {
+      passive: true,
+    });
+    element.addEventListener('touchmove', this.onTouchMoveHandler, {
+      passive: true,
+    });
+    element.addEventListener('touchend', this.onTouchEndHandler, {
+      passive: true,
+    });
+  }
+
+  ngOnDestroy(): void {
+    const element = this.itemCard?.nativeElement;
+    if (!element) return;
+
+    element.removeEventListener('touchstart', this.onTouchStartHandler);
+    element.removeEventListener('touchmove', this.onTouchMoveHandler);
+    element.removeEventListener('touchend', this.onTouchEndHandler);
+  }
 
   onStatusChange(): void {
     this.item.isPurchased = !this.item.isPurchased;

@@ -1,31 +1,20 @@
 @use '../../../../theme/variables' as theme;
 
-.toolbar-content {
-  display: flex;
-  align-items: center;
-  gap: theme.$spacing-sm;
-  width: 100%;
-  justify-content: center;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: theme.$spacing-sm;
-}
-
 .header-toolbar {
   background: theme.$color-primary-gradient;
   --background: #{theme.$color-primary-gradient};
 }
 
-.header-icon {
-  font-size: theme.$font-size-xl;
+.title-text {
+  display: inline-flex;
+  align-items: center;
+  gap: theme.$spacing-sm;
+  font-weight: 600;
+  font-size: theme.$font-size-lg;
   color: theme.$color-text-light;
 }
 
-.title-text {
-  font-weight: 600;
-  font-size: theme.$font-size-lg;
+.header-icon {
+  font-size: theme.$font-size-xl;
   color: theme.$color-text-light;
 }

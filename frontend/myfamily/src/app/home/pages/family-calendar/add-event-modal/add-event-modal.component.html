@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" style="--padding-bottom: env(safe-area-inset-bottom, 16px);">
   <form (ngSubmit)="onSubmit()" #eventForm="ngForm">
     <!-- Event Name -->
     <ion-item class="form-item">
@@ -41,8 +41,6 @@
       </ion-item>
     </div>
 
-
-    <!-- Action Buttons -->
     <div class="button-group">
       <ion-button (click)="onCancel()" fill="outline" color="medium">
         <ion-icon name="close" slot="start"></ion-icon>

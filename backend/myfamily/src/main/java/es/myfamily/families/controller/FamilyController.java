@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.myfamily.families.model.CreateFamilyInputDto;
+import es.myfamily.families.model.FamilyDashboardDto;
 import es.myfamily.families.model.FamilyDto;
 import es.myfamily.families.model.JoinFamilyInputDto;
 import es.myfamily.families.service.FamilyService;
@@ -29,6 +30,11 @@ public class FamilyController {
   @GetMapping("/my")
   public ResponseEntity<List<FamilyDto>> getMyFamilies() {
     return ResponseEntity.ok(familyService.getMyFamilies());
+  }
+
+  @GetMapping("/dashboard/{familyId}")
+  public ResponseEntity<FamilyDashboardDto> getFamilyDashboard(@PathVariable Long familyId) {
+    return ResponseEntity.ok(familyService.getFamilyDashboard(familyId));
   }
 
   @PostMapping("")

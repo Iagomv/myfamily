@@ -1,5 +1,4 @@
-<div class="event-card" #eventCard (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)"
-  (touchmove)="onTouchMove($event)" [style.--slide-distance.px]="slideDistance">
+<div class="event-card" #eventCard [style.--slide-distance.px]="slideDistance">
   <div class="delete-indicator" [class.swipe-active]="isSliding">
     <div class="delete-content">
       <ion-icon name="trash-outline" class="delete-icon"></ion-icon>

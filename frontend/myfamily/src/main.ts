@@ -31,6 +31,9 @@ import {
   checkboxOutline,
   checkmarkCircleOutline,
   checkmark,
+  calendarOutline,
+  key,
+  people,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
@@ -54,6 +57,9 @@ addIcons({
   'checkbox-outline': checkboxOutline,
   'checkmark-circle-outline': checkmarkCircleOutline,
   checkmark: checkmark,
+  'calendar-outline': calendarOutline,
+  key: key,
+  people: people,
 });
 
 bootstrapApplication(AppComponent, {

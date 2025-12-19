@@ -1,5 +1,4 @@
 <div class="shopping-item-card" [class.purchased]="item.isPurchased" [class.swiping]="isSliding" #itemCard
-  (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)" (touchmove)="onTouchMove($event)"
   [style.--slide-distance.px]="slideDistance">
   <div class="delete-indicator" [class.swipe-active]="isSliding">
     <div class="delete-content">

@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.myfamily.calendar_events.model.CalendarEventDto;
 import es.myfamily.calendar_events.model.CalendarEventInputDto;
+import es.myfamily.calendar_events.model.CalendarEventMonthlyStats;
 
 public interface CalendarEventsService {
 
@@ -12,5 +13,9 @@ public interface CalendarEventsService {
   CalendarEventDto createCalendarEvent(Long familyId, CalendarEventInputDto dto);
 
   void deleteCalendarEvent(Long eventId);
+
+  List<CalendarEventDto> getUpcoming3Events(Long familyId);
+
+  CalendarEventMonthlyStats getMonthlyCalendarEventStats(Long familyId);
 
 }

@@ -5,6 +5,8 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, AlertController } from '@ionic/angular';
@@ -20,16 +22,47 @@ import {
   standalone: true,
   imports: [CommonModule, IonicModule],
 })
-export class EventCardComponent {
+export class EventCardComponent implements OnInit, OnDestroy {
   @Input() event!: CalendarEvent;
   @Output() eventDeleted = new EventEmitter<CalendarEvent>();
-  @ViewChild('eventCard') eventCard!: ElementRef;
+  @ViewChild('eventCard', { static: true }) eventCard!: ElementRef<HTMLElement>;
 
   private touchStartX = 0;
   isSliding = false;
   slideDistance = 0;
 
+  private readonly onTouchStartHandler = (event: TouchEvent) =>
+    this.onTouchStart(event);
+  private readonly onTouchMoveHandler = (event: TouchEvent) =>
+    this.onTouchMove(event);
+  private readonly onTouchEndHandler = (event: TouchEvent) =>
+    this.onTouchEnd(event);
+
   constructor(private alertController: AlertController) {}
+
+  ngOnInit(): void {
+    const element = this.eventCard?.nativeElement;
+    if (!element) return;
+
+    element.addEventListener('touchstart', this.onTouchStartHandler, {
+      passive: true,
+    });
+    element.addEventListener('touchmove', this.onTouchMoveHandler, {
+      passive: true,
+    });
+    element.addEventListener('touchend', this.onTouchEndHandler, {
+      passive: true,
+    });
+  }
+
+  ngOnDestroy(): void {
+    const element = this.eventCard?.nativeElement;
+    if (!element) return;
+
+    element.removeEventListener('touchstart', this.onTouchStartHandler);
+    element.removeEventListener('touchmove', this.onTouchMoveHandler);
+    element.removeEventListener('touchend', this.onTouchEndHandler);
+  }
 
   getCategoryColor(): string {
     const category = CALENDAR_CATEGORIES.find(

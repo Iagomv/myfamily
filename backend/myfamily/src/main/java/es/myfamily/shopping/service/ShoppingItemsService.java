@@ -6,10 +6,11 @@ import es.myfamily.shopping.model.AddShoppingItemDto;
 import es.myfamily.shopping.model.AddShoppingItemsDto;
 import es.myfamily.shopping.model.GroupedItemsByCategoryDto;
 import es.myfamily.shopping.model.ShoppingItemDto;
+import es.myfamily.shopping.model.ShoppingItemMontlyStatsDto;
 
 public interface ShoppingItemsService {
 
-  List<ShoppingItemDto> getFamilyShoppingItems();
+  List<ShoppingItemDto> getFamilyShoppingItems(Long familyId);
 
   List<GroupedItemsByCategoryDto> getFamilyShoppingItemsGroupedByCategory(Long familyId);
 
@@ -18,6 +19,8 @@ public interface ShoppingItemsService {
   void addShoppingItems(AddShoppingItemsDto dto);
 
   ShoppingItemDto updateShoppingItemStatus(Long itemId, Boolean isPurchased);
+
+  ShoppingItemMontlyStatsDto getMonthlyShoppingStats(Long familyId);
 
   void deleteShoppingItem(Long itemId);
 }

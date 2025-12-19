@@ -2,8 +2,9 @@ export interface CalendarEvent {
   id: number;
   eventName: string;
   eventDescription: string;
-  eventDate: Date;
+  eventDate: string;
   eventCategory: string;
+  createdAt?: string;
 }
 
 export enum CalendarCategory {
@@ -20,6 +21,13 @@ export interface PostCalendarEventDto {
   eventDescription: string;
   eventCategory: string;
   eventDate: Date;
+}
+
+export interface CalendarEventMonthlyStats {
+  totalEvents: number;
+  pastEvents: number;
+  upcomingEvents: number;
+  mostFrequentCategory: string;
 }
 
 export const CALENDAR_CATEGORIES = [

@@ -1,5 +1,6 @@
 package es.myfamily.shopping.service.impl;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +18,13 @@ import es.myfamily.shopping.mapper.ShoppingItemsMapper;
 import es.myfamily.shopping.model.AddShoppingItemDto;
 import es.myfamily.shopping.model.AddShoppingItemsDto;
 import es.myfamily.shopping.model.GroupedItemsByCategoryDto;
+import es.myfamily.shopping.model.ShoppingCategory;
 import es.myfamily.shopping.model.ShoppingItem;
 import es.myfamily.shopping.model.ShoppingItemDto;
+import es.myfamily.shopping.model.ShoppingItemMontlyStatsDto;
 import es.myfamily.shopping.repository.ShoppingItemsRepository;
 import es.myfamily.shopping.service.ShoppingItemsService;
+import es.myfamily.utils.Validations;
 
 @Service
 public class ShoppingItemsServiceImpl implements ShoppingItemsService {
@@ -37,9 +41,16 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
   @Autowired
   private FamilyMemberRepository familyMemberRepo;
 
+  @Autowired
+  private Validations validations;
+
   @Override
-  public List<ShoppingItemDto> getFamilyShoppingItems() {
-    return null;
+  public List<ShoppingItemDto> getFamilyShoppingItems(Long familyId) {
+    List<ShoppingItem> shoppingItems = shoppingItemsRepository.findByFamilyIdOrderByCategoryNotDeleted(familyId);
+
+    return shoppingItems.stream()
+        .map(item -> shoppingItemsMapper.toShoppingItemDto(item))
+        .toList();
   }
 
   @Override
@@ -109,6 +120,16 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
     shoppingItemsRepository.save(shoppingItem);
   }
 
+  @Override
+  public ShoppingItemMontlyStatsDto getMonthlyShoppingStats(Long familyId) {
+    Integer month = LocalDate.now().getMonthValue();
+    Integer year = LocalDate.now().getYear();
+    Integer purchasedItems = shoppingItemsRepository.purchasedItemsCurrentMonthCount(familyId, month, year);
+    Integer pendingItems = shoppingItemsRepository.countByFamilyIdAndIsPurchasedFalse(familyId);
+    ShoppingCategory mostPurchasedCategory = shoppingItemsRepository.findMostPurchasedCategoryCurrentMonth(familyId, month, year);
+    return new ShoppingItemMontlyStatsDto(purchasedItems, pendingItems, mostPurchasedCategory);
+  }
+
   private ShoppingItem createShoppingItemFromDto(AddShoppingItemDto dto, Long userId, Family family) {
     ShoppingItem shoppingItem = shoppingItemsMapper.toEntity(dto);
     shoppingItem.setFamily(family);
@@ -123,4 +144,5 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
         .orElseThrow(() -> new MyFamilyException(HttpStatus.FORBIDDEN,
             "The family does not exist or does not belong to the user"));
   }
+
 }

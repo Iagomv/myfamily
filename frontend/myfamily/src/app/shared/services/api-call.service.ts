@@ -38,6 +38,11 @@ export class ApiCallService {
     return this.httpService.delete(`families/leave/${familyId}`, {});
   }
 
+  // Family Dashboard API calls
+  getFamilyDashboard(familyId: number) {
+    return this.httpService.get(`families/dashboard/${familyId}`);
+  }
+
   // Shopping List API calls
   getShoppingCategories() {
     return this.httpService.get('shopping/categories');

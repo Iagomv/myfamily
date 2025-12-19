@@ -1,5 +1,8 @@
 package es.myfamily.calendar_events.service.impl;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +12,14 @@ import org.springframework.stereotype.Service;
 import es.myfamily.calendar_events.mapper.CalendarEventMapper;
 import es.myfamily.calendar_events.model.CalendarEventDto;
 import es.myfamily.calendar_events.model.CalendarEventInputDto;
+import es.myfamily.calendar_events.model.CalendarEventMonthlyStats;
 import es.myfamily.calendar_events.repository.CalendarEventRepository;
 import es.myfamily.calendar_events.service.CalendarEventsService;
 import es.myfamily.exception.MyFamilyException;
 import es.myfamily.families.model.Family;
 import es.myfamily.families.repository.FamilyRepository;
 import es.myfamily.calendar_events.model.CalendarEvent;
+import es.myfamily.calendar_events.model.CalendarEventCategoryEnum;
 
 @Service
 public class CalendarEventsServiceImpl implements CalendarEventsService {
@@ -30,7 +35,7 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
 
   @Override
   public List<CalendarEventDto> getCalendarEventsByFamilyId(Long familyId) {
-    return calendarEventRepo.findAllByFamilyIdAndIsDeletedFalse(familyId).stream()
+    return calendarEventRepo.findAllByFamilyIdAndIsDeletedFalseOrderByEventDateAsc(familyId).stream()
         .map(calendarEventMapper::toDto)
         .toList();
   }
@@ -56,4 +61,23 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
     calendarEventRepo.save(event);
   }
 
+  @Override
+  public List<CalendarEventDto> getUpcoming3Events(Long familyId) {
+    Instant now = LocalDateTime.now().toInstant(ZoneOffset.UTC); // Convert LocalDateTime to Instant
+    return calendarEventRepo.findTop3ByFamilyIdAndIsDeletedFalseAndEventDateAfterOrderByEventDateAsc(familyId, now).stream()
+        .map(calendarEventMapper::toDto)
+        .toList();
+  }
+
+  @Override
+  public CalendarEventMonthlyStats getMonthlyCalendarEventStats(Long familyId) {
+    Integer month = LocalDateTime.now().getMonthValue();
+    Integer year = LocalDateTime.now().getYear();
+    Integer totalMonthEvents = calendarEventRepo.countEventsByFamilyIdAndCurrentMonth(familyId, month, year);
+    Integer pendingEvents = calendarEventRepo.countEventsByFamilyIdAndCurrentMonthAndFutureDates(familyId, month, year);
+    Integer pastEvents = totalMonthEvents - pendingEvents;
+    List<CalendarEventCategoryEnum> mostFrequentCategories = calendarEventRepo.findMostFrequentEventCategoriesCurrentMonth(familyId, month, year);
+    CalendarEventCategoryEnum mostFrequentCategory = mostFrequentCategories.isEmpty() ? null : mostFrequentCategories.get(0);
+    return new CalendarEventMonthlyStats(totalMonthEvents, pastEvents, pendingEvents, mostFrequentCategory);
+  }
 }
