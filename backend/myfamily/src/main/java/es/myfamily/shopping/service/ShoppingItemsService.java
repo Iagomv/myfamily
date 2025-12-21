@@ -18,13 +18,17 @@ public interface ShoppingItemsService {
 
   void addShoppingItems(AddShoppingItemsDto dto);
 
+  void updateShoppingItem(Long itemId, AddShoppingItemDto entity);
+
   ShoppingItemDto updateShoppingItemStatus(Long itemId, Boolean isPurchased);
 
+  void deleteShoppingItem(Long itemId);
+
+  // Stats
   ShoppingItemMontlyStatsDto getMonthlyShoppingStats(Long familyId);
 
   Integer countItemsCreatedByUserId(Long userId);
 
   Integer countItemsBoughtByUserId(Long userId);
 
-  void deleteShoppingItem(Long itemId);
 }

@@ -51,17 +51,17 @@
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-number">{{ p.userStats.totalEventsCreated }}</div>
-            <div class="stat-label">Eventos</div>
+            <div class="stat-label">Eventos creados</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-number">{{ p.userStats.totalShoppingItemsCreated }}</div>
-            <div class="stat-label">Compras</div>
+            <div class="stat-label">Items de compra generados</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-number">{{ p.userStats.totalPurchasedItems }}</div>
-            <div class="stat-label">Compradas</div>
+            <div class="stat-label">Items comprados</div>
           </div>
         </div>
 
@@ -89,7 +89,7 @@
         </div>
 
         <ion-card class="menu-card">
-          <ion-item lines="none" [button]="false" [detail]="false">
+          <ion-item lines="none" [button]="true" [detail]="true" (click)="goToFamilySelection()">
             <div class="menu-icon warm" slot="start">
               <ion-icon name="people"></ion-icon>
             </div>
@@ -98,7 +98,6 @@
               <p>Gestiona tus grupos familiares</p>
             </ion-label>
             <ion-badge color="danger" class="menu-badge" slot="end">{{ p.userStats.familiesCount }}</ion-badge>
-            <ion-icon name="chevron-forward" slot="end"></ion-icon>
           </ion-item>
         </ion-card>
 

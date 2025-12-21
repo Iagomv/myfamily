@@ -18,6 +18,7 @@ export interface ProfileInfoUserStats {
 
 export interface UserUpdateRequest {
   username?: string;
+  familyMemberName?: string;
   email?: string;
   birthdate?: string;
 }

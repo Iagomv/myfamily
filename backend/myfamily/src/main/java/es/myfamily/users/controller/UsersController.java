@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.myfamily.users.model.CreateUserInputDto;
 import es.myfamily.users.model.LoginInputDto;
+import es.myfamily.users.model.PasswordUpdateRequest;
 import es.myfamily.users.model.ProfileInfoDto;
 import es.myfamily.users.model.UserToken;
 import es.myfamily.users.model.UserUpdateRequest;
@@ -19,6 +20,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -44,10 +46,17 @@ public class UsersController {
     return new ResponseEntity<>(usersService.getProfileInfo(familyId), HttpStatus.OK);
   }
 
-  @PutMapping("/update/{userId}")
-  public ResponseEntity<UsersDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequest request) {
+  @PatchMapping("/password/{userId}")
+  public ResponseEntity<Void> updatePassword(@PathVariable Long userId, @Valid @RequestBody PasswordUpdateRequest request) {
+    usersService.updatePassword(userId, request);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
 
-    return new ResponseEntity<>(usersService.updateUser(userId, request), HttpStatus.OK);
+  @PutMapping("/update/{familyId}")
+  public ResponseEntity<UsersDto> updateUser(@PathVariable Long familyId,
+      @Valid @RequestBody UserUpdateRequest request) {
+
+    return new ResponseEntity<>(usersService.updateUser(familyId, request), HttpStatus.OK);
   }
 
 }

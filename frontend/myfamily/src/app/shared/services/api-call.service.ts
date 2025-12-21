@@ -118,12 +118,18 @@ export class ApiCallService {
 
   updateUserInfo(
     userInfo: UserUpdateRequest,
-    userId: number
+    familyId: number
   ): Observable<UsersDto> {
     return this.httpService.put<UsersDto>(
-      `users/update/${userId}`,
+      `users/update/${familyId}`,
       userInfo,
       {}
     );
+  }
+
+  updateUserPassword(userId: string, newPassword: string): Observable<void> {
+    return this.httpService.patch<void>(`users/password/${userId}`, {
+      newPassword,
+    });
   }
 }

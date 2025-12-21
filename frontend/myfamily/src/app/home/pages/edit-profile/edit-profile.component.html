@@ -15,18 +15,24 @@
           <ion-card-content>
             <form [formGroup]="form" (ngSubmit)="submit()">
               <ion-item lines="full">
-                <ion-label position="stacked">Usuario</ion-label>
+                <ion-label position="stacked">Usuario*</ion-label>
                 <ion-input formControlName="username" type="text" autocomplete="username"></ion-input>
               </ion-item>
 
               <ion-item lines="full">
-                <ion-label position="stacked">Email</ion-label>
+                <ion-label position="stacked">Nombre Familiar*</ion-label>
+                <ion-input formControlName="familyMemberName" type="text"></ion-input>
+              </ion-item>
+
+              <ion-item lines="full">
+                <ion-label position="stacked">Email*</ion-label>
                 <ion-input formControlName="email" type="email" autocomplete="email"></ion-input>
               </ion-item>
 
               <ion-item lines="none">
                 <ion-label position="stacked">Fecha de nacimiento</ion-label>
-                <ion-input formControlName="birthdate" type="date" autocomplete="bday"></ion-input>
+                <ion-input formControlName="birthdate" type="date" placeholder="dd/mm/yyyy"
+                  autocomplete="bday"></ion-input>
               </ion-item>
 
               <div class="actions">

@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ApiCallService } from 'src/app/shared/services/api-call.service';
 import { FamilyService } from 'src/app/shared/services/family.service';
-import { SecurityService } from 'src/app/shared/services/security.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import {
@@ -27,6 +26,7 @@ export class EditProfileComponent implements OnInit {
 
   form = this.formBuilder.group({
     username: ['', [Validators.required]],
+    familyMemberName: [''],
     email: ['', [Validators.required, Validators.email]],
     birthdate: [''],
   });
@@ -35,7 +35,6 @@ export class EditProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiCallService: ApiCallService,
     private familyService: FamilyService,
-    private securityService: SecurityService,
     private toastService: ToastService,
     private router: Router
   ) {}
@@ -60,6 +59,7 @@ export class EditProfileComponent implements OnInit {
       next: (profileInfo: ProfileInfo) => {
         this.form.patchValue({
           username: profileInfo.username ?? '',
+          familyMemberName: profileInfo.familyMemberName ?? '',
           email: profileInfo.email ?? '',
           birthdate: this.normalizeDateForInput(profileInfo.birthdate),
         });
@@ -84,10 +84,12 @@ export class EditProfileComponent implements OnInit {
     const body: UserUpdateRequest = {};
 
     const username = (raw.username ?? '').trim();
+    const familyMemberName = (raw.familyMemberName ?? '').trim();
     const email = (raw.email ?? '').trim();
     const birthdate = (raw.birthdate ?? '').trim();
 
     if (username) body.username = username;
+    if (familyMemberName) body.familyMemberName = familyMemberName;
     if (email) body.email = email;
     if (birthdate) body.birthdate = birthdate;
 
@@ -103,16 +105,16 @@ export class EditProfileComponent implements OnInit {
       return;
     }
 
-    const userId = this.securityService.getUserIdFromToken();
-    if (!userId) {
-      this.toastService.showError('No se pudo determinar el usuario actual.');
+    const familyId = this.familyService.getFamilyId();
+    if (!familyId) {
+      this.toastService.showError('No se pudo determinar la familia actual.');
       return;
     }
 
     const body = this.buildUpdateRequest();
 
     this.isSaving = true;
-    this.apiCallService.updateUserInfo(body, userId).subscribe({
+    this.apiCallService.updateUserInfo(body, familyId).subscribe({
       next: () => {
         this.isSaving = false;
         this.toastService.showSuccess('Perfil actualizado.', 1200);

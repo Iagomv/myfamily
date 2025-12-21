@@ -2,6 +2,7 @@ package es.myfamily.users.service;
 
 import es.myfamily.users.model.CreateUserInputDto;
 import es.myfamily.users.model.LoginInputDto;
+import es.myfamily.users.model.PasswordUpdateRequest;
 import es.myfamily.users.model.ProfileInfoDto;
 import es.myfamily.users.model.UserToken;
 import es.myfamily.users.model.UserUpdateRequest;
@@ -16,5 +17,7 @@ public interface UsersService {
 
   ProfileInfoDto getProfileInfo(Long familyId);
 
-  UsersDto updateUser(Long userId, UserUpdateRequest request);
+  void updatePassword(Long userId, PasswordUpdateRequest request);
+
+  UsersDto updateUser(Long familyId, UserUpdateRequest request);
 }

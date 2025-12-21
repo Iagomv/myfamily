@@ -7,16 +7,23 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Calendar;
+
 import es.myfamily.calendar_events.model.CalendarEvent;
 import es.myfamily.calendar_events.service.CalendarEventsService;
 import es.myfamily.config.JwtTokenUtil;
 import es.myfamily.exception.MyFamilyException;
 import es.myfamily.family_member.model.FamilyMember;
+import es.myfamily.family_member.repository.FamilyMemberRepository;
 import es.myfamily.family_member.service.FamilyMemberService;
 import es.myfamily.shopping.service.ShoppingItemsService;
 import es.myfamily.users.mapper.UserMapper;
 import es.myfamily.users.model.CreateUserInputDto;
 import es.myfamily.users.model.LoginInputDto;
+import es.myfamily.users.model.PasswordUpdateRequest;
 import es.myfamily.users.model.ProfileInfoDto;
 import es.myfamily.users.model.ProfileInfoUserStats;
 import es.myfamily.users.model.UserToken;
@@ -45,6 +52,8 @@ public class UsersServiceImpl implements UsersService {
   private Validations validations;
   @Autowired
   private FamilyMemberService fmService;
+  @Autowired
+  private FamilyMemberRepository fmRepo;
   @Autowired
   private CalendarEventsService calendarEventsService;
   @Autowired
@@ -90,6 +99,73 @@ public class UsersServiceImpl implements UsersService {
     return profileInfoDto;
   }
 
+  @Override
+  public void updatePassword(Long userId, PasswordUpdateRequest request) {
+    Users user = securityUtils.getUserFromContext();
+    if (user.getId() != userId) {
+      throw new MyFamilyException(HttpStatus.FORBIDDEN, "You can only update your own password");
+    }
+
+    if (passwordEncoder.matches(request.getNewPassword(), user.getPassword_hash())) {
+      throw new MyFamilyException(HttpStatus.BAD_REQUEST, "No se puede reutilizar la contraseña actual");
+    }
+
+    user.setPassword_hash(passwordEncoder.encode(request.getNewPassword()));
+    usersRepository.save(user);
+  }
+
+  @Override
+  public UsersDto updateUser(Long familyId, UserUpdateRequest request) {
+    Users user = securityUtils.getUserFromContext();
+    validations.familyExistsAndUserInFamily(familyId, user.getId());
+    FamilyMember familyMember = fmService.getFamilyMember(familyId, user.getId());
+
+    updateUserEmail(user, request.getEmail());
+    updateUserUsername(user, request.getUsername());
+    updateUserBirthdate(user, request.getBirthdate());
+    updateFamilyMemberName(familyMember, request.getFamilyMemberName());
+
+    Users updatedUser = usersRepository.save(user);
+    return userMapper.toUsersDto(updatedUser);
+  }
+
+  // Private helper methods
+  private void updateUserEmail(Users user, String newEmail) {
+    if (canChangeEmail(user, newEmail)) {
+      if (usersRepository.findByEmail(newEmail).isPresent()) {
+        throw new MyFamilyException(HttpStatus.BAD_REQUEST, "Email already in use");
+      }
+      user.setEmail(newEmail);
+    }
+  }
+
+  private void updateUserUsername(Users user, String newUsername) {
+    if (canChangeUsername(user, newUsername)) {
+      user.setUsername(newUsername);
+    }
+  }
+
+  private void updateUserBirthdate(Users user, String birthdateStr) {
+    if (birthdateStr != null) {
+      try {
+        Date birthdateToSet = new SimpleDateFormat("yyyy-MM-dd").parse(birthdateStr);
+        validations.validateUserAge(birthdateToSet);
+        if (!birthdateToSet.equals(user.getBirthdate())) {
+          user.setBirthdate(birthdateToSet);
+        }
+      } catch (ParseException e) {
+        throw new MyFamilyException(HttpStatus.BAD_REQUEST, "Invalid birthdate format");
+      }
+    }
+  }
+
+  private void updateFamilyMemberName(FamilyMember familyMember, String newFamilyMemberName) {
+    if (newFamilyMemberName != null && !newFamilyMemberName.equals(familyMember.getFamilyMemberName())) {
+      familyMember.setFamilyMemberName(newFamilyMemberName);
+      fmRepo.save(familyMember);
+    }
+  }
+
   private ProfileInfoDto buildProfileInfoDto(Users user, FamilyMember familyMember, ProfileInfoUserStats userStats) {
     ProfileInfoDto profileInfo = new ProfileInfoDto();
     profileInfo.setUserId(user.getId());
@@ -112,25 +188,11 @@ public class UsersServiceImpl implements UsersService {
     return userStats;
   }
 
-  @Override
-  public UsersDto updateUser(Long userId, UserUpdateRequest request) {
+  private boolean canChangeEmail(Users user, String newEmail) {
+    return newEmail != null && !newEmail.equals(user.getEmail());
+  }
 
-    Users user = usersRepository.findById(userId)
-        .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "User not found"));
-
-    if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
-      if (usersRepository.findByEmail(request.getEmail()).isPresent()) {
-        throw new MyFamilyException(HttpStatus.BAD_REQUEST, "Email already in use");
-      }
-      user.setEmail(request.getEmail());
-    }
-
-    if (request.getUsername() != null && !request.getUsername().equals(user.getUsername()) && !request.getUsername().isBlank()) {
-      user.setUsername(request.getUsername());
-    }
-
-    Users updatedUser = usersRepository.save(user);
-    return userMapper.toUsersDto(updatedUser);
-
+  private boolean canChangeUsername(Users user, String newUsername) {
+    return newUsername != null && !newUsername.equals(user.getUsername()) && !newUsername.isBlank();
   }
 }

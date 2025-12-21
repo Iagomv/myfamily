@@ -11,6 +11,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { SecurityService } from 'src/app/shared/services/security.service';
 import { FamilyMemberIconUpdateRequest } from 'src/app/shared/interfaces/family-member.interface';
 import { Router } from '@angular/router';
+import { UpdatePasswordModalComponent } from './update-password-modal/update-password-modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -132,5 +133,28 @@ export class ProfileComponent implements OnInit {
 
   goToEditProfile(): void {
     this.router.navigate(['/home/edit-profile']);
+  }
+
+  goToFamilySelection(): void {
+    this.router.navigate(['/home/family-selection']);
+  }
+
+  async openPasswordUpdateModal(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: UpdatePasswordModalComponent,
+      mode: 'ios',
+      cssClass: 'update-password-modal-sheet',
+      breakpoints: [0, 0.55, 0.9],
+      initialBreakpoint: 0.55,
+      handle: true,
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+
+    if (data?.passwordUpdated) {
+      this.toastService.showSuccess('Password updated successfully!');
+    }
   }
 }

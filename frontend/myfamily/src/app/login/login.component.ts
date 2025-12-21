@@ -40,7 +40,7 @@ import { SecurityService } from '../shared/services/security.service';
 })
 export class LoginComponent implements OnInit {
   email: string = 'test@example.com';
-  password: string = 'testPassword1';
+  password: string = 'Test1234';
   loading: boolean = false;
 
   constructor(

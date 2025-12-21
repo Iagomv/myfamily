@@ -22,6 +22,7 @@ import es.myfamily.shopping.model.ShoppingCategory;
 import es.myfamily.shopping.model.ShoppingItem;
 import es.myfamily.shopping.model.ShoppingItemDto;
 import es.myfamily.shopping.model.ShoppingItemMontlyStatsDto;
+import es.myfamily.shopping.repository.ShoppingCategoryRepository;
 import es.myfamily.shopping.repository.ShoppingItemsRepository;
 import es.myfamily.shopping.service.ShoppingItemsService;
 import es.myfamily.utils.Validations;
@@ -42,7 +43,7 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
   private FamilyMemberRepository familyMemberRepo;
 
   @Autowired
-  private Validations validations;
+  private ShoppingCategoryRepository shoppingCategoryRepo;
 
   @Override
   public List<ShoppingItemDto> getFamilyShoppingItems(Long familyId) {
@@ -88,6 +89,24 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
   }
 
   @Override
+  public void updateShoppingItem(Long itemId, AddShoppingItemDto dto) {
+    ShoppingItem shoppingItem = shoppingItemsRepository.findById(itemId)
+        .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "Shopping item not found"));
+
+    if (Boolean.TRUE.equals(shoppingItem.getIsDeleted())) {
+      throw new MyFamilyException(HttpStatus.BAD_REQUEST, "Cannot update a deleted shopping item");
+    }
+
+    shoppingItem.setItemName(dto.getName());
+    shoppingItem.setQuantity(dto.getQuantity());
+    if (!shoppingItem.getCategory().getId().equals(dto.getCategoryId())) {
+      shoppingItem.setCategory(
+          shoppingCategoryRepo.findById(dto.getCategoryId()).orElseThrow(() -> new MyFamilyException(HttpStatus.BAD_REQUEST, "Invalid category ID")));
+    }
+    shoppingItemsRepository.save(shoppingItem);
+  }
+
+  @Override
   public ShoppingItemDto updateShoppingItemStatus(Long itemId, Boolean isPurchased) {
     ShoppingItem shoppingItem = shoppingItemsRepository.findById(itemId)
         .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "Shopping item not found"));
@@ -130,6 +149,16 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
     return new ShoppingItemMontlyStatsDto(purchasedItems, pendingItems, mostPurchasedCategory);
   }
 
+  @Override
+  public Integer countItemsCreatedByUserId(Long userId) {
+    return shoppingItemsRepository.countByAddedByUserId(userId);
+  }
+
+  @Override
+  public Integer countItemsBoughtByUserId(Long userId) {
+    return shoppingItemsRepository.countByBoughtByUserId(userId);
+  }
+
   private ShoppingItem createShoppingItemFromDto(AddShoppingItemDto dto, Long userId, Family family) {
     ShoppingItem shoppingItem = shoppingItemsMapper.toEntity(dto);
     shoppingItem.setFamily(family);
@@ -143,16 +172,6 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
     return familyRepo.findByIdAndUserId(familyId, userId)
         .orElseThrow(() -> new MyFamilyException(HttpStatus.FORBIDDEN,
             "The family does not exist or does not belong to the user"));
-  }
-
-  @Override
-  public Integer countItemsCreatedByUserId(Long userId) {
-    return shoppingItemsRepository.countByAddedByUserId(userId);
-  }
-
-  @Override
-  public Integer countItemsBoughtByUserId(Long userId) {
-    return shoppingItemsRepository.countByBoughtByUserId(userId);
   }
 
 }

@@ -41,6 +41,8 @@ import {
   shareSocialOutline,
   copyOutline,
   personCircleOutline,
+  eyeOutline,
+  eyeOffOutline,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
@@ -75,6 +77,8 @@ addIcons({
   'share-social-outline': shareSocialOutline,
   'copy-outline': copyOutline,
   'person-circle-outline': personCircleOutline,
+  'eye-outline': eyeOutline,
+  'eye-off-outline': eyeOffOutline,
 });
 
 // Register Spanish locale data used by Angular pipes (DatePipe, etc.)
