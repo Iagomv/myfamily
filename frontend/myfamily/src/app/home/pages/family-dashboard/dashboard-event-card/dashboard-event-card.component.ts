@@ -42,20 +42,21 @@ export class DashboardEventCardComponent {
     const day = new Date(date);
     day.setHours(0, 0, 0, 0);
 
-    const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0;
-    const timePart = hasTime
-      ? `, ${date.toLocaleTimeString('es-ES', {
-          hour: 'numeric',
-          minute: '2-digit',
-        })}`
-      : '';
+    // Determine if time part should be included
+    // const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0;
+    // const timePart = hasTime
+    //   ? `, ${date.toLocaleTimeString('es-ES', {
+    //       hour: 'numeric',
+    //       minute: '2-digit',
+    //     })}`
+    //   : '';
 
     if (day.getTime() === today.getTime()) {
-      return `Hoy${timePart}`;
+      return `Hoy`;
     }
 
     if (day.getTime() === tomorrow.getTime()) {
-      return `Mañana${timePart}`;
+      return `Mañana`;
     }
 
     const datePart = date.toLocaleDateString('es-ES', {
@@ -63,6 +64,6 @@ export class DashboardEventCardComponent {
       month: 'short',
     });
 
-    return `${datePart}${timePart}`;
+    return `${datePart}`; //${timePart}`;
   }
 }

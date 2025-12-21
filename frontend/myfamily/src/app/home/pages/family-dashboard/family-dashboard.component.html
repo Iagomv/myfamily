@@ -45,7 +45,7 @@
         <div class="summary-grid ion-margin-top">
           <app-dashboard-summary-card [iconName]="'cart-outline'" [title]="'Compras'"
             [mainNumber]="shoppingPendingCount" [mainCaption]="'Pendientes'" [rows]="[
-              { label: 'Comprados', value: shoppingPurchasedCount },
+              { label: 'Realizadas', value: shoppingPurchasedCount },
               { label: 'Categoría top', value: mostPurchasedCategoryName },
               {label: ' ', value: null}
             ]"></app-dashboard-summary-card>
@@ -53,7 +53,7 @@
           <app-dashboard-summary-card [iconName]="'calendar-outline'" [title]="'Calendario'"
             [mainNumber]="calendarUpcomingCount" [mainCaption]="'Próximos'" [rows]="[
               { label: 'Total', value: calendarTotalCount },
-              { label: 'Pasados', value: calendarPastCount },
+              { label: 'Asistidos', value: calendarPastCount },
               { label: 'Categoría top', value: calendarMostFrequentCategoryLabel }
             ]"></app-dashboard-summary-card>
         </div>

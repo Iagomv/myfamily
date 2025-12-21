@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "users")
@@ -25,10 +26,14 @@ public class Users {
   private Long id;
 
   @Column(name = "email", nullable = false, unique = true)
+  @Email
   private String email;
 
   @Column(name = "username", nullable = false)
   private String username;
+
+  @Column(name = "birthdate")
+  private Date birthdate;
 
   @Column(name = "password_hash", nullable = false)
   private String password_hash;

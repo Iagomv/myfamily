@@ -134,9 +134,7 @@ export class FamilyDashboardComponent implements OnInit {
     this.mostPurchasedCategoryName =
       dashboard.shoppingItemsMonthlyStats?.mostPurchasedCategory?.name ?? '—';
 
-    this.calendarTotalCount =
-      dashboard.calendarEventsMonthlyStats?.totalEvents ??
-      (dashboard.calendarEvents ?? []).length;
+    this.calendarTotalCount = dashboard.calendarEventsMonthlyStats?.totalEvents;
     this.calendarPastCount =
       dashboard.calendarEventsMonthlyStats?.pastEvents ?? 0;
     this.calendarUpcomingCount =

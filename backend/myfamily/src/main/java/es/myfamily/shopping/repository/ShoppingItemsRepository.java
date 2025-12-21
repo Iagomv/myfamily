@@ -27,7 +27,7 @@ public interface ShoppingItemsRepository extends JpaRepository<ShoppingItem, Lon
 
   Integer countByFamilyIdAndIsPurchasedFalse(@Param("familyId") Long familyId);
 
-  @Query("SELECT sc FROM ShoppingItem si JOIN si.category sc WHERE si.family.id = :familyId AND si.isPurchased = true AND EXTRACT(MONTH FROM si.boughtDate) = :month AND EXTRACT(YEAR FROM si.boughtDate) = :year GROUP BY sc ORDER BY COUNT(si) DESC")
+  @Query("SELECT sc FROM ShoppingItem si JOIN si.category sc WHERE si.family.id = :familyId AND si.isPurchased = true AND EXTRACT(MONTH FROM si.boughtDate) = :month AND EXTRACT(YEAR FROM si.boughtDate) = :year GROUP BY sc ORDER BY COUNT(si) DESC LIMIT 1")
   ShoppingCategory findMostPurchasedCategoryCurrentMonth(@Param("familyId") Long familyId, @Param("month") Integer month,
       @Param("year") Integer year);
 

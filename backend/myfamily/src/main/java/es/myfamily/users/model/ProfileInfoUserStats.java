@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserStatsDto {
+public class ProfileInfoUserStats {
   private Integer familiesCount;
   private Integer totalEventsCreated;
   private Integer totalShoppingItemsCreated;

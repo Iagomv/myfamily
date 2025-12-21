@@ -21,14 +21,14 @@ interface TabItem {
 })
 export class BottomTabBarComponent implements OnInit {
   tabs: TabItem[] = [
-    { label: 'Dashboard', icon: 'home', route: '/home/family-dashboard' },
-    { label: 'Shopping', icon: 'cart', route: '/home/family-shopping' },
-    { label: 'Calendar', icon: 'calendar', route: '/home/family-calendar' },
-    { label: 'Documents', icon: 'folder', route: '/home/family-docs' },
-    { label: 'Profile', icon: 'person', route: '/home/profile' },
+    { label: 'Casa', icon: 'home', route: '/home/family-dashboard' },
+    { label: 'Compras', icon: 'cart', route: '/home/family-shopping' },
+    { label: 'Calendario', icon: 'calendar', route: '/home/family-calendar' },
+    { label: 'Documentos', icon: 'folder', route: '/home/family-docs' },
+    { label: 'Perfil', icon: 'person', route: '/home/profile' },
   ];
 
-  activeTab: string = 'Dashboard';
+  activeTab: string = 'Casa';
 
   constructor(private router: Router) {
     addIcons({ home, cart, calendar, folder, person });

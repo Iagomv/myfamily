@@ -1,10 +1,119 @@
 <ion-page>
-  <app-header [title]="'Perfil'" [icon]="'person'" [color]="'header-toolbar'">
+  <app-header [title]="'Mi Perfil'" [icon]="'person'" [color]="'header-toolbar'">
   </app-header>
 
-  <ion-content class="ion-padding" [scrollY]="true" style="--padding-bottom: 85px;">
+  <ion-content [scrollY]="true" style="--padding-bottom: 85px;">
     <div class="profile-container">
-      <p>Tu perfil y configuración</p>
+      <ng-container *ngIf="isLoading">
+        <ion-card>
+          <ion-card-content>Cargando...</ion-card-content>
+        </ion-card>
+      </ng-container>
+
+      <ng-container *ngIf="!isLoading && loadError">
+        <ion-card>
+          <ion-card-content>
+            No se pudo cargar tu perfil.
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+
+      <ng-container *ngIf="!isLoading && !loadError && profileInfo as p">
+        <ion-card class="profile-hero-card">
+          <ion-card-content class="hero-content">
+            <div class="avatar-wrap" (click)="openIconPicker()" role="button" tabindex="0" aria-label="Cambiar avatar">
+              <div class="avatar-ring">
+                <img class="avatar-img" [src]="avatarUrl" alt="Avatar" (error)="onAvatarError($event)" />
+              </div>
+              <button class="avatar-edit" type="button" aria-label="Cambiar foto"
+                (click)="openIconPicker(); $event.stopPropagation()">
+                <ion-icon name="camera-outline"></ion-icon>
+              </button>
+            </div>
+
+            <div class="hero-name">{{ p.familyMemberName || p.username }}</div>
+            <div class="hero-email">{{ p.email }}</div>
+
+            <div class="hero-chips">
+              <div class="chip chip-primary">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>{{ p.userStats.familiesCount }} Familias</span>
+              </div>
+
+              <div class="chip chip-secondary">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <span>Se unió {{ p.memberSince | date:'MMM y' }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">{{ p.userStats.totalEventsCreated }}</div>
+            <div class="stat-label">Eventos</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-number">{{ p.userStats.totalShoppingItemsCreated }}</div>
+            <div class="stat-label">Compras</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-number">{{ p.userStats.totalPurchasedItems }}</div>
+            <div class="stat-label">Compradas</div>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <ion-icon name="settings" class="section-icon"></ion-icon>
+          <h3>Cuenta</h3>
+        </div>
+
+        <ion-card class="menu-card">
+          <ion-item lines="none" [button]="false" [detail]="false">
+            <div class="menu-icon primary" slot="start">
+              <ion-icon name="key"></ion-icon>
+            </div>
+            <ion-label>
+              <h2>Cambiar Contraseña</h2>
+              <p>Actualizar credenciales</p>
+            </ion-label>
+            <ion-icon name="chevron-forward" slot="end"></ion-icon>
+          </ion-item>
+        </ion-card>
+
+        <div class="section-title">
+          <ion-icon name="people" class="section-icon"></ion-icon>
+          <h3>Familias</h3>
+        </div>
+
+        <ion-card class="menu-card">
+          <ion-item lines="none" [button]="false" [detail]="false">
+            <div class="menu-icon warm" slot="start">
+              <ion-icon name="people"></ion-icon>
+            </div>
+            <ion-label>
+              <h2>Mis Familias</h2>
+              <p>Gestiona tus grupos familiares</p>
+            </ion-label>
+            <ion-badge color="danger" class="menu-badge" slot="end">{{ p.userStats.familiesCount }}</ion-badge>
+            <ion-icon name="chevron-forward" slot="end"></ion-icon>
+          </ion-item>
+        </ion-card>
+
+        <ion-card class="menu-card">
+          <ion-item lines="none" [button]="true" [detail]="true" (click)="goToEditProfile()">
+            <div class="menu-icon" slot="start">
+              <ion-icon name="create-outline"></ion-icon>
+            </div>
+            <ion-label>
+              <h2>Editar Perfil</h2>
+              <p>Nombre, email y foto</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+      </ng-container>
     </div>
   </ion-content>
 </ion-page>

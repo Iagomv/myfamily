@@ -10,7 +10,9 @@ import es.myfamily.users.model.CreateUserInputDto;
 import es.myfamily.users.model.LoginInputDto;
 import es.myfamily.users.model.ProfileInfoDto;
 import es.myfamily.users.model.UserToken;
+import es.myfamily.users.model.UserUpdateRequest;
 import es.myfamily.users.model.UsersDto;
+import es.myfamily.users.model.CreatedUserResponse;
 import es.myfamily.users.service.UsersService;
 import jakarta.validation.Valid;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/users")
@@ -27,7 +30,7 @@ public class UsersController {
   private UsersService usersService;
 
   @PostMapping()
-  public ResponseEntity<UsersDto> createUser(@Valid @RequestBody CreateUserInputDto inputDto) {
+  public ResponseEntity<CreatedUserResponse> createUser(@Valid @RequestBody CreateUserInputDto inputDto) {
     return new ResponseEntity<>(usersService.createUser(inputDto), HttpStatus.CREATED);
   }
 
@@ -39,6 +42,12 @@ public class UsersController {
   @GetMapping("/profile/{familyId}")
   public ResponseEntity<ProfileInfoDto> getProfileInfo(@PathVariable Long familyId) {
     return new ResponseEntity<>(usersService.getProfileInfo(familyId), HttpStatus.OK);
+  }
+
+  @PutMapping("/update/{userId}")
+  public ResponseEntity<UsersDto> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequest request) {
+
+    return new ResponseEntity<>(usersService.updateUser(userId, request), HttpStatus.OK);
   }
 
 }

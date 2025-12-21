@@ -1,6 +1,7 @@
 package es.myfamily.calendar_events.service.impl;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -74,8 +75,8 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
 
   @Override
   public List<CalendarEventDto> getUpcoming3Events(Long familyId) {
-    Instant now = LocalDateTime.now().toInstant(ZoneOffset.UTC); // Convert LocalDateTime to Instant
-    return calendarEventRepo.findTop3ByFamilyIdAndIsDeletedFalseAndEventDateAfterOrderByEventDateAsc(familyId, now).stream()
+    Instant now = LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC); // Start of today
+    return calendarEventRepo.findTop3UpcomingEventsFromToday(familyId, now).stream()
         .map(calendarEventMapper::toDto)
         .toList();
   }

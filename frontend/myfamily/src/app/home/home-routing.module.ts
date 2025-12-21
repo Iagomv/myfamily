@@ -50,6 +50,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'edit-profile',
+        loadComponent: () =>
+          import('./pages/edit-profile/edit-profile.component').then(
+            (m) => m.EditProfileComponent
+          ),
+      },
+      {
         path: '',
         redirectTo: 'family-selection',
         pathMatch: 'full',

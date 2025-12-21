@@ -1,7 +1,5 @@
 package es.myfamily.users.model;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class UsersDto {
-  private Long id;
+public class UserUpdateRequest {
   private String username;
   private String email;
-  private Date birthdate;
+  private String birthdate;
 }

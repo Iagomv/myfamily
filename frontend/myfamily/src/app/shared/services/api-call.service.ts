@@ -8,6 +8,13 @@ import {
   CalendarEvent,
   PostCalendarEventDto,
 } from '../interfaces/calendar-event.interface';
+import { FamilyMemberIconUpdateRequest } from '../interfaces/family-member.interface';
+import {
+  ProfileInfo,
+  UsersDto,
+  UserUpdateRequest,
+} from '../interfaces/profile.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiCallService {
@@ -92,5 +99,31 @@ export class ApiCallService {
 
   deleteCalendarEvent(eventId: number) {
     return this.httpService.delete<void>(`calendar-events/${eventId}`);
+  }
+
+  // Profile API calls
+  getProfileInfo(familyId: number) {
+    return this.httpService.get<ProfileInfo>(`users/profile/${familyId}`);
+  }
+
+  updateSelectedIcon(
+    familyMemberIconUpdateRequest: FamilyMemberIconUpdateRequest
+  ): Observable<void> {
+    return this.httpService.patch<void>(
+      'family-members/icon-update',
+      familyMemberIconUpdateRequest,
+      {}
+    );
+  }
+
+  updateUserInfo(
+    userInfo: UserUpdateRequest,
+    userId: number
+  ): Observable<UsersDto> {
+    return this.httpService.put<UsersDto>(
+      `users/update/${userId}`,
+      userInfo,
+      {}
+    );
   }
 }

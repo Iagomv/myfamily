@@ -1,0 +1,26 @@
+@use '../../../../theme/variables' as theme;
+
+.content-wrap {
+  padding: theme.$spacing-md;
+}
+
+.icon-tile {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: theme.$radius-large;
+  border: 1px solid theme.$color-border;
+  background: theme.$color-surface;
+  display: grid;
+  place-items: center;
+  padding: theme.$spacing-sm;
+}
+
+.icon-tile.is-selected {
+  border-color: theme.$color-primary;
+}
+
+.icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

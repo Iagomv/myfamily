@@ -176,9 +176,7 @@ export class FamilySelectionComponent implements OnInit {
 
   getFamilyIcon(family: Family): string {
     const icons = [
-      'assets/icon/family-card-icon.png',
-      'assets/icon/family-card-icon.png',
-      'assets/icon/family-card-icon.png',
+      'assets/icon/chibi-family.png',
       'assets/icon/family-card-icon.png',
     ];
     const index = family.id % icons.length;

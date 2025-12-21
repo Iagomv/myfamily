@@ -1,5 +1,55 @@
 @use './theme/variables' as theme;
 
+/* Import custom fonts */
+@font-face {
+  font-family: 'Overlock';
+  src: url('./assets/fonts/Overlock-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Overlock';
+  src: url('./assets/fonts/Overlock-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Overlock';
+  src: url('./assets/fonts/Overlock-Italic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Overlock';
+  src: url('./assets/fonts/Overlock-BoldItalic.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Overlock';
+  src: url('./assets/fonts/Overlock-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Overlock';
+  src: url('./assets/fonts/Overlock-BlackItalic.woff2') format('woff2');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Apply the font globally */
 body, ion-app, in-content {
 	background: theme.$color-surface !important;
 	color: theme.$color-text-primary;
@@ -77,4 +127,9 @@ ion-modal.add-item-modal-centered ion-content {
 
 .safe-area-bottom-margin {
   margin-bottom: env(safe-area-inset-bottom, 0px) !important;
+}
+
+/* Force Overlock font globally - must be after Ionic imports to override typography.css */
+* {
+  font-family: 'Overlock', sans-serif !important;
 }

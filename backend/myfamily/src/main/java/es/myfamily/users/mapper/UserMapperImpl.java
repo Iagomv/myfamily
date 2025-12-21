@@ -3,6 +3,7 @@ package es.myfamily.users.mapper;
 import es.myfamily.users.model.CreateUserInputDto;
 import es.myfamily.users.model.Users;
 import es.myfamily.users.model.UsersDto;
+import es.myfamily.users.model.CreatedUserResponse;
 
 import org.springframework.stereotype.Component;
 
@@ -33,13 +34,24 @@ public class UserMapperImpl implements UserMapper {
   }
 
   @Override
-  public UsersDto toUsersDto(Users entity) {
+  public CreatedUserResponse toCreatedUserResponse(Users entity) {
     if (entity == null) {
       return null;
     }
-    UsersDto dto = new UsersDto();
+    CreatedUserResponse dto = new CreatedUserResponse();
     dto.setId(entity.getId());
     dto.setEmail(entity.getEmail());
     return dto;
+  }
+
+  @Override
+  public UsersDto toUsersDto(Users entity) {
+    return entity == null
+        ? null
+        : new UsersDto(
+            entity.getId(),
+            entity.getUsername(),
+            entity.getEmail(),
+            entity.getBirthdate());
   }
 }

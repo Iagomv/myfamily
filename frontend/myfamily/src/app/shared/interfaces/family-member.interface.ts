@@ -1,4 +1,4 @@
-export interface familyMember {
+export interface FamilyMember {
   familyId: number;
   userId: number;
   username: string;
@@ -6,4 +6,10 @@ export interface familyMember {
   familyMemberName: string;
   selectedIcon: string;
   createdAt: string;
+}
+
+export interface FamilyMemberIconUpdateRequest {
+  familyId: number;
+  userId: number;
+  newIconName: string;
 }

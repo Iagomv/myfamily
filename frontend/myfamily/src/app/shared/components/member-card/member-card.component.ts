@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { familyMember } from '../../interfaces/family-member.interface';
+import { FamilyMember } from '../../interfaces/family-member.interface';
 
 @Component({
   selector: 'app-member-card',
@@ -11,5 +11,5 @@ import { familyMember } from '../../interfaces/family-member.interface';
   imports: [CommonModule, IonicModule],
 })
 export class MemberCardComponent {
-  @Input() member!: familyMember;
+  @Input() member!: FamilyMember;
 }

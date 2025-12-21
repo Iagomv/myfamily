@@ -19,6 +19,11 @@ public interface CalendarEventRepository extends JpaRepository<CalendarEvent, Lo
         // Return the next three upcoming (future) non-deleted events for a family
         public List<CalendarEvent> findTop3ByFamilyIdAndIsDeletedFalseAndEventDateAfterOrderByEventDateAsc(Long familyId, Instant date);
 
+        // Return the next three upcoming (from today onwards) non-deleted events for a
+        // family
+        @Query("SELECT ce FROM CalendarEvent ce WHERE ce.family.id = :familyId AND ce.isDeleted = false AND ce.eventDate >= :date ORDER BY ce.eventDate ASC LIMIT 3")
+        List<CalendarEvent> findTop3UpcomingEventsFromToday(@Param("familyId") Long familyId, @Param("date") Instant date);
+
         @Query("SELECT COUNT(ce) FROM CalendarEvent ce WHERE ce.family.id = :familyId AND EXTRACT(MONTH FROM ce.eventDate) = :month AND EXTRACT(YEAR FROM ce.eventDate) = :year")
         Integer countEventsByFamilyIdAndCurrentMonth(@Param("familyId") Long familyId, @Param("month") Integer month, @Param("year") Integer year);
 

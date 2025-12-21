@@ -1,0 +1,43 @@
+<ion-page>
+  <app-header [title]="'Editar Perfil'" [icon]="'create-outline'" [color]="'header-toolbar'" [showBackButton]="true"
+    [onBack]="goBack.bind(this)"></app-header>
+
+  <ion-content [scrollY]="true" style="--padding-bottom: 85px;">
+    <div class="container">
+      <ng-container *ngIf="isLoading">
+        <ion-card>
+          <ion-card-content>Cargando...</ion-card-content>
+        </ion-card>
+      </ng-container>
+
+      <ng-container *ngIf="!isLoading">
+        <ion-card class="form-card">
+          <ion-card-content>
+            <form [formGroup]="form" (ngSubmit)="submit()">
+              <ion-item lines="full">
+                <ion-label position="stacked">Usuario</ion-label>
+                <ion-input formControlName="username" type="text" autocomplete="username"></ion-input>
+              </ion-item>
+
+              <ion-item lines="full">
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input formControlName="email" type="email" autocomplete="email"></ion-input>
+              </ion-item>
+
+              <ion-item lines="none">
+                <ion-label position="stacked">Fecha de nacimiento</ion-label>
+                <ion-input formControlName="birthdate" type="date" autocomplete="bday"></ion-input>
+              </ion-item>
+
+              <div class="actions">
+                <ion-button expand="block" type="submit" [disabled]="isSaving">
+                  {{ isSaving ? 'Guardando...' : 'Guardar cambios' }}
+                </ion-button>
+              </div>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </div>
+  </ion-content>
+</ion-page>

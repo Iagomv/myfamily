@@ -11,16 +11,19 @@ import es.myfamily.calendar_events.model.CalendarEvent;
 import es.myfamily.calendar_events.service.CalendarEventsService;
 import es.myfamily.config.JwtTokenUtil;
 import es.myfamily.exception.MyFamilyException;
+import es.myfamily.family_member.model.FamilyMember;
 import es.myfamily.family_member.service.FamilyMemberService;
 import es.myfamily.shopping.service.ShoppingItemsService;
 import es.myfamily.users.mapper.UserMapper;
 import es.myfamily.users.model.CreateUserInputDto;
 import es.myfamily.users.model.LoginInputDto;
 import es.myfamily.users.model.ProfileInfoDto;
-import es.myfamily.users.model.UserStatsDto;
+import es.myfamily.users.model.ProfileInfoUserStats;
 import es.myfamily.users.model.UserToken;
+import es.myfamily.users.model.UserUpdateRequest;
 import es.myfamily.users.model.Users;
 import es.myfamily.users.model.UsersDto;
+import es.myfamily.users.model.CreatedUserResponse;
 import es.myfamily.users.repository.UsersRepository;
 import es.myfamily.users.service.UsersService;
 import es.myfamily.utils.SecurityUtils;
@@ -48,7 +51,7 @@ public class UsersServiceImpl implements UsersService {
   private ShoppingItemsService shoppingItemsService;
 
   @Override
-  public UsersDto createUser(CreateUserInputDto userInputDto) {
+  public CreatedUserResponse createUser(CreateUserInputDto userInputDto) {
     if (usersRepository.findByEmail(userInputDto.getEmail()).isPresent()) {
       throw new MyFamilyException(HttpStatus.BAD_REQUEST, "Email already in use");
     }
@@ -56,7 +59,7 @@ public class UsersServiceImpl implements UsersService {
     Users user = userMapper.fromCreateUserInputDto(userInputDto);
     user.setPassword_hash(passwordEncoder.encode(user.getPassword_hash()));
 
-    return userMapper.toUsersDto(usersRepository.save(user));
+    return userMapper.toCreatedUserResponse(usersRepository.save(user));
   }
 
   @Override
@@ -80,29 +83,54 @@ public class UsersServiceImpl implements UsersService {
     Users user = securityUtils.getUserFromContext();
     validations.familyExistsAndUserInFamily(familyId, user.getId());
 
-    String selectedIcon = fmService.getFamilyMemberIcon(familyId, user.getId());
-    UserStatsDto userStats = buildUserStatsDto(user.getId());
+    FamilyMember familyMember = fmService.getFamilyMember(familyId, user.getId());
+    ProfileInfoUserStats userStats = buildUserStatsDto(user.getId());
 
-    ProfileInfoDto profileInfoDto = buildProfileInfoDto(user, selectedIcon, userStats);
+    ProfileInfoDto profileInfoDto = buildProfileInfoDto(user, familyMember, userStats);
     return profileInfoDto;
   }
 
-  private ProfileInfoDto buildProfileInfoDto(Users user, String selectedIcon, UserStatsDto userStats) {
+  private ProfileInfoDto buildProfileInfoDto(Users user, FamilyMember familyMember, ProfileInfoUserStats userStats) {
     ProfileInfoDto profileInfo = new ProfileInfoDto();
     profileInfo.setUserId(user.getId());
     profileInfo.setUsername(user.getUsername());
+    profileInfo.setBirthdate(user.getBirthdate());
+    profileInfo.setFamilyMemberName(familyMember.getFamilyMemberName());
     profileInfo.setEmail(user.getEmail());
-    profileInfo.setFamilyMemberIcon(selectedIcon);
+    profileInfo.setFamilyMemberIcon(familyMember.getSelectedIcon());
+    profileInfo.setMemberSince(familyMember.getCreatedAt());
     profileInfo.setUserStats(userStats);
     return profileInfo;
   }
 
-  private UserStatsDto buildUserStatsDto(Long userId) {
-    UserStatsDto userStats = new UserStatsDto();
+  private ProfileInfoUserStats buildUserStatsDto(Long userId) {
+    ProfileInfoUserStats userStats = new ProfileInfoUserStats();
     userStats.setFamiliesCount(fmService.countFamiliesByUserId(userId));
     userStats.setTotalEventsCreated(calendarEventsService.countEventsCreatedByUserId(userId));
     userStats.setTotalShoppingItemsCreated(shoppingItemsService.countItemsCreatedByUserId(userId));
     userStats.setTotalPurchasedItems(shoppingItemsService.countItemsBoughtByUserId(userId));
     return userStats;
+  }
+
+  @Override
+  public UsersDto updateUser(Long userId, UserUpdateRequest request) {
+
+    Users user = usersRepository.findById(userId)
+        .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "User not found"));
+
+    if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
+      if (usersRepository.findByEmail(request.getEmail()).isPresent()) {
+        throw new MyFamilyException(HttpStatus.BAD_REQUEST, "Email already in use");
+      }
+      user.setEmail(request.getEmail());
+    }
+
+    if (request.getUsername() != null && !request.getUsername().equals(user.getUsername()) && !request.getUsername().isBlank()) {
+      user.setUsername(request.getUsername());
+    }
+
+    Users updatedUser = usersRepository.save(user);
+    return userMapper.toUsersDto(updatedUser);
+
   }
 }
