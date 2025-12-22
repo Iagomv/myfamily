@@ -1,0 +1,4 @@
+ingress:
+  - hostname: imtriboo.com
+    service: http://frontend:4200
+  - service: http_status:404
