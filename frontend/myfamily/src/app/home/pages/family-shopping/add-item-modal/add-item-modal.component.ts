@@ -10,6 +10,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import {
   AddShoppingItemDto,
   ShoppingCategory,
+  ShoppingItem,
 } from 'src/app/shared/interfaces/shopping.interface';
 
 @Component({
@@ -23,10 +24,12 @@ import {
 export class AddItemModalComponent implements OnInit {
   @Input() categories: ShoppingCategory[] = [];
   @Input() selectedCategory: ShoppingCategory | null = null;
+  @Input() editItem: ShoppingItem | null = null;
   name: string = '';
   quantity: number = 1;
   selectedCategoryId: number | null = null;
   isSubmitting = false;
+  isEdit = false;
 
   constructor(private modalController: ModalController) {}
 
@@ -34,6 +37,14 @@ export class AddItemModalComponent implements OnInit {
     // Set the selected category as default if provided
     if (this.selectedCategory) {
       this.selectedCategoryId = this.selectedCategory.id;
+    }
+
+    // If an edit item was provided, prefill fields and set edit mode
+    if (this.editItem) {
+      this.isEdit = true;
+      this.name = this.editItem.itemName;
+      this.quantity = this.editItem.quantity;
+      this.selectedCategoryId = this.editItem.categoryId;
     }
   }
 

@@ -89,7 +89,7 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
   }
 
   @Override
-  public void updateShoppingItem(Long itemId, AddShoppingItemDto dto) {
+  public ShoppingItemDto updateShoppingItem(Long itemId, AddShoppingItemDto dto) {
     ShoppingItem shoppingItem = shoppingItemsRepository.findById(itemId)
         .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "Shopping item not found"));
 
@@ -103,7 +103,11 @@ public class ShoppingItemsServiceImpl implements ShoppingItemsService {
       shoppingItem.setCategory(
           shoppingCategoryRepo.findById(dto.getCategoryId()).orElseThrow(() -> new MyFamilyException(HttpStatus.BAD_REQUEST, "Invalid category ID")));
     }
-    shoppingItemsRepository.save(shoppingItem);
+    ShoppingItem updatedItem = shoppingItemsRepository.save(shoppingItem);
+    // Refresh to ensure relationships are loaded
+    ShoppingItem refreshedItem = shoppingItemsRepository.findById(updatedItem.getId())
+        .orElseThrow(() -> new MyFamilyException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to retrieve updated shopping item"));
+    return shoppingItemsMapper.toShoppingItemDto(refreshedItem);
   }
 
   @Override

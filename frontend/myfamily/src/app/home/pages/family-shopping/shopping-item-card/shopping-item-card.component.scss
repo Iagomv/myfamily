@@ -82,6 +82,7 @@
     align-items: flex-start;
     gap: theme.$spacing-md;
     flex: 1;
+    padding-right: 44px;
   }
 
   .item-checkbox {
@@ -103,6 +104,20 @@
     align-items: center;
     justify-content: space-between;
     gap: theme.$spacing-md;
+  }
+
+  .edit-button {
+    position: absolute;
+    top: theme.$spacing-md;
+    right: theme.$spacing-md;
+    z-index: 2;
+    margin: 0;
+    flex-shrink: 0;
+    --padding-start: 6px;
+    --padding-end: 6px;
+    --padding-top: 6px;
+    --padding-bottom: 6px;
+    --min-height: 28px;
   }
 
   .name-quantity {

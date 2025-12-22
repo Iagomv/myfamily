@@ -26,7 +26,7 @@
         <p>No hay artículos pendientes</p>
       </div>
       <app-shopping-item-card *ngFor="let item of getPendingItems()" [item]="item"
-        (statusChanged)="onItemStatusChange($event)" (itemDeleted)="onDeleteItem($event)">
+        (statusChanged)="onItemStatusChange($event)" (itemDeleted)="onDeleteItem($event)" (editRequested)="onEditItem($event)">
       </app-shopping-item-card>
     </div>
   </div>
@@ -40,7 +40,7 @@
         <p>No hay artículos comprados</p>
       </div>
       <app-shopping-item-card *ngFor="let item of getBoughtItems()" [item]="item"
-        (statusChanged)="onItemStatusChange($event)" (itemDeleted)="onDeleteItem($event)">
+        (statusChanged)="onItemStatusChange($event)" (itemDeleted)="onDeleteItem($event)" (editRequested)="onEditItem($event)">
       </app-shopping-item-card>
     </div>
   </div>

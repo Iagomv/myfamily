@@ -65,14 +65,18 @@ export class ApiCallService {
       addShoppingItemDto
     );
   }
+
   addShoppingItems(familyId: number, addShoppingItemsDto: AddShoppingItemsDto) {
     return this.httpService.post(`shopping/shopping-items/${familyId}`, {
       addShoppingItemsDto,
     });
   }
 
-  deleteShoppingItem(itemId: number) {
-    return this.httpService.delete(`shopping/shopping-item/${itemId}`);
+  updateShoppingItem(itemId: number, addShoppingItemDto: AddShoppingItemDto) {
+    return this.httpService.put(
+      `shopping/shopping-item/${itemId}`,
+      addShoppingItemDto
+    );
   }
 
   updateShoppingItemStatus(itemId: number, isPurchased: boolean) {
@@ -81,6 +85,10 @@ export class ApiCallService {
       null,
       { params: { isPurchased } }
     );
+  }
+
+  deleteShoppingItem(itemId: number) {
+    return this.httpService.delete(`shopping/shopping-item/${itemId}`);
   }
 
   // Calendar Events API calls

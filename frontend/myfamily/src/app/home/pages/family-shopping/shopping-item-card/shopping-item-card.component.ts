@@ -23,6 +23,7 @@ export class ShoppingItemCardComponent implements OnInit, OnDestroy {
   @Input() item!: ShoppingItem;
   @Output() statusChanged = new EventEmitter<ShoppingItem>();
   @Output() itemDeleted = new EventEmitter<ShoppingItem>();
+  @Output() editRequested = new EventEmitter<ShoppingItem>();
   @ViewChild('itemCard', { static: true }) itemCard!: ElementRef<HTMLElement>;
 
   private touchStartX = 0;
@@ -68,6 +69,10 @@ export class ShoppingItemCardComponent implements OnInit, OnDestroy {
 
   onDelete(): void {
     this.itemDeleted.emit(this.item);
+  }
+
+  onEditClick(): void {
+    this.editRequested.emit(this.item);
   }
 
   onTouchStart(event: TouchEvent): void {

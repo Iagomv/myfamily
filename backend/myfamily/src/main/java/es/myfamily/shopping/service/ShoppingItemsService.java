@@ -18,7 +18,7 @@ public interface ShoppingItemsService {
 
   void addShoppingItems(AddShoppingItemsDto dto);
 
-  void updateShoppingItem(Long itemId, AddShoppingItemDto entity);
+  ShoppingItemDto updateShoppingItem(Long itemId, AddShoppingItemDto entity);
 
   ShoppingItemDto updateShoppingItemStatus(Long itemId, Boolean isPurchased);
 

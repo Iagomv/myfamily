@@ -244,6 +244,69 @@ export class FamilyShoppingComponent implements OnInit {
     await this.processItemAddition(role, data);
   }
 
+  async onEditItem(item: ShoppingItem): Promise<void> {
+    const selectedCategory = this.shoppingCategories.find(
+      (c) => c.id === item.categoryId
+    );
+
+    const modal = await this.modalController.create({
+      component: AddItemModalComponent,
+      cssClass: 'add-item-modal-centered',
+      breakpoints: [0.5, 0.75, 0.95],
+      initialBreakpoint: 0.75,
+      handle: true,
+      backdropBreakpoint: 0.5,
+      componentProps: {
+        categories: this.shoppingCategories,
+        selectedCategory: selectedCategory || null,
+        editItem: item,
+      },
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+
+    await this.processItemEdit(item, role, data);
+  }
+
+  private async processItemEdit(
+    originalItem: ShoppingItem,
+    role: string | undefined,
+    data: any
+  ) {
+    if (role === 'confirm' && data) {
+      const updatedDto = data as AddShoppingItemDto;
+      try {
+        const updated = await this.shoppingService
+          .updateItem(originalItem.id, updatedDto)
+          .toPromise();
+
+        if (updated) {
+          // Update local and original arrays
+          const updateInArray = (arr: ShoppingItem[]) => {
+            const idx = arr.findIndex((i) => i.id === originalItem.id);
+            if (idx !== -1) {
+              arr[idx] = { ...arr[idx], ...updated };
+            }
+          };
+
+          updateInArray(this.localShoppingItems);
+          updateInArray(this.shoppingItems);
+
+          await this.toastService.showSuccess(
+            'Artículo actualizado correctamente',
+            200
+          );
+        }
+      } catch (error: any) {
+        await this.toastService.showError('Error al actualizar artículo', 400);
+      }
+
+      this.cdr.detectChanges();
+    }
+  }
+
   private async processItemAddition(role: string | undefined, data: any) {
     if (role === 'confirm' && data) {
       const newItemDto = data as AddShoppingItemDto;

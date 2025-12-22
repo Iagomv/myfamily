@@ -5,9 +5,10 @@
         <ion-icon name="close" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Agregar Artículo</ion-title>
+    <ion-title>{{ isEdit ? 'Editar Artículo' : 'Agregar Artículo' }}</ion-title>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content class="ion-padding">
   <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
@@ -40,8 +41,8 @@
         Cancelar
       </ion-button>
       <ion-button type="submit" [disabled]="!isFormValid() || isSubmitting" color="success">
-        <ion-icon name="add" slot="start"></ion-icon>
-        {{ isSubmitting ? 'Agregando...' : 'Agregar' }}
+        <ion-icon [name]="isEdit ? 'checkmark' : 'add'" slot="start"></ion-icon>
+        {{ isSubmitting ? (isEdit ? 'Actualizando...' : 'Agregando...') : (isEdit ? 'Actualizar' : 'Agregar') }}
       </ion-button>
     </div>
   </form>

@@ -6,6 +6,11 @@
       <span class="delete-text">Delete</span>
     </div>
   </div>
+
+  <ion-button fill="clear" class="edit-button" (click)="onEditClick()" aria-label="Edit item">
+    <ion-icon name="create-outline"></ion-icon>
+  </ion-button>
+
   <div class="card-content">
     <ion-checkbox [checked]="item.isPurchased" (ionChange)="onStatusChange()" class="item-checkbox">
     </ion-checkbox>
@@ -22,5 +27,7 @@
       <p class="added-by">{{ item.addedByFamilyMemberName }} - {{ item.addedDate | date:'mediumDate' }}
       </p>
     </div>
+
+
   </div>
 </div>

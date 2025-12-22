@@ -79,4 +79,13 @@ export class FamilyShoppingService {
       .addShoppingItem(familyId, addShoppingItemDto)
       .pipe(map((response: any) => response as ShoppingItem[]));
   }
+
+  /**
+   * Update an existing shopping item
+   */
+  updateItem(itemId: number, addShoppingItemDto: AddShoppingItemDto): Observable<ShoppingItem> {
+    return this.apiCallService
+      .updateShoppingItem(itemId, addShoppingItemDto)
+      .pipe(map((response: any) => response as ShoppingItem));
+  }
 }

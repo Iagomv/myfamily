@@ -54,9 +54,8 @@ public class ShoppingController {
   }
 
   @PutMapping("/shopping-item/{itemId}")
-  public ResponseEntity<Void> updateShoppingItem(@Valid @RequestBody AddShoppingItemDto entity, @PathVariable Long itemId) {
-    shoppingItemsService.updateShoppingItem(itemId, entity);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<ShoppingItemDto> updateShoppingItem(@Valid @RequestBody AddShoppingItemDto entity, @PathVariable Long itemId) {
+    return new ResponseEntity<>(shoppingItemsService.updateShoppingItem(itemId, entity), HttpStatus.OK);
   }
 
   @PostMapping("/shopping-items/{familyId}")
