@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import es.myfamily.config.security.AuthContext;
 import es.myfamily.exception.MyFamilyException;
+import es.myfamily.families.model.Family;
 import es.myfamily.families.repository.FamilyRepository;
 import es.myfamily.family_member.repository.FamilyMemberRepository;
 

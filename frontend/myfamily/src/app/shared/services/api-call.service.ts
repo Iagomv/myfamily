@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import { ApiService as HttpService } from './http.service';
 import {
   AddShoppingItemDto,
@@ -15,11 +17,17 @@ import {
   UserUpdateRequest,
 } from '../interfaces/profile.interface';
 import { Observable } from 'rxjs';
+import {
+  DocumentCategoryDto,
+  DocumentCategoryRequestDto,
+  DocumentDtoResponse,
+  DocumentRequest,
+} from '../interfaces/documents-interface';
 
 @Injectable({ providedIn: 'root' })
 export class ApiCallService {
-  constructor(private httpService: HttpService) {}
-  // Login and Registration API calls
+  constructor(private httpService: HttpService, private http: HttpClient) {}
+  //* Login and Registration API calls
   createUser(email: string, password: string, username: string) {
     return this.httpService.post('users', { email, password, username });
   }
@@ -28,7 +36,7 @@ export class ApiCallService {
     return this.httpService.post('users/login', { email, password });
   }
 
-  // Family Selection API calls
+  //* Family Selection API calls
   getMyFamilies() {
     return this.httpService.get('families/my');
   }
@@ -45,12 +53,12 @@ export class ApiCallService {
     return this.httpService.delete(`families/leave/${familyId}`, {});
   }
 
-  // Family Dashboard API calls
+  //* Family Dashboard API calls
   getFamilyDashboard(familyId: number) {
     return this.httpService.get(`families/dashboard/${familyId}`);
   }
 
-  // Shopping List API calls
+  //* Shopping List API calls
   getShoppingCategories() {
     return this.httpService.get('shopping/categories');
   }
@@ -91,7 +99,7 @@ export class ApiCallService {
     return this.httpService.delete(`shopping/shopping-item/${itemId}`);
   }
 
-  // Calendar Events API calls
+  //* Calendar Events API calls
   getFamilyCalendarEvents(familyId: number) {
     return this.httpService.get<CalendarEvent[]>(`calendar-events/${familyId}`);
   }
@@ -105,11 +113,21 @@ export class ApiCallService {
     );
   }
 
+  updateCalendarEvent(
+    eventId: number,
+    updateCalendarEventDto: PostCalendarEventDto
+  ) {
+    return this.httpService.put<CalendarEvent>(
+      `calendar-events/${eventId}`,
+      updateCalendarEventDto
+    );
+  }
+
   deleteCalendarEvent(eventId: number) {
     return this.httpService.delete<void>(`calendar-events/${eventId}`);
   }
 
-  // Profile API calls
+  //* Profile API calls
   getProfileInfo(familyId: number) {
     return this.httpService.get<ProfileInfo>(`users/profile/${familyId}`);
   }
@@ -139,5 +157,83 @@ export class ApiCallService {
     return this.httpService.patch<void>(`users/password/${userId}`, {
       newPassword,
     });
+  }
+
+  //* Documents API calls
+  getFamilyDocuments(familyId: number): Observable<DocumentDtoResponse[]> {
+    return this.httpService.get<DocumentDtoResponse[]>(`documents/${familyId}`);
+  }
+
+  uploadDocument(
+    familyId: number,
+    documentRequest: DocumentRequest
+  ): Observable<void> {
+    const formData = new FormData();
+    formData.append('title', documentRequest.title);
+    formData.append('categoryId', String(documentRequest.categoryId));
+    if (documentRequest.fileData) {
+      // Append both keys to increase compatibility with backends that expect
+      // either 'file' or 'fileData'. Both point to the same File object.
+      formData.append(
+        'file',
+        documentRequest.fileData,
+        documentRequest.fileData.name
+      );
+      formData.append(
+        'fileData',
+        documentRequest.fileData,
+        documentRequest.fileData.name
+      );
+    }
+
+    // Debug: log form entries
+    try {
+      for (const [key, value] of (formData as any).entries()) {
+        if (value instanceof File) {
+          console.log('[ApiCallService] FormData entry:', key, {
+            name: value.name,
+            size: value.size,
+            type: value.type,
+          });
+        } else {
+          console.log('[ApiCallService] FormData entry:', key, value);
+        }
+      }
+    } catch (err) {
+      // ignore iteration errors in some environments
+      console.warn(
+        '[ApiCallService] Could not iterate FormData for debug',
+        err
+      );
+    }
+
+    const url = `${environment.apiUrl}/documents/${familyId}`;
+    return this.http.post<void>(url, formData);
+  }
+
+  // Document Categories
+  getDocumentCategories(familyId: number): Observable<DocumentCategoryDto[]> {
+    return this.httpService.get<DocumentCategoryDto[]>(
+      `document-categories/${familyId}`
+    );
+  }
+
+  createDocumentCategory(
+    familyId: number,
+    documentCategoryRequestDto: DocumentCategoryRequestDto
+  ): Observable<DocumentCategoryDto> {
+    return this.httpService.post<DocumentCategoryDto>(
+      `document-categories/${familyId}`,
+      documentCategoryRequestDto
+    );
+  }
+
+  deleteDocumentCategory(
+    familyId: number,
+    categoryId: number
+  ): Observable<void> {
+    return this.httpService.delete<void>(
+      `document-categories/${familyId}/${categoryId}`
+    );
   }
 }

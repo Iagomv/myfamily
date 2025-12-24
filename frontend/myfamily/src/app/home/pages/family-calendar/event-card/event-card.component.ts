@@ -25,6 +25,7 @@ import {
 export class EventCardComponent implements OnInit, OnDestroy {
   @Input() event!: CalendarEvent;
   @Output() eventDeleted = new EventEmitter<CalendarEvent>();
+  @Output() editRequested = new EventEmitter<CalendarEvent>();
   @ViewChild('eventCard', { static: true }) eventCard!: ElementRef<HTMLElement>;
 
   private touchStartX = 0;
@@ -100,6 +101,10 @@ export class EventCardComponent implements OnInit, OnDestroy {
     });
 
     await alert.present();
+  }
+
+  onEditClick(): void {
+    this.editRequested.emit(this.event);
   }
 
   onTouchStart(event: TouchEvent): void {

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/calendar-events")
@@ -36,6 +37,11 @@ public class CalendarEventController {
       @Valid @RequestBody CalendarEventInputDto dto) {
     CalendarEventDto created = calendarEventsService.createCalendarEvent(familyId, dto);
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
+  }
+
+  @PutMapping("/{eventId}")
+  public ResponseEntity<CalendarEventDto> putMethodName(@PathVariable Long eventId, @RequestBody CalendarEventInputDto entity) {
+    return ResponseEntity.ok(calendarEventsService.updateCalendarEvent(eventId, entity));
   }
 
   @DeleteMapping("/{eventId}")

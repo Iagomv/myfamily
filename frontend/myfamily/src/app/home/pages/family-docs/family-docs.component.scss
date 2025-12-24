@@ -1,0 +1,53 @@
+@use '../../../../theme/variables' as theme;
+
+ion-content {
+	padding: theme.$spacing-md;
+	--background: theme.$color-background;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.docs-container {
+	gap: theme.$spacing-lg;
+	padding: theme.$spacing-sm;
+}
+
+.section-title {
+	display: flex;
+	align-items: center;
+	gap: theme.$spacing-sm;
+	margin-top: theme.$spacing-lg;
+
+	h3 {
+		margin: 0;
+		font-size: theme.$font-size-lg;
+		font-weight: 700;
+		color: theme.$color-text-primary;
+	}
+}
+
+.section-icon {
+	font-size: theme.$font-size-lg;
+	color: theme.$color-primary;
+}
+
+.categories-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: theme.$spacing-md;
+	margin-top: theme.$spacing-md;
+}
+
+.documents-list {
+	display: flex;
+	flex-direction: column;
+	gap: theme.$spacing-sm;
+	margin-top: theme.$spacing-md;
+}
+
+@media (max-width: 360px) {
+	.categories-grid {
+		grid-template-columns: 1fr;
+	}
+}

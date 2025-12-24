@@ -43,6 +43,8 @@ import {
   personCircleOutline,
   eyeOutline,
   eyeOffOutline,
+  folderOutline,
+  documentTextOutline,
 } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
@@ -79,6 +81,8 @@ addIcons({
   'person-circle-outline': personCircleOutline,
   'eye-outline': eyeOutline,
   'eye-off-outline': eyeOffOutline,
+  'folder-outline': folderOutline,
+  'document-text-outline': documentTextOutline,
 });
 
 // Register Spanish locale data used by Angular pipes (DatePipe, etc.)

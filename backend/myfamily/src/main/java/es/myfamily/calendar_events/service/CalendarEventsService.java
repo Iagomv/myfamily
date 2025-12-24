@@ -12,6 +12,8 @@ public interface CalendarEventsService {
 
   CalendarEventDto createCalendarEvent(Long familyId, CalendarEventInputDto dto);
 
+  CalendarEventDto updateCalendarEvent(Long eventId, CalendarEventInputDto dto);
+
   void deleteCalendarEvent(Long eventId);
 
   List<CalendarEventDto> getUpcoming3Events(Long familyId);

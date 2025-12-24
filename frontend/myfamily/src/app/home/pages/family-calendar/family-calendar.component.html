@@ -32,7 +32,8 @@
         <p>No hay eventos próximos</p>
       </div>
       <div *ngFor="let event of (upcomingEvents$ | async)" class="event-list">
-        <app-event-card [event]="event" (eventDeleted)="onEventDeleted($event)"></app-event-card>
+        <app-event-card [event]="event" (eventDeleted)="onEventDeleted($event)"
+          (editRequested)="onEditEvent($event)"></app-event-card>
       </div>
     </div>
 
@@ -40,7 +41,8 @@
     <div *ngIf="!(loading$ | async) && (pastEvents$ | async)?.length! > 0" class="events-section">
       <h2 class="section-title">Eventos Pasados</h2>
       <div *ngFor="let event of (pastEvents$ | async)" class="event-list">
-        <app-event-card [event]="event" (eventDeleted)="onEventDeleted($event)"></app-event-card>
+        <app-event-card [event]="event" (eventDeleted)="onEventDeleted($event)"
+          (editRequested)="onEditEvent($event)"></app-event-card>
       </div>
     </div>
   </ion-content>

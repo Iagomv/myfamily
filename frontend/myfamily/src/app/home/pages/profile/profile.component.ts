@@ -27,7 +27,11 @@ export class ProfileComponent implements OnInit {
   isLoading = false;
   loadError = false;
 
-  readonly availableIconNames = ['chibi1', 'chibi2', 'chibi3', 'chibi4'];
+  private readonly chibiIconCount = 7;
+  readonly availableIconNames = Array.from(
+    { length: this.chibiIconCount },
+    (_, i) => `chibi${i + 1}`
+  );
 
   constructor(
     private apiCallService: ApiCallService,

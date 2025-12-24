@@ -16,5 +16,9 @@
     <p class="event-date">
       {{ event.eventDate | date: 'd MMM' }}
     </p>
+
+    <ion-button fill="clear" class="edit-button" aria-label="Edit event" title="Editar" (click)="onEditClick()">
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-button>
   </div>
 </div>

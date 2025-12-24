@@ -28,16 +28,29 @@ interface CalendarCategoryOption {
 export class AddEventModalComponent implements OnInit {
   @Input() categories: CalendarCategoryOption[] = [];
   @Input() defaultDate?: string;
+  @Input() editEvent?: any;
 
   eventName: string = '';
   eventDescription: string = '';
   selectedCategory: string | null = null;
   eventDate: string = '';
   isSubmitting = false;
+  isEdit = false;
 
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {
+    // If editing an event, prefill fields
+    if (this.editEvent) {
+      this.isEdit = true;
+      this.eventName = this.editEvent.eventName || '';
+      this.eventDescription = this.editEvent.eventDescription || '';
+      this.selectedCategory = this.editEvent.eventCategory || null;
+      // Normalize date to YYYY-MM-DD
+      this.eventDate = new Date(this.editEvent.eventDate || new Date()).toISOString().slice(0, 10);
+      return;
+    }
+
     this.eventDate = (this.defaultDate ?? new Date().toISOString()).slice(
       0,
       10

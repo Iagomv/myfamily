@@ -4,7 +4,48 @@
 
   <ion-content class="ion-padding" [scrollY]="true" style="--padding-bottom: 85px;">
     <div class="docs-container">
-      <p>Documentos compartidos de la familia</p>
+      <ng-container *ngIf="loading$ | async; else loaded">
+        <ion-card>
+          <ion-card-content>Cargando...</ion-card-content>
+        </ion-card>
+      </ng-container>
+
+      <ng-template #loaded>
+        <div class="section-title">
+          <ion-icon name="folder-outline" class="section-icon"></ion-icon>
+          <h3>Carpetas</h3>
+        </div>
+
+        <div class="categories-grid">
+          <app-document-category-card *ngFor="let item of (categoriesWithCount$ | async)" [category]="item.category"
+            [count]="item.count" (clicked)="onCategoryClicked($event)"></app-document-category-card>
+        </div>
+
+        <div class="section-title">
+          <ion-icon name="document-text-outline" class="section-icon"></ion-icon>
+          <h3>Archivos Recientes</h3>
+        </div>
+
+        <div class="documents-list">
+          <ng-container *ngIf="(recentDocuments$ | async) as docs">
+            <ng-container *ngIf="docs.length > 0; else noDocs">
+              <app-document-card *ngFor="let doc of docs" [document]="doc"
+                (downloadClicked)="onDownload($event)"></app-document-card>
+            </ng-container>
+          </ng-container>
+
+          <ng-template #noDocs>
+            <ion-card>
+              <ion-card-content>No hay documentos recientes.</ion-card-content>
+            </ion-card>
+          </ng-template>
+        </div>
+      </ng-template>
+
+      <input #fileInput type="file" hidden (change)="onFileSelected($event)" />
+
+      <app-floating-button icon="add" tooltip="Subir documento" color="primary"
+        (clicked)="onUploadClicked()"></app-floating-button>
     </div>
   </ion-content>
 </ion-page>

@@ -1,0 +1,44 @@
+@use '../../../../../theme/variables' as theme;
+
+.category-card {
+	margin: 0;
+	border: 1px solid theme.$color-border;
+	border-radius: theme.$radius-medium;
+	box-shadow: theme.$shadow-light;
+}
+
+.category-card-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: theme.$spacing-sm;
+	padding: theme.$spacing-lg;
+	text-align: center;
+}
+
+.category-icon-wrap {
+	width: 56px;
+	height: 56px;
+	border-radius: theme.$radius-medium;
+	display: grid;
+	place-items: center;
+	border: 1px solid theme.$color-border;
+	background: theme.$color-white;
+}
+
+.category-icon {
+	font-size: 30px;
+	color: theme.$color-primary;
+}
+
+.category-name {
+	font-size: theme.$font-size-md;
+	font-weight: 700;
+	color: theme.$color-text-primary;
+}
+
+.category-count {
+	font-size: theme.$font-size-sm;
+	color: theme.$color-text-secondary;
+}

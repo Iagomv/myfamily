@@ -70,6 +70,24 @@ export class FamilyCalendarService {
     );
   }
 
+  updateCalendarEvent(
+    eventId: number,
+    updateEventDto: PostCalendarEventDto
+  ): Observable<any> {
+    return this.apiService.updateCalendarEvent(eventId, updateEventDto).pipe(
+      tap({
+        next: () => {
+          this.toastService.showSuccess('Evento actualizado correctamente');
+          this.fetchCalendarEvents();
+        },
+      }),
+      catchError((error) => {
+        this.toastService.showError('Error al actualizar el evento');
+        return throwError(() => error);
+      })
+    );
+  }
+
   deleteCalendarEvent(eventId: number): Observable<any> {
     return this.apiService.deleteCalendarEvent(eventId).pipe(
       tap({

@@ -22,6 +22,7 @@ import es.myfamily.families.repository.FamilyRepository;
 import es.myfamily.users.model.Users;
 import es.myfamily.utils.SecurityUtils;
 import es.myfamily.utils.TimeUtils;
+import es.myfamily.utils.Validations;
 import es.myfamily.calendar_events.model.CalendarEvent;
 import es.myfamily.calendar_events.model.CalendarEventCategoryEnum;
 
@@ -42,6 +43,9 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
 
   @Autowired
   private TimeUtils timeUtils;
+
+  @Autowired
+  private Validations validations;
 
   @Override
   public List<CalendarEventDto> getCalendarEventsByFamilyId(Long familyId) {
@@ -65,6 +69,17 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
   }
 
   @Override
+  public CalendarEventDto updateCalendarEvent(Long eventId, CalendarEventInputDto dto) {
+    Users user = securityUtils.getUserFromContext();
+
+    CalendarEvent event = calendarEventRepo.findById(eventId)
+        .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "Calendar event not found"));
+    validations.UserInFamily(event.getFamily().getId(), user.getId());
+
+    return calendarEventMapper.toDto(calendarEventRepo.save(calendarEventMapper.updateEntityFromDto(dto, event)));
+  }
+
+  @Override
   public void deleteCalendarEvent(Long eventId) {
     CalendarEvent event = calendarEventRepo.findById(eventId)
         .orElseThrow(() -> new MyFamilyException(HttpStatus.NOT_FOUND, "Calendar event not found"));
@@ -72,6 +87,8 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
     event.setIsDeleted(true);
     calendarEventRepo.save(event);
   }
+
+  // Stats methods
 
   @Override
   public List<CalendarEventDto> getUpcoming3Events(Long familyId) {
@@ -97,4 +114,5 @@ public class CalendarEventsServiceImpl implements CalendarEventsService {
   public Integer countEventsCreatedByUserId(Long userId) {
     return calendarEventRepo.countByCreatedByUserId(userId);
   }
+
 }

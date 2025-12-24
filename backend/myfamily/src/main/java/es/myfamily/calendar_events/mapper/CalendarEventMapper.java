@@ -36,4 +36,16 @@ public class CalendarEventMapper {
     e.setEventCategory(dto.getEventCategory());
     return e;
   }
+
+  public CalendarEvent updateEntityFromDto(CalendarEventInputDto dto, CalendarEvent entity) {
+    if (dto == null || entity == null) {
+      return entity;
+    }
+
+    entity.setEventName(dto.getEventName());
+    entity.setEventDate(dto.getEventDate());
+    entity.setEventDescription(dto.getEventDescription());
+    entity.setEventCategory(dto.getEventCategory());
+    return entity;
+  }
 }

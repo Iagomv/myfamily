@@ -1,0 +1,10 @@
+<ion-card class="category-card" (click)="onClick()">
+  <ion-card-content class="category-card-content">
+    <div class="category-icon-wrap">
+      <ion-icon [name]="iconName" class="category-icon"></ion-icon>
+    </div>
+
+    <div class="category-name">{{ category.name }}</div>
+    <div class="category-count">{{ count }} archivos</div>
+  </ion-card-content>
+</ion-card>

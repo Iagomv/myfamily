@@ -13,6 +13,7 @@ import { EventCardComponent } from './event-card/event-card.component';
 import {
   CalendarEvent,
   CALENDAR_CATEGORIES,
+  PostCalendarEventDto,
 } from 'src/app/shared/interfaces/calendar-event.interface';
 import { FamilyCalendarService } from './family-calendar.service';
 import { AddEventModalComponent } from './add-event-modal/add-event-modal.component';
@@ -221,6 +222,41 @@ export class FamilyCalendarComponent implements OnInit, OnDestroy {
 
   onEventDeleted(event: CalendarEvent): void {
     this.calendarService.deleteCalendarEvent(event.id).subscribe();
+  }
+
+  async onEditEvent(event: CalendarEvent): Promise<void> {
+    const modal = await this.modalController.create({
+      component: AddEventModalComponent,
+      cssClass: 'add-item-modal-centered',
+      breakpoints: [0.5, 0.75, 0.95],
+      initialBreakpoint: 0.75,
+      handle: true,
+      backdropBreakpoint: 0.5,
+      componentProps: {
+        categories: CALENDAR_CATEGORIES,
+        defaultDate: this.toISODateOnly(event.eventDate),
+        editEvent: event,
+      },
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+
+    await this.processEventEdit(event, role, data);
+  }
+
+  private async processEventEdit(
+    originalEvent: CalendarEvent,
+    role: string | undefined,
+    data: any
+  ) {
+    if (role === 'confirm' && data) {
+      const updateDto = data as PostCalendarEventDto;
+      this.calendarService
+        .updateCalendarEvent(originalEvent.id, updateDto)
+        .subscribe();
+    }
   }
 
   ngOnDestroy() {
